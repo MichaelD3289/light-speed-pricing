@@ -1,4 +1,16 @@
+require('dotenv').config();
 
+const Sequelize = require('sequelize');
+const {CONNECTION_STRING: conStr } = process.env;
+
+const sequelize = new Sequelize(conStr, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: false
+    }
+  }
+})
 
 module.exports = {
   addUser: (req, res) => {
@@ -39,11 +51,5 @@ module.exports = {
   },
   createInvoice: (req, res) => {
 
-  },
-  approveJob: (req, res) => {
-
-  },
-  completeJob: (req, res) => {
-    
   }
 }
