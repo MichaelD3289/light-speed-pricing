@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS completed_jobs CASCADE;
 
 CREATE TABLE users(
 user_id SERIAL PRIMARY KEY,
-email_address VARCHAR(100) NOT NULL,
+email_address VARCHAR(100) UNIQUE NOT NULL,
 password VARCHAR(500) NOT NULL,
 first_name VARCHAR(40) NOT NULL,
 last_name VARCHAR(40) NOT NULL,
@@ -48,7 +48,6 @@ CREATE TABLE laser_machines(
 laser_id SERIAL PRIMARY KEY,
 table_width FLOAT NOT NULL,
 table_height FLOAT NOT NULL,
-rotary_conversion BOOLEAN NOT NULL,
 added_by INT NOT NULL REFERENCES users(user_id)
 );
 
@@ -197,8 +196,8 @@ jobs_data_id INT NOT NULL REFERENCES jobs_data(jobs_data_id)
 INSERT INTO users (email_address, password, first_name, last_name, phone_number)
 VALUES ('michael.test@email.com', 'password123', 'Michael', 'Drummond', '1234567890');
 
-INSERT INTO laser_machines (table_width, table_height, rotary_conversion, added_by)
-VALUES (48.0, 24.0, TRUE, 1);
+INSERT INTO laser_machines (table_width, table_height, added_by)
+VALUES (48.0, 24.0, 1);
 
 INSERT INTO laser_machine_speed_flat (density_used, flat_one_by_one, flat_two_by_one, flat_three_by_one, flat_one_by_two, flat_one_by_three, flat_two_by_two, flat_three_by_three, laser_id)
 VALUES (400, 78.0, 86.0, 94.0, 156.0, 234.0, 172.0, 258.0, 1);

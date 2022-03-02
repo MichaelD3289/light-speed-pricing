@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 require('dotenv').config();
 
@@ -18,7 +19,7 @@ app.post('/api/seed', seed);
 const { addUser, userSignIn, addLaser, addFlatSpeedData, 
   addRotarySpeedData, addDefaultData, addJob, addFlatJob, 
   addCustomJobData, addJobDefaults, addDefaultHourlyRates, 
-  addDefaultQtyBreaks, createInvoice, } = require('./controllerFiles/ctrl-posts');
+  addDefaultQtyBreaks, createInvoice, createJobInfo} = require('./controllerFiles/ctrl-posts');
 
 const { getAllJobs, getApprovedJobs, getCompletedJobs, getUserInfo,
   getLaser, getUserDefaults, getJobDefaults, getQtyAndHourly } = require('./controllerFiles/ctrl-get');
@@ -79,6 +80,7 @@ app.get('/api/jobs/defaults/qty-rates/:userId', getQtyAndHourly);
 
 
 app.post('/api/job/invoice', createInvoice);
+app.post('api/job/info', createJobInfo);
 
 
 

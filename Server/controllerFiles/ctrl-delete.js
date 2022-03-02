@@ -14,12 +14,24 @@ const sequelize = new Sequelize(conStr, {
 
 module.exports = {
   deleteUser: (req, res) => {
-
+    sequelize
+    .query(`
+    `)
+    .then()
+    .catch(err => res.status(400).send(err))
   },
   deleteLaser: (req, res) => {
-
+    sequelize
+    .query(`
+    `)
+    .then()
+    .catch(err => res.status(400).send(err))
   },
   deleteJob: (req, res) => {
-    
+    sequelize
+    .query(`
+    `)
+    .then()
+    .catch(err => res.status(400).send(err))
   }
 }
