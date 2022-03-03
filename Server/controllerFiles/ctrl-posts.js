@@ -1,4 +1,5 @@
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 const Sequelize = require('sequelize');
 const {CONNECTION_STRING: conStr } = process.env;
@@ -14,25 +15,46 @@ const sequelize = new Sequelize(conStr, {
 
 module.exports = {
   addUser: (req, res) => {
-    const { email, password, fname, lname, phone } = req.body;
+    let { email, password, fname, lname, phone } = req.body;
+    let salt = bcrypt.genSaltSync(10);
+    const passHash = bcrypt.hashSync(password, salt);
+
+   email = sequelize.escape(email);
+   fname = sequelize.escape(fname);
+   lname = sequelize.escape(lname);
+   phone = sequelize.escape(phone);
 
    sequelize
     .query(` 
       INSERT INTO users (email_address, password, first_name, last_name, phone_number)
-      VALUES ('${email}', '${password}', '${fname}', '${lname}', '${phone}')
+      VALUES (${email}, '${passHash}', ${fname}, ${lname}, ${phone})
       RETURNING user_id;
     `)
     .then(dbRes => res.status(200).send(dbRes[0])) 
-    .catch(err => res.status(400).send(`An account with ${err.errors[0].value} already exists!`))
+    .catch(err => res.status(400).send(console.log(err)))
   },
   userSignIn: (req, res) => {
-    const {email, password} = req.body
+    let {email, password} = req.body;
+
+    email = sequelize.escape(email);
+
     sequelize
     .query(`
-    SELECT user_id FROM users
-    WHERE email_address = '${email}' AND password = '${password}';
+    SELECT user_id, password FROM users
+    WHERE email_address = ${email};
     `)
-    .then(dbRes => res.status(200).send(dbRes[0]))
+    .then(dbRes => {
+      let dbPass = dbRes[0][0].password;
+      let userId = dbRes[0][0].user_id;
+      userId = userId.toString();
+      let existing = bcrypt.compareSync(password, dbPass)
+      
+      if(existing) {
+         res.status(200).send(userId);
+      } else {
+        res.status(400).send('Incorrect Password')
+      }
+    })
     .catch(err => res.status(400).send(err))
   },
   addLaser: (req, res) => {

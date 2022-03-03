@@ -1,24 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <meta name="description" content="Custom laser pricing made easy and accessible" />
   <meta name="keywords" content="laser, pricing, custom, quotes, bids, engraver" />
   <meta name="author" content="Michael Drummond" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="reset.css"/>
   <link rel="stylesheet" href="index.css"/>
+
   <title>LightSpeedPricing</title>
+
 </head>
 
 <body>
-  
+<header>
+  <img src="./images/lightspeedpricingVector2.png" alt="light speed pricing logo" class="logo large"/>
 
- <script src="../node_modules/axios/dist/axios.min.js"></script>
- <script src="index.js"></script>
+  <div class="header-wrapper">
+      <form class="loginForm" id="logIn">
+      <p>Already have an account?</p>
+      <input type="email" placeholder="email" id="email-log-in" />
+      <input type="password" placeholder="password" id="password-log-in" />
+      <button class="button" type="submit" id="logInBtn">Log-In</button>
+    </form>
+  </div>
+  
+</header>  
+
+<main>
+
+  <div class="sign-up-wrapper">
+    <h2>Start Today by</h2>
+    <a href="index.html#account"><button class="button small">Signing-up</button></a>
+    <h2>with us!</h2>
+  </div>
+
+  <section class="info-section">
+
+    <section class="problem">
+      <h2>The Problem</h2>
+      <p>
+        Pricing custom laser jobs can be challenging whether you are new or even experienced in the industry.
+             <br><br>
+        Getting job files from clients, running them through your lasers time calculator, and calculating qty breaks all have to happen before getting a quote back.
+            <br><br>
+        It's also easy to miss extra items like design time or handling time of the pieces between engraving. This can lead to lower profit jobs if unaccounted for.
+        <br><br>
+        This process can also take valuable time each day from you and even be a headache for your client as well.
+      </p>
+    </section>
+
+    <section class="offer">
+      <h2>What We Offer</h2>
+      <p>
+        We offer a simple yet comprehensive pricing application that allows you to bid custom jobs quickly and accurately.
+        <br><br>
+        With years of experience in the industry and suffering from the same pricing problems, we sat down to come up with a solution.
+        <br><br>
+        The days of emailing your client back hours later with a quote are behind you. Our goal was to create this with the idea of getting accurate prices back to your client while still on the inital phone call!
+        <br><br>
+        And this is currently free to use!
+      </p>
+    </section>
+
+  </section>
+
+  <section class="preview">
+
+  </section>
+
+  <section class="account" id="account">
+    <form class="accountForm">
+      <h2>Create an Account</h2>
+      <input type="email" placeholder="email" id="email-sign-up" required />
+      <div class="after">
+      <input type="password" placeholder="password" class="password-sign-up" required />
+      </div>
+      <input type="password" placeholder="confirm password" class="con-password-sign-up" required />
+      <input type="text" placeholder="first name" class="first-name" required />
+      <input type="text" placeholder="last name" class="last-name" required />
+      <input type="text" placeholder="phone xxx-xxx-xxxx" class="phone-number" required />
+
+      <button class="button" type="submit" id="signUpBtn">Submit</button>
+    </form>
+  </section>
+</main>
+<div class="line"></div>
+<footer>
+<div class="main-icon-holder">
+
+<div class="contact">
+  <img src="images/contact-us.png" alt="phone icon" id="phone-icon" class="icon" />
+  <p>Contact Us</p>
+</div>
+
+<div class="social-media">
+  <img src="images/facebook.png" alt="facebook-icon" id='facebook-icon' class="social" />
+  <img src="images/linkedIn.png" alt="linkedIn-icon" id='linkedIn-icon' class="social" />
+  <img src="images/youtube.png" alt="youtube-icon" id='youtube-icon' class="social" />
+  <img src="images/twitter.png" alt="twitter-icon" id='twitter-icon' class="social" />
+  <img src="images/instagram.png" alt="instagram-icon" id='instagram-icon' class="social" />
+</div>
+
+<div class="review">
+  <img src="images/review.png" alt="thumbsup review image" id="review-icon" class="icon"/>
+  <p>Leave a Review!</p>
+</div>
+
+</div>
+
+<div class="text-holder">
+ <p>&copy 2022 Copyright LightSpeedPricing</p>
+</div>
+
+</footer>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ <script src="./index.js"></script>
+
 </body>
 </html>
