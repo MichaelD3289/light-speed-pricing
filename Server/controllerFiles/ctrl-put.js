@@ -41,34 +41,6 @@ module.exports = {
     .then()
     .catch(err => res.status(400).send(err))
   },
-  updateUserDefaults: (req, res) => {
-    sequelize
-    .query(`
-    `)
-    .then()
-    .catch(err => res.status(400).send(err))
-  },
-  updateJobDefaults: (req, res) => {
-    sequelize
-    .query(`
-    `)
-    .then()
-    .catch(err => res.status(400).send(err))
-  },
-  updateQtyBreaks: (req, res) => {
-    sequelize
-    .query(`
-    `)
-    .then()
-    .catch(err => res.status(400).send(err))
-  },
-  updateHourlyRates: (req, res) => {
-    sequelize
-    .query(`
-    `)
-    .then()
-    .catch(err => res.status(400).send(err))
-  },
   updateJob: (req, res) => {
     sequelize
     .query(`

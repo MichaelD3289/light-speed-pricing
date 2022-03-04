@@ -82,9 +82,7 @@ module.exports = {
       default_id SERIAL PRIMARY KEY,
       default_tax_rate FLOAT NOT NULL,
       default_rush_fee FLOAT NOT NULL,
-      hours_of_operations_start TIME NOT NULL,
-      hours_of_operations_end TIME NOT NULL,
-      user_id INT NOT NULL REFERENCES users(user_id)
+      user_id INT NOT NULL UNIQUE REFERENCES users(user_id)
       );
       
       CREATE TABLE default_job_data(
@@ -97,7 +95,7 @@ module.exports = {
       default_template_space_between_items FLOAT NOT NULL,
       default_template_space_from_left_ruler FLOAT NOT NULL,
       default_template_space_from_top_ruler FLOAT NOT NULL,
-      user_id INT NOT NULL REFERENCES users(user_id)
+      user_id INT NOT NULL UNIQUE REFERENCES users(user_id)
       );
       
       CREATE TABLE qty_breaks(
@@ -109,7 +107,7 @@ module.exports = {
       break_five INT NOT NULL,
       break_six INT NOT NULL,
       break_seven INT NOT NULL,
-      default_job_data_id INT REFERENCES default_job_data(default_job_data_id)
+     user_id INT NOT NULL UNIQUE REFERENCES users(user_id)
       );
       
       CREATE TABLE hourly_rates(
@@ -121,7 +119,7 @@ module.exports = {
       rate_five FLOAT NOT NULL,
       rate_six FLOAT NOT NULL,
       rate_seven FLOAT NOT NULL,
-      default_job_data_id INT REFERENCES default_job_data(default_job_data_id)
+      user_id INT NOT NULL UNIQUE REFERENCES users(user_id)
       );
       
       CREATE TABLE jobs_data(
@@ -206,16 +204,16 @@ module.exports = {
       INSERT INTO laser_machine_speed_rotary ( density_used, speed_used, rotary_one_by_one, rotary_two_by_one, rotary_three_by_one, rotary_one_by_two, rotary_one_by_three, rotary_two_by_two, rotary_three_by_three, laser_id)
       VALUES (400, 70, 88.0, 163.0, 238.0, 100.0, 110.0, 185.0, 302.0, 1);
       
-      INSERT INTO default_data (default_tax_rate, default_rush_fee, hours_of_operations_start, hours_of_operations_end, user_id)
-      VALUES (.0825, 0.30, '9:00:00', '17:00:00', 1);
+      INSERT INTO default_data (default_tax_rate, default_rush_fee, user_id)
+      VALUES (.0825, 0.30, 1);
       
       INSERT INTO default_job_data (default_density, default_speed, default_base_piece_handling, default_setup, default_setup_isIncluded, default_template_space_between_items, default_template_space_from_left_ruler, default_template_space_from_top_ruler, user_id)
       VALUES (400, 100, 12, 40, FALSE, 0.5, 0.5, 0.5, 1);
       
-      INSERT INTO qty_breaks (break_one, break_two, break_three, break_four, break_five, break_six, break_seven, default_job_data_id)
+      INSERT INTO qty_breaks (break_one, break_two, break_three, break_four, break_five, break_six, break_seven, user_id)
       VALUES (1, 25, 50, 100, 250, 500, 1000,1);
       
-      INSERT INTO hourly_rates (rate_one, rate_two, rate_three, rate_four, rate_five, rate_six, rate_seven, default_job_data_id)
+      INSERT INTO hourly_rates (rate_one, rate_two, rate_three, rate_four, rate_five, rate_six, rate_seven, user_id)
       VALUES (200, 175, 150, 125, 115, 105, 95,1);
       
       INSERT INTO jobs_data (date_created, engraving_width, engraving_height, engraving_qty, speed, density, material, is_rotary, rush_required, is_approved, is_completed, client_name, user_id)

@@ -18,8 +18,7 @@ app.post('/api/seed', seed);
 
 const {
   addUser, userSignIn, addLaser, addDefaultData, addJob, addFlatJob, 
-  addCustomJobData, addJobDefaults, addDefaultHourlyRates, 
-  addDefaultQtyBreaks, createInvoice, createJobInfo
+  addCustomJobData, createInvoice, createJobInfo
 } = require('./controllerFiles/ctrl-posts');
 
 const { 
@@ -30,8 +29,7 @@ const {
 const { deleteUser, deleteLaser, deleteJob } = require('./controllerFiles/ctrl-delete');
 
 const { 
-  updateUser, updateLaser,  updateUserDefaults, updateJobDefaults,
-   updateQtyBreaks, updateHourlyRates, updateJob, updateFlatJob,
+  updateUser, updateLaser, updateJob, updateFlatJob,
     updateCustomJobData, updateJobApproved, updateJobCompleted 
   } = require('./controllerFiles/ctrl-put');
 
@@ -46,7 +44,6 @@ app.delete('/api/user/:userId', deleteUser);
   // User Defaults
 app.post('/api/user/defaults', addDefaultData);
 app.get('/api/user/defaults/:userId', getUserDefaults);
-app.put('/api/user/defaults/:defaultId', updateUserDefaults);
 
   //lasers
 app.post('/api/laser', addLaser);
@@ -67,14 +64,8 @@ app.put('/api/job/flat/:jobsDataId', updateFlatJob);
 app.post('/api/job/custom', addCustomJobData);
 app.put('/api/job/custom/:jobsDataId', updateCustomJobData);
 
-app.post('/api/job/defaults', addJobDefaults);
 app.get('/api/job/defaults/:userId', getJobDefaults);
-app.put('/api/job/defaults/:defaultJobId', updateJobDefaults);
 
-app.post('/api/job/defaults/qty', addDefaultQtyBreaks);
-app.put('/api/job/defaults/qty/:qtyBreaksId', updateQtyBreaks);
-app.post('/api/job/defaults/rates', addDefaultHourlyRates);
-app.put('/api/job/defaults/rates/:hourlyRatesId', updateHourlyRates);
 app.get('/api/jobs/defaults/qty-rates/:userId', getQtyAndHourly);
 
 

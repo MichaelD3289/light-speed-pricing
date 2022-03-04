@@ -380,7 +380,82 @@ function getLaser (u) {
 
 
  function addDefaultData(e) {
-   e.preventDefault()
+   e.preventDefault();
 
+   const taxInput = document.querySelector('#taxInput');
+   const rushInput = document.querySelector('#rushInput');
+
+  const betweenItems = document.querySelector('#bet-items')
+  const topRuler = document.querySelector('#top-ruler')
+  const leftRuler = document.querySelector('#left-ruler')
  
+  const qtyOne = document.querySelector('#qtybreak1')
+  const qtyTwo = document.querySelector('#qtybreak2')
+  const qtyThree = document.querySelector('#qtybreak3')
+  const qtyFour = document.querySelector('#qtybreak4')
+  const qtyFive = document.querySelector('#qtybreak5')
+  const qtySix = document.querySelector('#qtybreak6')
+  const qtySeven = document.querySelector('#qtybreak7')
+
+  const hourOne = document.querySelector('#hourrate1');
+  const hourTwo = document.querySelector('#hourrate2');
+  const hourThree = document.querySelector('#hourrate3');
+  const hourFour = document.querySelector('#hourrate4');
+  const hourFive = document.querySelector('#hourrate5');
+  const hourSix = document.querySelector('#hourrate6');
+  const hourSeven = document.querySelector('#hourrate7');
+
+  const defaultDpi = document.querySelector('#default-density')
+  const defaultSpeed = document.querySelector('#default-speed')
+  const handleTime = document.querySelector('#handle-time')
+  const setup = document.querySelector('#setup')
+  let setupCheck = document.querySelector('#setup-check');
+
+  if (setupCheck.checked) {
+    setupCheck = true
+  } else {
+    setupCheck = false
+  }
+
+  let settingsBody = {
+    user: userId,
+    company: {
+      tax: taxInput.value / 100,
+      rush: rushInput.value / 100,
+    },
+    qty: {
+      qone: +qtyOne.value,
+      qtwo: +qtyTwo.value,
+      qthree: +qtyThree.value,
+      qfour: +qtyFour.value,
+      qfive: +qtyFive.value,
+      qsix: +qtySix.value,
+      qseven: +qtySeven.value
+    },
+    hourly: {
+      hone: +hourOne.value,
+      htwo: +hourTwo.value,
+      hthree: +hourThree.value,
+      hfour: +hourFour.value,
+      hfive: +hourFive.value,
+      hsix: +hourSix.value,
+      hseven: +hourSeven.value
+    },
+    job: {
+      density: +defaultDpi.value,
+      speed: +defaultSpeed.value,
+      piece: +handleTime.value,
+      setup: +setup.value,
+      setupInc: setupCheck,
+      temBetween: +betweenItems.value,
+      temLeft: +leftRuler.value,
+      temTop: +topRuler.value
+    }
+  }
+
+  axios
+    .post('/api/user/defaults', settingsBody)
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
+
  }
