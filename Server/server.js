@@ -16,20 +16,24 @@ app.use(express.static(path.join(__dirname, '../Client')));
 const { seed } = require('../db/dbSeed');
 app.post('/api/seed', seed);
 
-const { addUser, userSignIn, addLaser, addFlatSpeedData, 
-  addRotarySpeedData, addDefaultData, addJob, addFlatJob, 
+const {
+  addUser, userSignIn, addLaser, addDefaultData, addJob, addFlatJob, 
   addCustomJobData, addJobDefaults, addDefaultHourlyRates, 
-  addDefaultQtyBreaks, createInvoice, createJobInfo} = require('./controllerFiles/ctrl-posts');
+  addDefaultQtyBreaks, createInvoice, createJobInfo
+} = require('./controllerFiles/ctrl-posts');
 
-const { getAllJobs, getApprovedJobs, getCompletedJobs, getUserInfo,
-  getLaser, getUserDefaults, getJobDefaults, getQtyAndHourly } = require('./controllerFiles/ctrl-get');
+const { 
+  getAllJobs, getApprovedJobs, getCompletedJobs, getUserInfo,
+  getLaser, getUserDefaults, getJobDefaults, getQtyAndHourly 
+} = require('./controllerFiles/ctrl-get');
 
 const { deleteUser, deleteLaser, deleteJob } = require('./controllerFiles/ctrl-delete');
 
-const { updateUser, updateLaser, updateFlatSpeedData, updateRotarySpeedData,
-   updateUserDefaults, updateJobDefaults, updateQtyBreaks, updateHourlyRates,
-    updateJob, updateFlatJob, updateCustomJobData, updateJobApproved,
-    updateJobCompleted } = require('./controllerFiles/ctrl-put');
+const { 
+  updateUser, updateLaser,  updateUserDefaults, updateJobDefaults,
+   updateQtyBreaks, updateHourlyRates, updateJob, updateFlatJob,
+    updateCustomJobData, updateJobApproved, updateJobCompleted 
+  } = require('./controllerFiles/ctrl-put');
 
 
    // Users
@@ -50,11 +54,6 @@ app.get('/api/laser/:userId', getLaser);
 app.put('/api/laser/:laserId', updateLaser);
 app.delete('/api/laser/laserId', deleteLaser);
 
-app.post('/api/laser/flat/speed', addFlatSpeedData);
-app.put('/api/laser/flat/speed/:laserId', updateFlatSpeedData);
-
-app.post('/api/laser/rotary/speed', addRotarySpeedData);
-app.put('/api/laser/rotary/speed/:laserId', updateRotarySpeedData);
 
  // Jobs
 app.post('/api/job', addJob);

@@ -23,7 +23,7 @@ a {
 }
 
 .logo {
-  width: 40vh;
+  max-width: 50%;
 }
 
 input {
@@ -66,7 +66,7 @@ input:hover{
 header {
   display: flex;
   height: 25%;
-  padding: 40px;
+  padding: 40px 40px 40px 80px;
   align-items: center;
   justify-content: space-between;
 }

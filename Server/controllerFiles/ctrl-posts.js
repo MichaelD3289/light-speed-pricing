@@ -58,37 +58,86 @@ module.exports = {
     .catch(err => res.status(400).send(err))
   },
   addLaser: (req, res) => {
-    const { tableW, tableH, user } = req.body;
+    let { tableW, tableH, user } = req.body.laser;
+    let { fdensity, fspeed, fone, ftwoOne, fthreeOne, foneTwo, foneThree, ftwoTwo, fthreeThree } = req.body.flat
+    let { rdensity, rspeed, rone, rtwoOne, rthreeOne, roneTwo, roneThree, rtwoTwo, rthreeThree } = req.body.rotary
+
+    tableH = sequelize.escape(tableH);
+    tableW = sequelize.escape(tableW);
+
+    fdensity = sequelize.escape(fdensity);
+    fspeed = sequelize.escape(fspeed)
+    fone = sequelize.escape(fone)
+    ftwoOne =sequelize.escape(ftwoOne)
+    fthreeOne = sequelize.escape(fthreeOne)
+    foneTwo = sequelize.escape(foneTwo)
+    foneThree = sequelize.escape(foneThree)
+    ftwoTwo = sequelize.escape(ftwoTwo)
+    fthreeThree = sequelize.escape(fthreeThree)
+
+    rdensity = sequelize.escape(rdensity);
+    rspeed = sequelize.escape(rspeed)
+    rone = sequelize.escape(rone)
+    rtwoOne =sequelize.escape(rtwoOne)
+    rthreeOne = sequelize.escape(rthreeOne)
+    roneTwo = sequelize.escape(roneTwo)
+    roneThree = sequelize.escape(roneThree)
+    rtwoTwo = sequelize.escape(rtwoTwo)
+    rthreeThree = sequelize.escape(rthreeThree)
 
     sequelize
     .query(`
     INSERT INTO laser_machines (table_width, table_height, added_by)
-    VALUES(${+tableW}, ${+tableH}, ${+user})
+    VALUES(${tableW}, ${tableH}, ${user})
+    ON CONFLICT (added_by)
+    DO UPDATE SET 
+    table_width = EXCLUDED.table_width, 
+    table_height = EXCLUDED.table_height, 
+    added_by = EXCLUDED.added_by
     RETURNING *;
     `)
-    .then(dbRes => res.status(200).send(dbRes[0]))
-    .catch(err => res.status(400).send(err))
-  },
-  addFlatSpeedData: (req, res) => {
-    const { density, one, twoOne, threeOne, oneTwo, oneThree, twoTwo, threeThree, laserId } = req.body
-    sequelize
-    .query(`
-    INSERT INTO laser_machine_speed_flat (density_used, flat_one_by_one, flat_two_by_one, flat_three_by_one, flat_one_by_two, flat_one_by_three, flat_two_by_two, flat_three_by_three, laser_id)
-    VALUES (${+density}, ${+one}, ${+twoOne}, ${+threeOne}, ${+oneTwo}, ${+oneThree}, ${+twoTwo}, ${+threeThree}, ${+laserId})
-    RETURNING *;
-    `)
-    .then(dbRes => res.status(200).send(dbRes[0]))
-    .catch(err => res.status(400).send(err))
-  },
-  addRotarySpeedData: (req, res) => {
-    const { density, one, twoOne, threeOne, oneTwo, oneThree, twoTwo, threeThree, laserId } = req.body
-    sequelize
-    .query(`
-    INSERT INTO laser_machine_speed_rotary ( density_used, rotary_one_by_one, rotary_two_by_one, rotary_three_by_one, rotary_one_by_two, rotary_one_by_three, rotary_two_by_two, rotary_three_by_three, laser_id)
-    VALUES (${+density}, ${+one}, ${+twoOne}, ${+threeOne}, ${+oneTwo}, ${+oneThree}, ${+twoTwo}, ${+threeThree}, ${+laserId})
-    RETURNING *;
-    `)
-    .then(dbRes => res.status(200).send(dbRes[0]))
+    .then(dbRes => {
+      let laserId = dbRes[0][0].laser_id;
+      console.log(laserId)
+      
+      sequelize
+        .query(`
+        INSERT INTO laser_machine_speed_flat (density_used, speed_used, flat_one_by_one, flat_two_by_one, flat_three_by_one, flat_one_by_two, flat_one_by_three, flat_two_by_two, flat_three_by_three, laser_id)
+         VALUES (${fdensity}, ${fspeed}, ${fone}, ${ftwoOne}, ${fthreeOne}, ${foneTwo}, ${foneThree}, ${ftwoTwo}, ${fthreeThree}, ${laserId})
+         ON CONFLICT (laser_id)
+         DO UPDATE SET
+         density_used = EXCLUDED.density_used, 
+         speed_used = EXCLUDED.speed_used, 
+         flat_one_by_one = EXCLUDED.flat_one_by_one, 
+         flat_two_by_one = EXCLUDED.flat_two_by_one, 
+         flat_three_by_one = EXCLUDED.flat_three_by_one, 
+         flat_one_by_two = EXCLUDED.flat_one_by_two, 
+         flat_one_by_three = EXCLUDED.flat_one_by_three, 
+         flat_two_by_two = EXCLUDED.flat_two_by_two, 
+         flat_three_by_three = EXCLUDED.flat_three_by_three, 
+         laser_id = EXCLUDED.laser_id
+         RETURNING *;
+
+        INSERT INTO laser_machine_speed_rotary ( density_used, speed_used, rotary_one_by_one, rotary_two_by_one, rotary_three_by_one, rotary_one_by_two, rotary_one_by_three, rotary_two_by_two, rotary_three_by_three, laser_id)
+        VALUES (${rdensity}, ${rspeed}, ${rone}, ${rtwoOne}, ${rthreeOne}, ${roneTwo}, ${roneThree}, ${rtwoTwo}, ${rthreeThree}, ${laserId})
+        ON CONFLICT (laser_id)
+        DO UPDATE SET
+        density_used = EXCLUDED.density_used, 
+         speed_used = EXCLUDED.speed_used, 
+         rotary_one_by_one = EXCLUDED.rotary_one_by_one, 
+         rotary_two_by_one = EXCLUDED.rotary_two_by_one, 
+         rotary_three_by_one = EXCLUDED.rotary_three_by_one, 
+         rotary_one_by_two = EXCLUDED.rotary_one_by_two, 
+         rotary_one_by_three = EXCLUDED.rotary_one_by_three, 
+         rotary_two_by_two = EXCLUDED.rotary_two_by_two, 
+         rotary_three_by_three = EXCLUDED.rotary_three_by_three, 
+         laser_id = EXCLUDED.laser_id
+        RETURNING *;
+
+        `).then(dbRes => res.status(200).send(dbRes))
+        .catch(err=> res.status(400).send(err))
+      
+    })
     .catch(err => res.status(400).send(err))
   },
   addDefaultData: (req, res) => {

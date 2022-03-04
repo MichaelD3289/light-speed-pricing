@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -15,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="reset.css"/>
-  <link rel="stylesheet" href="account.css"/>
+  <link rel="stylesheet" href="reset.css" />
+  <link rel="stylesheet" href="account.css" />
 
   <title>LightSpeedPricing</title>
 
@@ -24,41 +25,69 @@
 
 <body>
   <header>
-    <img src="./images/lightspeedpricingVector2.png" alt="light speed pricing logo" class="logo large"/>
+    <img src="./images/lightspeedpricingVector2.png" alt="light speed pricing logo" class="logo large" />
+    <nav class="main-nav">
+      <ul class="nav-list">
+        <li class="nav-item jobs"><a>Jobs</a></li>
+        <li class="nav-item laser"><a>Laser</a></li>
+        <li class="nav-item account"><a>Account</a></li>
+        <li class="nav-item settings"><a>Settings</a></li>
+      </ul>
+    </nav>
   </header>
-  <main>
+
+  <main class="content">
+
+
+    <!-- <div class="actions">
+
+      <h2>Actions Still Needed</h2>
+      <ol class="actions-list">
+        <li class="action-item one">Add Standard User Data</li>
+        <li class="action-item two">Add Default Job Data</li>
+        <li class="action-item three">Add Laser and Speed Data</li>
+        <li class="action-item four">Create your first Job</li>
+      </ol>
+    </div> -->
 
   </main>
-  <div class="line"></div>
-  <footer>
-    <div class="main-icon-holder">
 
-      <div class="contact">
-        <img src="images/contact-us.png" alt="phone icon" id="phone-icon" class="icon" />
-        <p>Contact Us</p>
+  <footer>
+    <div class="line"></div>
+    <div class="footer">
+      <div class="main-icon-holder">
+
+        <div class="contact">
+          <img src="images/contact-us.png" alt="phone icon" id="phone-icon" class="icon" />
+          <p>Contact Us</p>
+        </div>
+
+        <div class="social-media">
+          <img src="images/facebook.png" alt="facebook-icon" id='facebook-icon' class="social" />
+          <img src="images/linkedIn.png" alt="linkedIn-icon" id='linkedIn-icon' class="social" />
+          <img src="images/youtube.png" alt="youtube-icon" id='youtube-icon' class="social" />
+          <img src="images/twitter.png" alt="twitter-icon" id='twitter-icon' class="social" />
+          <img src="images/instagram.png" alt="instagram-icon" id='instagram-icon' class="social" />
+        </div>
+
+        <div class="review">
+          <img src="images/review.png" alt="thumbsup review image" id="review-icon" class="icon" />
+          <p>Leave a Review!</p>
+        </div>
+
       </div>
-      
-      <div class="social-media">
-        <img src="images/facebook.png" alt="facebook-icon" id='facebook-icon' class="social" />
-        <img src="images/linkedIn.png" alt="linkedIn-icon" id='linkedIn-icon' class="social" />
-        <img src="images/youtube.png" alt="youtube-icon" id='youtube-icon' class="social" />
-        <img src="images/twitter.png" alt="twitter-icon" id='twitter-icon' class="social" />
-        <img src="images/instagram.png" alt="instagram-icon" id='instagram-icon' class="social" />
-      </div>
-      
-      <div class="review">
-        <img src="images/review.png" alt="thumbsup review image" id="review-icon" class="icon"/>
-        <p>Leave a Review!</p>
-      </div>
-      
-      </div>
-      
+
       <div class="text-holder">
-       <p>&copy 2022 Copyright LightSpeedPricing</p>
+        <p>&copy 2022 Copyright LightSpeedPricing</p>
       </div>
-      
+
+
+
+
+    </div>
   </footer>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
- <script src="./index.js"></script>
+  <script src="./account.js"></script>
 </body>
+
 </html>
