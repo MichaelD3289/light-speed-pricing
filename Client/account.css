@@ -229,7 +229,7 @@ color: var(--text-and-outline-color);
 /* Styling for Adding Laser Page */
 
 .laserMain {
-  margin: 50px auto;
+  margin: 50px 10% 0px 10%;
   width: 75vw;
   height: 75vh;
   display: grid;
@@ -502,4 +502,127 @@ justify-self: end;
 .price {
   grid-area: pr;
   align-self: start;
+}
+
+/* Styling for temporary success and updating messages */
+
+.success-message, .updating {
+ padding: 4px;
+  border: 1px solid var(--text-and-outline-color);
+  width: 300px;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Styling for account page */
+
+#accountMain {
+  display: grid;
+  margin: 40px auto;
+  grid-template-areas: 
+  "acc acc acc acc"
+  "emp log info emp2"
+  "emt emi fni fnt"
+  "npt npi lni lnt"
+  "cpt cpi pni pnt"
+  "opt opt opt opt"
+  "subb subb subb subb"
+  "lob lob lob lob";
+  grid-template-columns: auto 300px 300px auto;
+  grid-auto-rows: 60px;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 15px;
+}
+
+#accountMain h2 {
+  font-size: 48px;
+}
+
+#accountMain h3 {
+  font-size: 40px;
+  color: var(--text-and-outline-color);
+}
+
+
+
+.accountitem.a1 {
+  grid-area: acc;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.empty {
+  grid-area: emp;
+}
+
+.accountitem.a2 {
+  grid-area: log;
+}
+
+.accountitem.a3 {
+  grid-area: info;
+}
+
+.empty2 {
+  grid-area: emp2;
+}
+
+.accountitem.a16 {
+  grid-area: opt;
+  text-align: center;
+}
+
+.accountitem.a16 p {
+  margin-bottom: 8px;
+}
+
+.accountitem.a17 {
+  grid-area: subb;
+  align-self: start;
+}
+
+.accountitem.a18 {
+  grid-area: lob;
+  align-self: start;
+}
+
+
+
+.accountitem.a4, .accountitem.a6, .accountitem.a8, .accountitem.a10, .accountitem.a12, .accountitem.a14 {
+  justify-self: end;
+}
+
+.accountitem.a5, .accountitem.a7, .accountitem.a9, .accountitem.a11, .accountitem.a13, .accountitem.a15 {
+  justify-self: start;
+}
+
+.accountitem.a9, .accountitem.a10 {
+  align-self: start;
+}
+
+.accountitem.a8, .accountitem.a11 {
+  padding-bottom: 22px;
+}
+
+.after::after {
+  margin-top: 7px;
+  text-align: center;
+content: "| 8 min | 1 special | 1 number | 1 lowercase | 1 uppercase |";
+color: white;
+display: inline;
+font-size: 11px;
+color: var(--text-and-outline-color);
+margin-bottom: -12px;
+}
+
+#log-out {
+  background-color: rgba(114, 32, 114, 0.2);
+}
+
+#log-out:hover {
+  background-color:rgba(200, 57, 200, 0.3) ;
 }

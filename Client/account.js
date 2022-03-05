@@ -1,6 +1,8 @@
 const main = document.querySelector('.content');
 const laserNav = document.querySelector('.nav-item.laser');
-const settingsNav = document.querySelector('.nav-item.settings')
+const settingsNav = document.querySelector('.nav-item.settings');
+const accountNav = document.querySelector('.nav-item.account');
+const jobsNav = document.querySelector('.nav-item.jobs')
 let userId = window.localStorage.getItem('user');
 
 function navLaserPage () {
@@ -168,6 +170,7 @@ const submitBtn = document.querySelector('.laserSubmit');
 
 function addLaser (e) {
   e.preventDefault();
+  updating();
 
   const width = document.querySelector('#width');
   const height = document.querySelector('#height');
@@ -226,8 +229,13 @@ const body = {
 
   axios
     .post('/api/laser', body)
-    .then(res => console.log(res.data))
-    .catch(err => console.log(err))
+    .then(res => {
+      successMessage();
+    })
+    .catch(() => {
+      document.querySelector('.updating').remove()
+      alert(`There was a error submitting your data. Please refresh the page and try again or contact us for support`)
+  })
 
 }
 
@@ -293,7 +301,10 @@ function getLaser (u) {
 
         
       })
-      .catch(err => console.log(err))
+      .catch(() => {
+        document.querySelector('.updating').remove()
+        alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+      })
   
   }
 
@@ -312,7 +323,7 @@ function getLaser (u) {
       <section class="company">
         <h2 class="company-title">Company</h2>
         <p class="tax">Tax %</p>
-        <input id="taxInput" placeholder="(ex 7.25)" type="number" step="0.01"/>
+        <input id="taxInput" placeholder="(ex 7.25)" type="number" step="0.0001"/>
         <p class="rush">Rush Fee %</p>
         <input id="rushInput" placeholder="(ex 30)" type="number"  step="0.1"/>
         <h2 class="tem-title">Cut-Out Templates</h2>
@@ -373,14 +384,17 @@ function getLaser (u) {
     const settingForm = document.querySelector('#settingForm');
     settingForm.addEventListener('submit', addDefaultData)
 
+    getDefaults(userId);
+
   }
 
  settingsNav.addEventListener('click', navSettingsPage);
 
-
+// adding default data
 
  function addDefaultData(e) {
    e.preventDefault();
+   updating()
 
    const taxInput = document.querySelector('#taxInput');
    const rushInput = document.querySelector('#rushInput');
@@ -420,42 +434,240 @@ function getLaser (u) {
   let settingsBody = {
     user: userId,
     company: {
-      tax: taxInput.value / 100,
-      rush: rushInput.value / 100,
+      tax: taxInput.value,
+      rush: rushInput.value,
     },
     qty: {
-      qone: +qtyOne.value,
-      qtwo: +qtyTwo.value,
-      qthree: +qtyThree.value,
-      qfour: +qtyFour.value,
-      qfive: +qtyFive.value,
-      qsix: +qtySix.value,
-      qseven: +qtySeven.value
+      qone: qtyOne.value,
+      qtwo: qtyTwo.value,
+      qthree: qtyThree.value,
+      qfour: qtyFour.value,
+      qfive: qtyFive.value,
+      qsix: qtySix.value,
+      qseven: qtySeven.value
     },
     hourly: {
-      hone: +hourOne.value,
-      htwo: +hourTwo.value,
-      hthree: +hourThree.value,
-      hfour: +hourFour.value,
-      hfive: +hourFive.value,
-      hsix: +hourSix.value,
-      hseven: +hourSeven.value
+      hone: hourOne.value,
+      htwo: hourTwo.value,
+      hthree: hourThree.value,
+      hfour: hourFour.value,
+      hfive: hourFive.value,
+      hsix: hourSix.value,
+      hseven: hourSeven.value
     },
     job: {
-      density: +defaultDpi.value,
-      speed: +defaultSpeed.value,
-      piece: +handleTime.value,
-      setup: +setup.value,
+      density: defaultDpi.value,
+      speed: defaultSpeed.value,
+      piece: handleTime.value,
+      setup: setup.value,
       setupInc: setupCheck,
-      temBetween: +betweenItems.value,
-      temLeft: +leftRuler.value,
-      temTop: +topRuler.value
+      temBetween: betweenItems.value,
+      temLeft: leftRuler.value,
+      temTop: topRuler.value
     }
   }
 
   axios
     .post('/api/user/defaults', settingsBody)
-    .then(res => console.log(res))
-    .catch(err => console.log(err))
+    .then(() => {
+      successMessage();
+    })
+    .catch(() => {
+      document.querySelector('.updating').remove()
+      alert(`There was an error submitting your data. Please try again or contact our support team if the problem persists.`)
+  })
 
  }
+
+ function getDefaults(u) {
+
+  const taxInput = document.querySelector('#taxInput');
+  const rushInput = document.querySelector('#rushInput');
+
+ const betweenItems = document.querySelector('#bet-items')
+ const topRuler = document.querySelector('#top-ruler')
+ const leftRuler = document.querySelector('#left-ruler')
+
+ const qtyOne = document.querySelector('#qtybreak1')
+ const qtyTwo = document.querySelector('#qtybreak2')
+ const qtyThree = document.querySelector('#qtybreak3')
+ const qtyFour = document.querySelector('#qtybreak4')
+ const qtyFive = document.querySelector('#qtybreak5')
+ const qtySix = document.querySelector('#qtybreak6')
+ const qtySeven = document.querySelector('#qtybreak7')
+
+ const hourOne = document.querySelector('#hourrate1');
+ const hourTwo = document.querySelector('#hourrate2');
+ const hourThree = document.querySelector('#hourrate3');
+ const hourFour = document.querySelector('#hourrate4');
+ const hourFive = document.querySelector('#hourrate5');
+ const hourSix = document.querySelector('#hourrate6');
+ const hourSeven = document.querySelector('#hourrate7');
+
+ const defaultDpi = document.querySelector('#default-density')
+ const defaultSpeed = document.querySelector('#default-speed')
+ const handleTime = document.querySelector('#handle-time')
+ const setup = document.querySelector('#setup')
+ let setupCheck = document.querySelector('#setup-check');
+
+
+  axios
+    .get(`/api/user/defaults/${u}`)
+    .then(res => {
+      
+      let { tax, rush, density, speed, piece, setup_cost, setupcheck, tem_between, tem_left, tem_top, q1, q2, q3, q4, q5, q6, q7, h1, h2, h3, h4, h5, h6, h7 } = res.data[0]
+
+      taxInput.value = +tax;
+      rushInput.value = +rush;
+
+      betweenItems.value = +tem_between;
+      topRuler.value = +tem_top;
+      leftRuler.value = +tem_left;
+
+      qtyOne.value = +q1;
+      qtyTwo.value = +q2;
+      qtyThree.value = +q3;
+      qtyFour.value = +q4;
+      qtyFive.value = +q5;
+      qtySix.value = +q6;
+      qtySeven.value = +q7;
+
+      hourOne.value = +h1;
+      hourTwo.value = +h2;
+      hourThree.value = +h3;
+      hourFour.value = +h4;
+      hourFive.value = +h5;
+      hourSix.value = +h6;
+      hourSeven.value = +h7;
+
+      defaultDpi.value = +density;
+      defaultSpeed.value = +speed;
+      handleTime.value = +piece;
+      setup.value = +setup_cost;
+     
+      if(setupcheck === true) { setupCheck.checked = true }
+      else { setupCheck.checked = false }
+
+    }
+    )
+    .catch(() => {
+      document.querySelector('.updating').remove()
+      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+    })
+
+ }
+
+function successMessage() {
+  while(document.querySelector('.updating')) {
+  document.querySelector('.updating').remove()
+  }
+
+  if(!document.querySelector('.success-message')){
+  let newDiv = document.createElement('div')
+  newDiv.classList.add('success-message')
+  let newHeading = document.createElement('p')
+  newHeading.textContent = "User Information Updated Successfully"
+  newDiv.appendChild(newHeading)
+
+  main.appendChild(newDiv)
+
+  setTimeout(() => {
+    newDiv.remove();
+  }, 1500)}
+
+}
+
+function updating() {
+  if(!document.querySelector('.updating')){
+  let newDiv = document.createElement('div')
+  newDiv.classList.add('updating')
+  let newHeading = document.createElement('p')
+  newHeading.textContent = "Updating, Please Wait"
+  newDiv.appendChild(newHeading)
+
+  main.appendChild(newDiv)
+  }
+}
+
+// User Account Page ----------------------------
+
+function navAccountPage () {
+  while (main.firstChild) {
+    main.removeChild(main.firstChild);
+  }
+
+
+  main.innerHTML = `
+  <form id="accountForm">
+    <section id="accountMain">
+      <div class="accountitem a1">
+        <h2>Account</h2>
+      </div>
+      <div class="empty"></div>
+      <div class="accountitem a2">
+        <h3>Log-In</h3>
+      </div>
+      <div class="accountitem a3">
+        <h3>Info</h3>
+      </div>
+      <div class="empty2"></div>
+      <div class="accountitem a4">
+        <p>email</p>
+      </div>
+      <div class="accountitem a5">
+        <input type="email" placeholder="email" class="email" />
+      </div>
+      <div class="accountitem a6">
+        <input type="text" placeholder="first name" class="fname" />
+      </div>
+      <div class="accountitem a7">
+        <p>First Name</p>
+      </div>
+      <div class="accountitem a8">
+        <p>New Password</p>
+      </div>
+      <div class="accountitem a9 after">
+        <input type="password" id="newPass" placeholder="new password" />
+      </div>
+      <div class="accountitem a10">
+        <input type="text" class="lname" placeholder="last name" />
+      </div>
+      <div class="accountitem a11">
+        <p>Last Name</p>
+      </div>
+      <div class="accountitem a12">
+        <p>Confirm</p>
+      </div>
+      <div class="accountitem a13">
+        <input type="password" id="confirmPass" placeholder="confirm password" />
+      </div>
+      <div class="accountitem a14">
+        <input type="text" class="phone" placeholder="xxx-xxx-xxxx" />
+      </div>
+      <div class="accountitem a15">
+        <p>Phone Number</p>
+      </div>
+      <div class="accountitem a16">
+        <p>Enter Password to Update Info</p>
+        <input type="password" id="oldPass" placeholder="account password" />
+      </div>
+      <div class="accountitem a17">
+        <button class="button" id="Submit-New">Submit</button>
+      </div>
+      <div class="accountitem a18">
+        <button class="button" id="log-out">Log-Out</button>
+      </div>
+    </section>
+  </form>
+  `
+const accountForm = document.querySelector('#accountForm');
+accountForm.addEventListener('submit', updateUserInfo)
+}
+
+accountNav.addEventListener('click', navAccountPage);
+
+function updateUserInfo(e) {
+  e.preventDefault()
+
+  axios
+}

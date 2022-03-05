@@ -64,10 +64,6 @@ app.put('/api/job/flat/:jobsDataId', updateFlatJob);
 app.post('/api/job/custom', addCustomJobData);
 app.put('/api/job/custom/:jobsDataId', updateCustomJobData);
 
-app.get('/api/job/defaults/:userId', getJobDefaults);
-
-app.get('/api/jobs/defaults/qty-rates/:userId', getQtyAndHourly);
-
 
 app.post('/api/job/invoice', createInvoice);
 app.post('api/job/info', createJobInfo);
