@@ -1,14 +1,41 @@
+
+
 const main = document.querySelector('.content');
 const laserNav = document.querySelector('.nav-item.laser');
 const settingsNav = document.querySelector('.nav-item.settings');
 const accountNav = document.querySelector('.nav-item.account');
 const jobsNav = document.querySelector('.nav-item.jobs')
 let userId = window.localStorage.getItem('user');
+let activePage = window.localStorage.getItem('active');
+
+window.onload = function() {
+  if(!userId) {
+    window.location.assign('http://127.0.0.1:4500/')
+  }
+  if (activePage === "Laser") {
+    navLaserPage()
+  } else if (activePage === "Account") {
+    navAccountPage()
+  }else if (activePage === "Settings") {
+    navSettingsPage()
+  } else if (activePage === "Jobs") {
+    
+  }
+}
+
+
 
 function navLaserPage () {
   while (main.firstChild) {
     main.removeChild(main.firstChild);
   }
+
+
+laserNav.classList.add('nav-clicked');
+settingsNav.classList.remove('nav-clicked');
+accountNav.classList.remove('nav-clicked');
+jobsNav.classList.remove('nav-clicked');
+window.localStorage.setItem('active', 'Laser')
 
 
   main.innerHTML = `
@@ -170,7 +197,7 @@ const submitBtn = document.querySelector('.laserSubmit');
 
 function addLaser (e) {
   e.preventDefault();
-  updating();
+  updating(main);
 
   const width = document.querySelector('#width');
   const height = document.querySelector('#height');
@@ -230,7 +257,7 @@ const body = {
   axios
     .post('/api/laser', body)
     .then(res => {
-      successMessage();
+      successMessage(main);
     })
     .catch(() => {
       document.querySelector('.updating').remove()
@@ -274,8 +301,8 @@ function getLaser (u) {
   const rThreeThree = document.querySelector('.rotaryinput.threeThree')
   
 
-         width.value = +table_height
-         height.value = +table_width
+         width.value = +table_width
+         height.value = +table_height
 
          flatSpeed.value = +flat_speed
          flatDpi.value = +flat_density
@@ -314,8 +341,13 @@ function getLaser (u) {
     while (main.firstChild) {
       main.removeChild(main.firstChild);
     }
-  
-  
+
+    laserNav.classList.remove('nav-clicked');
+    settingsNav.classList.add('nav-clicked');
+    accountNav.classList.remove('nav-clicked');
+    jobsNav.classList.remove('nav-clicked');
+    window.localStorage.setItem('active', 'Settings')
+
     main.innerHTML = `
     <form id="settingForm">
     <section class="settingsMain">
@@ -394,7 +426,7 @@ function getLaser (u) {
 
  function addDefaultData(e) {
    e.preventDefault();
-   updating()
+   updating(main)
 
    const taxInput = document.querySelector('#taxInput');
    const rushInput = document.querySelector('#rushInput');
@@ -470,7 +502,7 @@ function getLaser (u) {
   axios
     .post('/api/user/defaults', settingsBody)
     .then(() => {
-      successMessage();
+      successMessage(main);
     })
     .catch(() => {
       document.querySelector('.updating').remove()
@@ -557,7 +589,7 @@ function getLaser (u) {
 
  }
 
-function successMessage() {
+function successMessage(parent) {
   while(document.querySelector('.updating')) {
   document.querySelector('.updating').remove()
   }
@@ -569,15 +601,15 @@ function successMessage() {
   newHeading.textContent = "User Information Updated Successfully"
   newDiv.appendChild(newHeading)
 
-  main.appendChild(newDiv)
+  parent.appendChild(newDiv)
 
   setTimeout(() => {
     newDiv.remove();
-  }, 1500)}
+  }, 1750)}
 
 }
 
-function updating() {
+function updating(parent) {
   if(!document.querySelector('.updating')){
   let newDiv = document.createElement('div')
   newDiv.classList.add('updating')
@@ -585,7 +617,7 @@ function updating() {
   newHeading.textContent = "Updating, Please Wait"
   newDiv.appendChild(newHeading)
 
-  main.appendChild(newDiv)
+  parent.appendChild(newDiv)
   }
 }
 
@@ -596,6 +628,11 @@ function navAccountPage () {
     main.removeChild(main.firstChild);
   }
 
+    laserNav.classList.remove('nav-clicked');
+    settingsNav.classList.remove('nav-clicked');
+    accountNav.classList.add('nav-clicked');
+    jobsNav.classList.remove('nav-clicked');
+    window.localStorage.setItem('active', 'Account')
 
   main.innerHTML = `
   <form id="accountForm">
@@ -652,22 +689,162 @@ function navAccountPage () {
         <input type="password" id="oldPass" placeholder="account password" />
       </div>
       <div class="accountitem a17">
-        <button class="button" id="Submit-New">Submit</button>
+        <button class="button" id="Submit-New" type="submit">Submit</button>
       </div>
       <div class="accountitem a18">
-        <button class="button" id="log-out">Log-Out</button>
+    
       </div>
-    </section>
-  </form>
+      </form>
+     </section>
+  
+  <button class="button" id="log-out">Log-Out</button>
   `
+
+const logoutBtn = document.querySelector('#log-out')
+logoutBtn.addEventListener('click', logOut);
+
+const passwordSignUp = document.querySelector('#newPass');
+const confirmPass = document.querySelector('#confirmPass');
+
+passwordSignUp.addEventListener('keyup', matchPasswords);
+passwordSignUp.addEventListener('keydown', matchPasswords);
+passwordSignUp.addEventListener('keyup', validatePassword);
+passwordSignUp.addEventListener('keydown', validatePassword);
+
+confirmPass.addEventListener('keyup', validatePassword);
+confirmPass.addEventListener('keydown', validatePassword);
+confirmPass.addEventListener('keyup', matchPasswords);
+confirmPass.addEventListener('keydown', matchPasswords);
+
 const accountForm = document.querySelector('#accountForm');
-accountForm.addEventListener('submit', updateUserInfo)
+accountForm.addEventListener('submit', updateUserInfo);
+getUserInfo(userId);
 }
 
 accountNav.addEventListener('click', navAccountPage);
 
-function updateUserInfo(e) {
-  e.preventDefault()
+function getUserInfo(u) {
+
+  const email = document.querySelector('.email')
+  const fname = document.querySelector('.fname')
+  const lname = document.querySelector('.lname');
+  const phone = document.querySelector('.phone');
 
   axios
+    .get(`/api/user/${u}`)
+    .then(res => {
+      let {email_address, first_name, last_name, phone_number} = res.data[0]
+
+      email.value = email_address
+      fname.value = first_name
+      lname.value = last_name
+      phone.value = +phone_number
+    })
+    .catch((err) => {
+      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+    })
+
+
 }
+
+function updateUserInfo(e) {
+  e.preventDefault();
+  const formMessage = document.querySelector('.a18');
+  updating(formMessage)
+
+  const email = document.querySelector('.email')
+  const newPass = document.querySelector('#newPass');
+  const confirmPass = document.querySelector('#confirmPass');
+  const oldPass = document.querySelector('#oldPass');
+  const fname = document.querySelector('.fname')
+  const lname = document.querySelector('.lname');
+  let phone = document.querySelector('.phone');
+ 
+  phone = phone.value.replaceAll('-', "");
+
+  if(newPass.value.length > 0 || confirmPass.value.length > 0) {
+    if(!passwordsMatch || !passwordValidated) {
+    document.querySelector('.updating').remove()
+    alert('Passwords Need to Match and/or Hit Min Requirements.');
+    
+    return;
+  }}
+
+  let userBody = {
+    email: email.value,
+    newPass: newPass.value,
+    confirmPass: confirmPass.value,
+    oldPass: oldPass.value,
+    fname: fname.value,
+    lname: lname.value,
+    phone: phone.value,
+    userId: userId
+  }
+
+  axios
+    .put(`/api/user/${userId}`, userBody)
+    .then(res => {
+      const { message } = res.data
+      
+      if(message === "incorrect password") {
+        document.querySelector('.updating').remove();
+        alert('Password doesn\'t match our records. Please put in your correct password and try again')
+        
+      } else if (message === "email already exists") {
+        document.querySelector('.updating').remove();
+        alert(`An account with that email address already exists.`)
+        
+      } else {
+        successMessage(formMessage);
+      }
+      
+      newPass.value = ""
+      oldPass.value = ""
+      confirmPass.value = ""
+    })
+    .catch((err) => {
+      console.log(err)
+      document.querySelector('.updating').remove()
+      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+    } )
+}
+
+// Checking that passwords match each other with immediate feedback to client
+
+function matchPasswords () {
+const passwordSignUp = document.querySelector('#newPass');
+const confirmPass = document.querySelector('#confirmPass');
+  if(passwordSignUp.value !== confirmPass.value) {
+   confirmPass.classList.remove('match');
+    confirmPass.classList.add('no-match');
+    passwordsMatch = false;
+  } else {
+    confirmPass.classList.remove('no-match');
+    confirmPass.classList.add('match');
+    passwordsMatch = true;
+  }
+  
+ }
+  
+ // Validating password with immediate feedback to client
+ 
+ function validatePassword() {
+  const passwordSignUp = document.querySelector('#newPass');
+  const confirmPass = document.querySelector('#confirmPass');
+   let input = passwordSignUp.value
+   const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/
+   if(!re.test(input)){
+     passwordSignUp.classList.remove('match');
+     passwordSignUp.classList.add('no-match');
+     passwordValidated = false
+   }else {
+     passwordSignUp.classList.remove('no-match');
+    passwordSignUp.classList.add('match');
+    passwordValidated = true
+   }
+ }
+ 
+ function logOut() {
+  window.localStorage.clear();
+  window.location.assign('http://127.0.0.1:4500/');
+ }

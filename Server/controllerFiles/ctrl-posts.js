@@ -26,7 +26,7 @@ module.exports = {
 
    sequelize
     .query(` 
-      INSERT INTO users (email_address, password, first_name, last_name, phone_number)
+      INSERT INTO users (email_address, user_password, first_name, last_name, phone_number)
       VALUES (${email}, '${passHash}', ${fname}, ${lname}, ${phone})
       RETURNING user_id;
     `)
@@ -40,22 +40,23 @@ module.exports = {
 
     sequelize
     .query(`
-    SELECT user_id, password FROM users
+    SELECT user_id, user_password FROM users
     WHERE email_address = ${email};
     `)
     .then(dbRes => {
-      let dbPass = dbRes[0][0].password;
+
+      let dbPass = dbRes[0][0].user_password;
       let userId = dbRes[0][0].user_id;
-      userId = userId.toString();
+
       let existing = bcrypt.compareSync(password, dbPass)
       
       if(existing) {
-         res.status(200).send(userId);
+         res.status(200).send({"message": userId});
       } else {
-        res.status(400).send('Incorrect Password')
+        res.status(200).send({"message": "Incorrect Password"})
       }
     })
-    .catch(err => res.status(400).send(err))
+    .catch(() => res.status(200).send({"message": "Incorrect Email"}))
   },
 
   addLaser: (req, res) => {

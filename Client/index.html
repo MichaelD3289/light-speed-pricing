@@ -31,7 +31,7 @@
       <p>Already have an account?</p>
       <input type="email" placeholder="email" id="email-log-in" />
       <input type="password" placeholder="password" id="password-log-in" />
-      <button class="button" type="submit" id="logInBtn">Log-In</button>
+      <button class="button" type="submit" id="logInBtn" for="logIn">Log-In</button>
     </form>
   </div>
   
@@ -41,7 +41,7 @@
 
   <div class="sign-up-wrapper">
     <h2>Start Today by</h2>
-    <a href="index.html#account"><button class="button small">Signing-up</button></a>
+    <a href="index.html#account"><button class="button small" type="button">Signing-up</button></a>
     <h2>with us!</h2>
   </div>
 
@@ -80,7 +80,7 @@
   </section>
 
   <section class="account" id="account">
-    <form class="accountForm">
+    <form class="accountForm" id="accountForm">
       <h2>Create an Account</h2>
       <input type="email" placeholder="email" id="email-sign-up" required />
       <div class="after">
@@ -91,7 +91,7 @@
       <input type="text" placeholder="last name" class="last-name" required />
       <input type="text" placeholder="phone xxx-xxx-xxxx" class="phone-number" required />
 
-      <button class="button" type="submit" id="signUpBtn">Submit</button>
+      <button class="button" type="submit" id="signUpBtn" for="accountForm">Submit</button>
     </form>
   </section>
 </main>

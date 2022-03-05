@@ -1,4 +1,9 @@
+window.onload = function() {
+  if(window.localStorage.getItem('user')) {
+    window.location.assign('http://127.0.0.1:4500/account.html')
 
+  }
+}
  
  // Creating User Account
 
@@ -120,7 +125,7 @@ const passLogIn = document.querySelector('#password-log-in');
 const logInBtn = document.querySelector('#logInBtn');
 
 function logIn (e) {
-e.preventDefault;
+e.preventDefault();
 
 let email = emailLogIn.value;
 let password = passLogIn.value;
@@ -133,19 +138,23 @@ let user = {
 axios
     .post('/api/user', user)
     .then(res => {
-      if(!isNaN(res)) {
-        alert('Incorrect Password')
-        return;
-      }
+      const { message } = res.data
 
-      window.localStorage.setItem('user', res.data);
+      if(!isNaN(message)) {
+      window.localStorage.setItem('user', message);
       window.location.href="account.html"
+      } else {
+        if (message === "Incorrect Password") {
+          alert('Password does not match our system. Please try again with the correct password')
+
+        } else if (message === "Incorrect Email") {
+          alert(`That email address is not associated with an account.`)
+        }
+      }
+      
+      
     })
-    .catch(err => alert('Information didn\'t match our system'));
-
-
-  email = ""
-  password = ""  
+    .catch(err => console.log(err));
 }
 
 loginForm.addEventListener('submit', logIn);

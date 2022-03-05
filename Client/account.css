@@ -25,6 +25,12 @@
  
  .logo {
    max-width: 25%;
+   cursor: pointer;
+ }
+
+ .logo:hover {
+   background-color: var(--button-hover);
+   border-radius: 0 60px 0 60px;
  }
 
  .button {
@@ -65,6 +71,7 @@ input:hover{
 }
 
 input:focus {
+  outline: none;
   background-color: var(--button-hover);
 }
 
@@ -625,4 +632,25 @@ margin-bottom: -12px;
 
 #log-out:hover {
   background-color:rgba(200, 57, 200, 0.3) ;
+}
+
+.no-match {
+  border: 2px solid rgb(177, 0, 0);
+}
+
+.match {
+  border: 2px solid rgb(0, 139, 0);
+}
+
+.nav-clicked {
+  color: rgba(180, 121, 12, 0.5);
+  border-radius: 3px;
+  border-left: 4px solid rgba(180, 121, 12, 0.5);
+  border-right: 4px solid rgba(180, 121, 12, 0.5);
+}
+
+.nav-clicked:hover {
+  color: rgba(180, 121, 12, 0.7) !important;
+  border-left: 5px solid rgba(180, 121, 12, 0.7) !important;
+  border-right: 5px solid rgba(180, 121, 12, 0.7) !important;
 }

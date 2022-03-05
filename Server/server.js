@@ -37,7 +37,7 @@ const {
    // Users
 app.post('/api/users', addUser);
 app.post('/api/user', userSignIn);
-app.get('/api/user/:user_id', getUserInfo);
+app.get('/api/user/:userId', getUserInfo);
 app.put('/api/user/:userId', updateUser);
 app.delete('/api/user/:userId', deleteUser);
 

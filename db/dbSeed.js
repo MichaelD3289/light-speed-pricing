@@ -37,7 +37,7 @@ module.exports = {
       CREATE TABLE users(
       user_id SERIAL PRIMARY KEY,
       email_address VARCHAR(100) UNIQUE NOT NULL,
-      password VARCHAR(500) NOT NULL,
+      user_password VARCHAR(500) NOT NULL,
       first_name VARCHAR(40) NOT NULL,
       last_name VARCHAR(40) NOT NULL,
       phone_number CHAR(10) NOT NULL
@@ -47,7 +47,7 @@ module.exports = {
       laser_id SERIAL PRIMARY KEY,
       table_width FLOAT NOT NULL,
       table_height FLOAT NOT NULL,
-      added_by INT UNIQUE NOT NULL REFERENCES users(user_id)
+      added_by INT  NOT NULL UNIQUE REFERENCES users(user_id)
       );
       
       CREATE TABLE laser_machine_speed_flat(
@@ -61,7 +61,7 @@ module.exports = {
       flat_one_by_three FLOAT NOT NULL,
       flat_two_by_two FLOAT NOT NULL,
       flat_three_by_three FLOAT NOT NULL,
-      laser_id UNIQUE INT NOT NULL REFERENCES laser_machines(laser_id)
+      laser_id INT NOT NULL UNIQUE REFERENCES laser_machines(laser_id)
       );
       
       CREATE TABLE laser_machine_speed_rotary(
@@ -192,7 +192,7 @@ module.exports = {
       
       -- Starting with dummy data to use
       
-      INSERT INTO users (email_address, password, first_name, last_name, phone_number)
+      INSERT INTO users (email_address, user_password, first_name, last_name, phone_number)
       VALUES ('michael.test@email.com', 'password123', 'Michael', 'Drummond', '1234567890');
       
       INSERT INTO laser_machines (table_width, table_height, added_by)

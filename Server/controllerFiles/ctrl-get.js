@@ -31,14 +31,21 @@ module.exports = {
     sequelize
     .query(`
     `)
-    .then()
+    .then(dbRes =>  res.status(200).send(dbRes[0]))
     .catch(err => res.status(400).send(err))
   },
   getUserInfo: (req, res) => {
+
+  
+    let { userId } = req.params
+    
     sequelize
     .query(`
+    SELECT email_address, first_name, last_name, phone_number
+    FROM users
+    WHERE user_id = ${userId}
     `)
-    .then()
+    .then(dbRes =>  res.status(200).send(dbRes[0]))
     .catch(err => res.status(400).send(err))
   },
   getLaser: (req, res) => {
