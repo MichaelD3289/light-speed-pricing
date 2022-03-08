@@ -1,6 +1,6 @@
 window.onload = function() {
   if(window.localStorage.getItem('user')) {
-    window.location.assign('http://127.0.0.1:4500/account.html')
+    window.location.assign('https://lightspeedpricing.herokuapp.com//account.html')
 
   }
 }
