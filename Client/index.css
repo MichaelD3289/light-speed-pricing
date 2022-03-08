@@ -23,8 +23,11 @@ a {
 }
 
 .logo {
+  min-width: 400px;
   max-width: 50%;
 }
+
+
 
 input {
   border: 2px solid var(--text-and-outline-color);
@@ -65,6 +68,7 @@ input:hover{
 
 header {
   display: flex;
+  flex-wrap: wrap;
   height: 25%;
   padding: 40px 40px 40px 80px;
   align-items: center;
@@ -120,6 +124,11 @@ margin-top: 60px;
   justify-content: space-evenly;
   align-items: center;
   margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.offer, .problem {
+  min-width: 400px;
 }
 
 .info-section h2 {
@@ -200,6 +209,7 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 footer p {
@@ -236,6 +246,7 @@ color: var(--text-and-outline-color);
   width: 80%;
   justify-content: space-between;
   width: 70%;
+  flex-wrap:wrap;
 }
 
 .contact, .review {
@@ -243,6 +254,7 @@ color: var(--text-and-outline-color);
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  width: 150px;
 }
 
 .contact:hover .icon, .review:hover .icon {
@@ -287,6 +299,53 @@ color: var(--text-and-outline-color);
 margin-bottom: -12px;
 }
 
+.preview {
+padding: 15px;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+height: auto;
+min-height: 600px;
+}
+
+.preview > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100%;
+  gap: 40px;
+}
+
+.preview > div > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview img {
+  width: 325px;
+  height: 325px;
+  object-fit: cover;
+  border: 2px solid var(--button-background);
+  border-radius: 25px;
+}
+
+.preview h2, .preview h3 {
+  font-size: 48px;
+  color: var(--text-and-outline-color);
+  text-align: center;
+  
+}
+
+
+.preview h3 {
+  width: 300px;
+  font-size: 22px;
+  margin-bottom: 25px;
+  line-height: 130%;
+}
+
 .account.small {
   height: 350px;
   padding: 15px;
@@ -301,3 +360,48 @@ margin-bottom: -12px;
   margin-top: 15px;
   font-size: 18px;
 }
+
+
+@media screen and (max-width: 800px) {
+
+  footer {
+    /* flex-direction: column; */
+  }
+  .contact {
+    /* order: 1; */
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .social-media {
+order: -1;
+  }
+
+  .review {
+/* order: 3; */
+flex-wrap: wrap;
+align-items: center;
+  }
+
+  .text-holder {
+    /* order: 4; */
+  }
+
+  .sign-up-wrapper {
+    margin-top: 150px;
+  }
+
+  /* header {
+    height: 25%;
+    padding: 0px;
+  } */
+
+  #login, .header-wrapper {
+    margin: 0px;
+  }
+ 
+ }
+ 
+ @media screen and (max-width: 400px) {
+ 
+ }

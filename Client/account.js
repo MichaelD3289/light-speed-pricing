@@ -13,9 +13,8 @@ window.onload = function() {
   if(!userId) {
     window.location.assign('http://127.0.0.1:4500/')
   }
- 
-    checkForJobs()
-
+  
+  checkForJobs()
   
   if (activePage === "Laser") {
     navLaserPage()
@@ -24,7 +23,8 @@ window.onload = function() {
   }else if (activePage === "Settings") {
     navSettingsPage()
   } else if (activePage === "addJobs") {
-      navJobsPage();
+    verifyActionItems()
+      // navJobsPage();
   }
  
 }
@@ -299,63 +299,73 @@ function getLaser (u) {
       .get(`/api/laser/${u}`)
       .then(res =>  {
 
-        let { flat_density, flat_speed, fone, fonethree, fonetwo, fthreeone, fthreethree, ftwoone, ftwotwo, rotary_density, rotary_speed, rone, ronethree, ronetwo, rthreeone, rthreethree, rtwoone, rtwotwo, table_height, table_width } = res.data[0]
+        if(res.data[0]) {
+          let { flat_density, flat_speed, fone, fonethree, fonetwo, fthreeone, fthreethree, ftwoone, ftwotwo, rotary_density, rotary_speed, rone, ronethree, ronetwo, rthreeone, rthreethree, rtwoone, rtwotwo, table_height, table_width } = res.data[0]
 
-        const width = document.querySelector('#width');
-  const height = document.querySelector('#height');
+
+     const width = document.querySelector('#width');
+    const height = document.querySelector('#height');
+    
+    const flatSpeed = document.querySelector('.flatSpeed');
+    const flatDpi = document.querySelector('.flatDpi');
+    const rotarySpeed = document.querySelector('.rotarySpeed');
+    const rotaryDpi = document.querySelector('.rotaryDpi');
+    
+    const fOne = document.querySelector('.flatinput.one')
+    const fTwoOne = document.querySelector('.flatinput.twoOne')
+    const fThreeOne = document.querySelector('.flatinput.threeOne')
+    const fOneTwo = document.querySelector('.flatinput.oneTwo')
+    const fOneThree = document.querySelector('.flatinput.oneThree')
+    const fTwoTwo = document.querySelector('.flatinput.twoTwo')
+    const fThreeThree = document.querySelector('.flatinput.threeThree')
   
-  const flatSpeed = document.querySelector('.flatSpeed');
-  const flatDpi = document.querySelector('.flatDpi');
-  const rotarySpeed = document.querySelector('.rotarySpeed');
-  const rotaryDpi = document.querySelector('.rotaryDpi');
+    const rOne = document.querySelector('.rotaryinput.one')
+    const rTwoOne = document.querySelector('.rotaryinput.twoOne')
+    const rThreeOne = document.querySelector('.rotaryinput.threeOne')
+    const rOneTwo = document.querySelector('.rotaryinput.oneTwo')
+    const rOneThree = document.querySelector('.rotaryinput.oneThree')
+    const rTwoTwo = document.querySelector('.rotaryinput.twoTwo')
+    const rThreeThree = document.querySelector('.rotaryinput.threeThree')
+    
   
-  const fOne = document.querySelector('.flatinput.one')
-  const fTwoOne = document.querySelector('.flatinput.twoOne')
-  const fThreeOne = document.querySelector('.flatinput.threeOne')
-  const fOneTwo = document.querySelector('.flatinput.oneTwo')
-  const fOneThree = document.querySelector('.flatinput.oneThree')
-  const fTwoTwo = document.querySelector('.flatinput.twoTwo')
-  const fThreeThree = document.querySelector('.flatinput.threeThree')
-
-  const rOne = document.querySelector('.rotaryinput.one')
-  const rTwoOne = document.querySelector('.rotaryinput.twoOne')
-  const rThreeOne = document.querySelector('.rotaryinput.threeOne')
-  const rOneTwo = document.querySelector('.rotaryinput.oneTwo')
-  const rOneThree = document.querySelector('.rotaryinput.oneThree')
-  const rTwoTwo = document.querySelector('.rotaryinput.twoTwo')
-  const rThreeThree = document.querySelector('.rotaryinput.threeThree')
+           width.value = +table_width
+           height.value = +table_height
   
-
-         width.value = +table_width
-         height.value = +table_height
-
-         flatSpeed.value = +flat_speed
-         flatDpi.value = +flat_density
-         rotarySpeed.value = +rotary_speed
-         rotaryDpi.value = +rotary_density
+           flatSpeed.value = +flat_speed
+           flatDpi.value = +flat_density
+           rotarySpeed.value = +rotary_speed
+           rotaryDpi.value = +rotary_density
+          
+           fOne.value = +fone
+           fTwoOne.value = +ftwoone
+           fThreeOne.value = +fthreeone
+           fOneTwo.value = +fonetwo
+           fOneThree.value = +fonethree
+           fTwoTwo.value = +ftwotwo
+           fThreeThree.value = +fthreethree
         
-         fOne.value = +fone
-         fTwoOne.value = +ftwoone
-         fThreeOne.value = +fthreeone
-         fOneTwo.value = +fonetwo
-         fOneThree.value = +fonethree
-         fTwoTwo.value = +ftwotwo
-         fThreeThree.value = +fthreethree
-      
-         rOne.value = +rone
-         rTwoOne.value = +rtwoone
-         rThreeOne.value = +rthreeone
-         rOneTwo.value = +ronetwo
-         rOneThree.value = +ronethree
-         rTwoTwo.value = +rtwotwo
-         rThreeThree.value = +rthreethree
+           rOne.value = +rone
+           rTwoOne.value = +rtwoone
+           rThreeOne.value = +rthreeone
+           rOneTwo.value = +ronetwo
+           rOneThree.value = +ronethree
+           rTwoTwo.value = +rtwotwo
+           rThreeThree.value = +rthreethree
+
+
+
+        }
+
+     
+
 
 
         
       })
-      .catch(() => {
-        // document.querySelector('.updating').remove()
-        alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+      .catch((err) => {
+        console.log(err)
+        document.querySelector('.updating').remove()
+        // alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
       })
   
   }
@@ -1157,7 +1167,7 @@ totalCost.textContent = total;
 
 }
 
-jobsNav.addEventListener('click', navJobsPage);
+jobsNav.addEventListener('click', verifyActionItems);
 
 
 let calculateJob = (object) => (e) => {
@@ -1404,3 +1414,69 @@ axios
 
 }
 
+function verifyActionItems () {
+  laserNav.classList.remove('nav-clicked');
+  settingsNav.classList.remove('nav-clicked');
+  accountNav.classList.remove('nav-clicked');
+  jobsNav.classList.remove('nav-clicked');
+  window.localStorage.removeItem('active')
+  axios
+    .get(`/api/action-items/${userId}`)
+    .then(res => {
+      const {laserId, defaultId}   = res.data
+      console.log(laserId, defaultId)
+      if (laserId === false && defaultId === false) {
+        main.innerHTML = `
+        <div class="actions">
+        <h2>Actions Still Needed</h2>
+        <ol class="actions-list">
+          <li class="action-item one">Add Default Settings</li>
+          <li class="action-item two">Add Laser and Speed Data</li>
+        </ol>
+      </div>
+        `
+        const defaultSettings = document.querySelector('.action-item.one');
+        defaultSettings.addEventListener('click', navSettingsPage);
+        const defaultLaser = document.querySelector('.action-item.two');
+        defaultLaser.addEventListener('click', navLaserPage);
+
+      } else if (laserId === false && defaultId === true) {
+        main.innerHTML = `
+        <div class="actions">
+        <h2>Actions Still Needed</h2>
+        <ol class="actions-list">
+          <li class="action-item two">Add Laser and Speed Data</li>
+        </ol>
+      </div>
+        `
+        const defaultLaser = document.querySelector('.action-item.two');
+        defaultLaser.addEventListener('click', navLaserPage);
+
+      } else if (laserId === true && defaultId === false) {
+        main.innerHTML = `
+        <div class="actions">
+        <h2>Actions Still Needed</h2>
+        <ol class="actions-list">
+          <li class="action-item one">Add Default Settings</li>
+        </ol>
+      </div>
+        `
+        const defaultSettings = document.querySelector('.action-item.one');
+        defaultSettings.addEventListener('click', navSettingsPage);
+
+      } else if (laserId === true && defaultId === true) {
+        navJobsPage();
+      }
+   
+    })
+    .catch(err => console.log(err));
+
+}
+
+function logoClick () {
+  window.localStorage.removeItem('active');
+  verifyActionItems()
+}
+
+const logo = document.querySelector('.logo');
+logo.addEventListener('click', logoClick);

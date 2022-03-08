@@ -23,7 +23,7 @@ const {
 
 const { 
   getAllJobs, getApprovedJobs, getCompletedJobs, getUserInfo,
-  getLaser, getUserDefaults, getDefaultsAndLaser, searchSavedJobs
+  getLaser, getUserDefaults, getDefaultsAndLaser, searchSavedJobs, getToDoList
 } = require('./controllerFiles/ctrl-get');
 
 const { deleteUser, deleteLaser, deleteJob } = require('./controllerFiles/ctrl-delete');
@@ -77,6 +77,8 @@ app.put('/api/job/approved/:jobDataId', updateJobApproved);
 app.get('/api/jobs/completed/:userId', getCompletedJobs);
 app.put('/api/job/completed/:jobDataId', updateJobCompleted);
 app.get('/api/user/laser/defaults', getDefaultsAndLaser);
+
+app.get('/api/action-items/:userId', getToDoList)
 
 
 

@@ -316,6 +316,51 @@ WHERE lsfd.user_id = ${userId};
       })
       .catch(err => console.log(err))
 
+  },
+
+  getToDoList: (req, res) => {
+    let { userId } = req.params;
+
+    sequelize
+      .query(`
+      SELECT laser_id 
+      FROM laser_machines
+      WHERE added_by = ${userId};
+
+    
+      `)
+      .then(dbRes => {
+        let laserIdFound
+
+        if(dbRes[1].rowCount > 0) {
+  
+          laserIdFound = true
+        } else {
+          laserIdFound = false
+        }
+
+        sequelize
+          .query(`
+          SELECT default_job_data_id
+          FROM default_job_data
+          WHERE user_id = ${userId};
+          `)
+          .then(dbRes => {
+            let defaultIdFound;
+      
+            if(dbRes[1].rowCount > 0) {
+              defaultIdFound = true
+            } else {
+              defaultIdFound = false
+            }
+
+            res.status(200).send({"laserId": laserIdFound, "defaultId": defaultIdFound})
+
+          })
+          .catch(err => res.status(400).send(err))
+
+      })
+      .catch(err => res.status(400).send(err))
   }
  
 }
