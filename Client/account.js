@@ -25,6 +25,8 @@ window.onload = function() {
   } else if (activePage === "addJobs") {
     verifyActionItems()
       // navJobsPage();
+  } else if (!activePage) {
+    verifyActionItems()
   }
  
 }

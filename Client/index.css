@@ -129,18 +129,19 @@ margin-top: 60px;
 
 .offer, .problem {
   min-width: 400px;
+  max-width: 600px;
 }
 
 .info-section h2 {
 color: var(--text-and-outline-color);
 text-align: center;
-font-size: 24px;
+font-size: 30px;
 margin-bottom: 15px;
 }
 
 .info-section p {
   color: var(--text-and-outline-color);
-  font-size: 16px;
+  font-size: 18px;
   width: 85%;
   height: 80%;
   margin: auto;
@@ -157,22 +158,14 @@ margin-bottom: 15px;
   margin-bottom: 100px;
 }
 
-.preview {
-  border: 4px solid var(--text-and-outline-color);
-  background-color: var(--button-background);
-  border-radius: 15px;
-  width: calc(87vw);
-  height: 85vh;
-  margin: auto;
-  margin-bottom: 100px;
-}
+
 
 .account {
   border: 4px solid var(--text-and-outline-color);
   background-color: var(--button-background);
   border-radius: 15px;
   height: 70vh;
-  width: 500px;
+  max-width: 500px;
   margin: auto;
   margin-bottom: 50px;
 }
@@ -184,7 +177,8 @@ margin-bottom: 15px;
 
 .accountForm {
   height: 100%;
-  width: 100%;
+  width: 80%;
+  min-width: 375px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -209,7 +203,6 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 footer p {
@@ -239,6 +232,8 @@ color: var(--text-and-outline-color);
   width: 40%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  min-width: 200px;
 }
 
 .main-icon-holder {
@@ -255,6 +250,7 @@ color: var(--text-and-outline-color);
   align-items: center;
   cursor: pointer;
   width: 150px;
+  flex-wrap: wrap;
 }
 
 .contact:hover .icon, .review:hover .icon {
@@ -300,6 +296,12 @@ margin-bottom: -12px;
 }
 
 .preview {
+  border: 4px solid var(--text-and-outline-color);
+  background-color: var(--button-background);
+  border-radius: 15px;
+width: 87vw;
+margin: auto;
+margin-bottom: 100px;
 padding: 15px;
 display: flex;
 flex-direction: column;
@@ -308,13 +310,13 @@ height: auto;
 min-height: 600px;
 }
 
+
 .preview > div {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+
   flex-wrap: wrap;
   height: 100%;
-  gap: 40px;
 }
 
 .preview > div > div {
@@ -364,42 +366,74 @@ min-height: 600px;
 
 @media screen and (max-width: 800px) {
 
-  footer {
-    /* flex-direction: column; */
+  html {
+    width: 100vw;
   }
+
+  header {
+    padding: 20px;
+    justify-content: center;
+    height: auto;
+  }
+
+  .info-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin: 0;
+    margin-top: 15px;
+  }
+
+  .offer {
+    margin: 0;
+    margin-bottom: 80px;
+  }
+
+  .header-wrapper {
+
+    justify-content: center;
+
+  }
+
+  main {
+    margin: auto;
+  }
+
   .contact {
-    /* order: 1; */
+
     flex-wrap: wrap;
     align-items: center;
   }
 
-  .social-media {
-order: -1;
-  }
+
 
   .review {
-/* order: 3; */
+
 flex-wrap: wrap;
 align-items: center;
   }
 
-  .text-holder {
-    /* order: 4; */
-  }
+
 
   .sign-up-wrapper {
-    margin-top: 150px;
+    justify-content: center;
+
   }
 
-  /* header {
-    height: 25%;
-    padding: 0px;
-  } */
 
   #login, .header-wrapper {
     margin: 0px;
   }
  
+  .preview {
+    min-width: 400px;
+  }
+  .preview > h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+  }
+
  }
  
  @media screen and (max-width: 400px) {
