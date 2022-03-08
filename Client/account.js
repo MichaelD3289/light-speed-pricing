@@ -11,7 +11,7 @@ let jobSaved = window.localStorage.getItem('jobSaved');
 var lastSaved;
 window.onload = function() {
   if(!userId) {
-    window.location.assign('http://127.0.0.1:4500/')
+    window.location.assign('https://lightspeedpricing.herokuapp.com/')
   }
   
   checkForJobs()
@@ -35,7 +35,7 @@ function checkForJobs() {
   axios
     .get(`/api/jobs/saved/${userId}`)
     .then(res => {
-   console.log(res.data.message)
+
       if(res.data.message === 'rotary') {
         lastSaved = 'rotary';
         window.localStorage.setItem('jobSaved', 'rotary')
@@ -47,7 +47,7 @@ function checkForJobs() {
         window.localStorage.setItem('jobSaved', 'no')
       }
     })
-    .catch(err => console.log(err))
+    .catch(err => res.status(400).send(err))
 }
 
 
@@ -365,7 +365,7 @@ function getLaser (u) {
         
       })
       .catch((err) => {
-        console.log(err)
+  
         document.querySelector('.updating').remove()
         // alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
       })
@@ -1410,9 +1410,9 @@ axios
   .delete(`/api/job/${userId}`)
   .then(res => {
     window.localStorage.setItem('jobSaved', 'no');
-    console.log(res);
+
   })
-  .catch(err => console.log(err))
+  .catch(err => res.sendStatus(400))
 
 }
 
@@ -1426,7 +1426,7 @@ function verifyActionItems () {
     .get(`/api/action-items/${userId}`)
     .then(res => {
       const {laserId, defaultId}   = res.data
-      console.log(laserId, defaultId)
+ 
       if (laserId === false && defaultId === false) {
         main.innerHTML = `
         <div class="actions">
@@ -1471,7 +1471,7 @@ function verifyActionItems () {
       }
    
     })
-    .catch(err => console.log(err));
+    .catch(err => res.status(400).send(err));
 
 }
 

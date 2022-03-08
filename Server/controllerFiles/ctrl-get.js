@@ -314,7 +314,7 @@ WHERE lsfd.user_id = ${userId};
       }
 
       })
-      .catch(err => console.log(err))
+      .catch(err => res.sendStatus(400))
 
   },
 

@@ -72,8 +72,7 @@ module.exports = {
           WHERE user_id = ${userId};
           `)
           .then(dbRes => res.status(200).send({"message": "success"}))
-          .catch(err => {
-            console.log(err) 
+          .catch(() => {
             res.status(200).send({"message": "email already exists"})
           })
 

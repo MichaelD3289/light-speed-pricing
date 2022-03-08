@@ -26,7 +26,7 @@
  }
  
  .logo {
-   max-width: 25%;
+   max-width: 30%;
    cursor: pointer;
  }
 
@@ -374,7 +374,6 @@ color: var(--text-and-outline-color);
 
 .settingsMain > * {
   height: 80%;
-  /* border: solid 4px red; */
 }
 
 .company {
@@ -658,7 +657,7 @@ margin-bottom: -12px;
   border-right: 5px solid var(--clicked-hovered) !important;
 }
 
-/* Styling for quotes page */
+/* Styling for jobs page */
 
 #quotesNav {
   display: grid;
@@ -669,7 +668,7 @@ margin-bottom: -12px;
 }
 
 #quotesNav > * {
-  /* border: 4px solid red; */
+
   display: grid;
   grid-template-rows: auto 500px;
 }
@@ -684,7 +683,7 @@ margin-bottom: -12px;
 }
 
 .quotesGrid.q1 > * {
-  /* border: blue solid 3px; */
+
   display: grid;
 }
 
@@ -875,7 +874,6 @@ margin-bottom: -12px;
 }
 
 .quotesGrid.q2 > * {
-  /* border: green solid 3px; */
   display: grid;
 }
 
@@ -928,3 +926,270 @@ font-size: 28px;
 }
 
 
+@media screen and (max-width: 1200px) {
+
+  .main-nav li{
+    font-size: 26px !important;
+   }
+
+  /* Jobs Page */
+
+  #quotesNav {
+    grid-template-areas: 
+    "input"
+    "info";
+    grid-template-columns: 1fr;
+    grid-template-rows: 600px 600px;
+  }
+  
+  .innerInput2 {
+    grid-template-areas: 
+    "w w h h"
+    "i t t ."
+    "i t t ."
+    "i t t .";
+    grid-template-columns: 20px auto auto auto;
+    width: 500px;
+  }
+  .innerInput1 {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-gap: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .tableGrid2 {
+    grid-area: h;
+    text-align: center;
+    align-self: end;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    justify-self: center;
+  }
+  
+  .tableGrid3 {
+    grid-template-areas: 
+    "r r r r"
+    "wi wi he he"
+    "en it it ."
+    "bu bu bu bu";
+    min-width: 500px;
+    grid-template-columns: 40px auto auto 1fr;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .innerTable5 {
+    grid-area: he;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 5px;
+    justify-self: center;
+  }
+  
+  #invoice {
+    width: 525px;
+  }
+
+  /* Settings Page */
+
+  main {
+    height: auto;
+  }
+  .settingsMain {
+    
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    "company"
+    "qh"
+    "job";
+    height: auto;
+  }
+  
+  .settingsMain input {
+    width: 175px;
+  }
+
+  .company {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  /* Account Page */
+
+  #accountMain {
+    display: grid;
+    margin: 40px auto;
+    grid-template-areas: 
+    "acc acc"
+    "emp log"
+    "emt emi"
+    "npt npi"
+    "cpt cpi"
+    "emp2 info"
+    "fnt fni"
+    "lnt lni"
+    "pnt pni"
+    ". opt"
+    ". subb"
+    "lob lob";
+    grid-template-columns: 1fr 1fr;
+  }
+
+  
+
+  .accountitem.a3, .accountitem.a2 {
+    justify-self: start;
+    padding-left: 10px;
+   }
+
+  .accountitem.a5 {
+    grid-area: emi;
+  }
+
+  .accountitem.a6 {
+    grid-area: fni;
+    justify-self: start;
+  }
+
+ .accountitem.a7 {
+   grid-area: fnt;
+   justify-self: end;
+ }
+
+ .accountitem.a8 {
+  grid-area: npt;
+ }
+ .accountitem.a9 {
+  grid-area: npi;
+ }
+
+ .accountitem.a10 {
+  grid-area: lni;
+  justify-self: start;
+ }
+ .accountitem.a11 {
+  grid-area: lnt;
+  justify-self: end;
+ }
+ .accountitem.a12 {
+  grid-area: cpt;
+ }
+ .accountitem.a13 {
+  grid-area: cpi;
+ }
+ .accountitem.a14 {
+  grid-area: pni;
+  justify-self: start;
+ }
+ .accountitem.a15 {
+  grid-area: pnt;
+  justify-self: end;
+ }
+ .accountitem.a16 {
+  grid-area: opt;
+  justify-self: start;
+ }
+.accountitem.a17 {
+  justify-self: start;
+  width: 250px;
+  margin-top: 25px;
+}
+/*Laser Page  */
+
+
+}
+
+
+@media screen and (max-width: 800px) {
+  /* header */
+    header {
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      padding: 15px;
+    }
+    .logo {
+      max-width: 80%;
+      margin-bottom: 15px;
+    }
+    .nav-list {
+      flex-direction: column;
+    }
+    .nav-item {
+      width: 250px;
+      margin-bottom: 15px;
+    }
+    .main-nav li{
+     font-size: 24px !important;
+    }
+  
+  /* footer */
+  
+  .main-icon-holder {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  footer {
+    height: auto;
+    padding: 15px;
+  }
+  
+  .contact {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .review {
+  flex-wrap: wrap;
+  align-items: center;
+  }
+  .nav-list {
+    align-items: center;
+    justify-content: center;
+  }
+  .main-nav {
+    margin: auto;
+  }
+  
+  /* Jobs Page */
+  
+  .tableGrid3 {
+    grid-template-areas: 
+    "r r r r"
+    "wi wi he he"
+    "en it it ."
+    "bu bu bu bu";
+    min-width: 400px;
+    grid-template-columns: 40px auto auto 1fr;
+    max-width: 450px;
+    margin: auto;
+  }
+  
+  /* Settings Page */
+  #accountMain input {
+    width: 250px;
+  }
+  
+  }
+
+
+
+@media screen and (max-width: 500px) {
+  
+  /* Settings Page */
+  #accountMain input {
+    width: 175px;
+  }
+  .accountitem.a17 {
+    width: 175px;
+  }
+  .main-nav li{
+    font-size: 22px !important;
+   }
+  }

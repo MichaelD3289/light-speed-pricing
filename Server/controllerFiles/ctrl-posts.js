@@ -31,7 +31,7 @@ module.exports = {
       RETURNING user_id;
     `)
     .then(dbRes => res.status(200).send(dbRes[0])) 
-    .catch(err => res.status(400).send(console.log(err)))
+    .catch(err => res.status(400).send(err))
   },
   userSignIn: (req, res) => {
     let {email, password} = req.body;
