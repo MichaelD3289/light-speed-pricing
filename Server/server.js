@@ -23,7 +23,7 @@ const {
 
 const { 
   getAllJobs, getApprovedJobs, getCompletedJobs, getUserInfo,
-  getLaser, getUserDefaults, getJobDefaults, getQtyAndHourly 
+  getLaser, getUserDefaults, getDefaultsAndLaser, searchSavedJobs
 } = require('./controllerFiles/ctrl-get');
 
 const { deleteUser, deleteLaser, deleteJob } = require('./controllerFiles/ctrl-delete');
@@ -56,8 +56,8 @@ app.delete('/api/laser/laserId', deleteLaser);
 app.post('/api/job', addJob);
 app.get('/api/jobs/:userId', getAllJobs);
 app.put('/api/job/:jobsDataId', updateJob);
-app.delete('/api/job/:jobDataId', deleteJob);
-
+app.delete('/api/job/:userId', deleteJob);
+app.get('/api/jobs/saved/:userId', searchSavedJobs);
 
 app.post('/api/job/flat', addFlatJob);
 app.put('/api/job/flat/:jobsDataId', updateFlatJob);
@@ -66,7 +66,7 @@ app.put('/api/job/custom/:jobsDataId', updateCustomJobData);
 
 
 app.post('/api/job/invoice', createInvoice);
-app.post('api/job/info', createJobInfo);
+app.post('/api/job/info', createJobInfo);
 
 
 
@@ -76,7 +76,7 @@ app.put('/api/job/approved/:jobDataId', updateJobApproved);
 
 app.get('/api/jobs/completed/:userId', getCompletedJobs);
 app.put('/api/job/completed/:jobDataId', updateJobCompleted);
-
+app.get('/api/user/laser/defaults', getDefaultsAndLaser);
 
 
 

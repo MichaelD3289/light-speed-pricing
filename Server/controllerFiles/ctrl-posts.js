@@ -64,6 +64,22 @@ module.exports = {
     let { fdensity, fspeed, fone, ftwoOne, fthreeOne, foneTwo, foneThree, ftwoTwo, fthreeThree } = req.body.flat
     let { rdensity, rspeed, rone, rtwoOne, rthreeOne, roneTwo, roneThree, rtwoTwo, rthreeThree } = req.body.rotary
 
+  // calculations for speed data tables
+      //flat
+    let fAvgTimeInchSpeed = ((+ftwoOne - +fone) + (+fthreeOne - +ftwoOne) + ((+ftwoTwo - +foneTwo) / 2) + ((+fthreeThree - +foneThree) / 6)) / 4;
+    let fAvgFirstInch = ((+foneThree - +foneTwo) + (+foneTwo - +fone)) / 2
+    let fmoveTime = +fone - fAvgFirstInch;
+    let fFixedPassTime =  (fAvgFirstInch - fAvgTimeInchSpeed) / fdensity;
+    let fInchPerSecond = 1 / (fAvgTimeInchSpeed / +fdensity);
+
+      //rotary
+    let rAvgTimeInchSpeed = ((+roneTwo - +rone) + (+roneThree - +roneTwo) + ((+rtwoTwo - +rtwoOne) / 2) + ((+rthreeThree - +rthreeOne) / 6)) / 4;
+    let rAvgFirstInch = ((+rthreeOne - +rtwoOne) + (+rtwoOne - +rone)) / 2
+    let rmoveTime = +rone - rAvgFirstInch;
+    let rFixedPassTime =  (rAvgFirstInch - rAvgTimeInchSpeed) / rdensity;
+    let rInchPerSecond = 1 / (rAvgTimeInchSpeed / +rdensity);
+
+
     tableH = sequelize.escape(tableH);
     tableW = sequelize.escape(tableW);
 
@@ -87,6 +103,8 @@ module.exports = {
     rtwoTwo = sequelize.escape(rtwoTwo)
     rthreeThree = sequelize.escape(rthreeThree)
 
+
+
     sequelize
     .query(`
     INSERT INTO laser_machines (table_width, table_height, added_by)
@@ -100,7 +118,6 @@ module.exports = {
     `)
     .then(dbRes => {
       let laserId = dbRes[0][0].laser_id;
-      console.log(laserId)
       
       sequelize
         .query(`
@@ -135,6 +152,24 @@ module.exports = {
          rotary_three_by_three = EXCLUDED.rotary_three_by_three, 
          laser_id = EXCLUDED.laser_id
         RETURNING *;
+
+        INSERT INTO laser_speed_flat_data (fixed_pass_time_f, fixed_move_time_f, inches_per_sec_f, user_id)
+        VALUES (${fFixedPassTime}, ${fmoveTime}, ${fInchPerSecond}, ${user})
+        ON CONFLICT (user_id)
+        DO UPDATE SET
+        fixed_pass_time_f = EXCLUDED.fixed_pass_time_f,
+        fixed_move_time_f = EXCLUDED.fixed_move_time_f,
+        inches_per_sec_f = EXCLUDED.inches_per_sec_f,
+        user_id = EXCLUDED.user_id;
+
+        INSERT INTO laser_speed_rotary_data (fixed_pass_time_r, fixed_move_time_r, inches_per_sec_r, user_id)
+        VALUES (${rFixedPassTime}, ${rmoveTime}, ${rInchPerSecond}, ${user})
+        ON CONFLICT (user_id)
+        DO UPDATE SET
+        fixed_pass_time_r = EXCLUDED.fixed_pass_time_r,
+        fixed_move_time_r = EXCLUDED.fixed_move_time_r,
+        inches_per_sec_r = EXCLUDED.inches_per_sec_r,
+        user_id = EXCLUDED.user_id;
 
         `).then(dbRes => res.status(200).send(dbRes))
         .catch(err=> res.status(400).send(err))
@@ -237,15 +272,123 @@ module.exports = {
   },
 
   addJob: (req, res) => {
-    const { date, width, height, qty, speed, density, material, rotary, rush, client, user } = req.body;
-    sequelize
-    .query(`
-    INSERT INTO jobs_data (date_created, engraving_width, engraving_height, engraving_qty, speed, density, material, is_rotary, rush_required, is_approved, is_completed, client_name, user_id)
-    VALUES ('${date}', ${+width}, ${+height}, ${+qty}, ${+speed}, ${+density}, "${material}", ${rotary}, ${rush}, '${client}, ${+user}')
-    RETURNING jobs_data_id;
-    `)
-    .then(dbRes => res.status(200).send(dbRes[0]))
-    .catch(err => res.status(400).send(err))
+    let { width, height, qty, speed, density, rotary, client, job, userId } = req.body.main;
+
+    let { itemWidth, itemHeight } = req.body.flat
+    let { numLasers } = req.body.rotary
+    let { unitCost, setUpCost, subtotalCost, taxCost, totalCost } = req.body.invoice
+
+    width = sequelize.escape(width);
+    height = sequelize.escape(height);
+    qty = sequelize.escape(qty);
+    speed = sequelize.escape(speed);
+    density = sequelize.escape(density);
+
+    client = sequelize.escape(client);
+    job = sequelize.escape(job);
+    userId = sequelize.escape(userId);
+
+    unitCost = sequelize.escape(unitCost);
+    setUpCost = sequelize.escape(setUpCost);
+    subtotalCost = sequelize.escape(subtotalCost);
+    taxCost = sequelize.escape(taxCost);
+    totalCost = sequelize.escape(totalCost);
+    
+    
+
+      sequelize
+      .query(`
+      INSERT INTO jobs_data ( date_created, engraving_width, engraving_height, engraving_qty, speed, density, is_rotary, client_name, job_name, user_id)
+      VALUES ( NOW(), ${width}, ${height}, ${qty}, ${speed}, ${density}, ${rotary}, ${client}, ${job}, ${userId})
+      ON CONFLICT (user_id)
+      DO UPDATE SET
+      date_created = EXCLUDED.date_created,
+      engraving_width = EXCLUDED.engraving_width,
+      engraving_height = EXCLUDED.engraving_height,
+      engraving_qty = EXCLUDED.engraving_qty,
+      speed = EXCLUDED.speed,
+      density = EXCLUDED.density,
+      is_rotary = EXCLUDED.is_rotary,
+      client_name = EXCLUDED.client_name,
+      job_name = EXCLUDED.job_name,
+      user_id = EXCLUDED.user_id
+      RETURNING jobs_data_id;      
+
+      `)
+      .then(dbRes => {
+ 
+        let jobsDataId = dbRes[0][0].jobs_data_id
+        
+
+        if(rotary == false) {
+          
+          itemHeight = sequelize.escape(itemHeight);
+          itemWidth = sequelize.escape(itemWidth);
+
+          sequelize
+            .query(`
+            
+            INSERT INTO invoice (unit_cost, setup, subtotal, tax, total, jobs_data_id)
+            VALUES(${unitCost}, ${setUpCost}, ${subtotalCost}, ${taxCost}, ${totalCost}, ${jobsDataId})
+            ON CONFLICT (jobs_data_id)
+            DO UPDATE SET
+            unit_cost = EXCLUDED.unit_cost,
+            subtotal = EXCLUDED.subtotal,
+            tax = EXCLUDED.tax,
+            total = EXCLUDED.total,
+            jobs_data_id = EXCLUDED.jobs_data_id;
+
+            INSERT INTO jobs_data_flat (item_width, item_height, jobs_data_id)
+            VALUES (${itemWidth}, ${itemHeight}, ${jobsDataId})
+            ON CONFLICT (jobs_data_id)
+            DO UPDATE SET
+            item_width = EXCLUDED.item_width,
+            item_height = EXCLUDED.item_height,
+            jobs_data_id = EXCLUDED.jobs_data_id;
+
+            DELETE
+            FROM jobs_data_rotary
+            WHERE jobs_data_id = ${jobsDataId};
+
+            `)
+            .then(dbRes => res.sendStatus(200))
+            .catch(err => res.status(400).send(err))
+        } else if (rotary == true) {
+
+          numLasers = sequelize.escape(numLasers)
+
+          sequelize
+          .query(`
+          INSERT INTO invoice (unit_cost, setup, subtotal, tax, total, jobs_data_id)
+            VALUES(${unitCost}, ${setUpCost}, ${subtotalCost}, ${taxCost}, ${totalCost}, ${jobsDataId})
+            ON CONFLICT (jobs_data_id)
+            DO UPDATE SET
+            unit_cost = EXCLUDED.unit_cost,
+            subtotal = EXCLUDED.subtotal,
+            tax = EXCLUDED.tax,
+            total = EXCLUDED.total,
+            jobs_data_id = EXCLUDED.jobs_data_id;
+
+          INSERT INTO jobs_data_rotary (num_lasers, jobs_data_id)
+          VALUES (${numLasers}, ${jobsDataId})
+          ON CONFLICT (jobs_data_id)
+          DO UPDATE SET
+          num_lasers = EXCLUDED.num_lasers,
+          jobs_data_id = EXCLUDED.jobs_data_id;
+
+          DELETE
+          FROM jobs_data_flat
+          WHERE jobs_data_id = ${jobsDataId};
+
+          `)
+          .then(dbRes => res.sendStatus(200))
+          .catch(err => res.status(400).send(err))
+        }
+
+      })
+      .catch(err => res.status(400).send(err))
+
+ 
   },
 
   addFlatJob: (req, res) => {

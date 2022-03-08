@@ -5,6 +5,8 @@
   --button-background: rgba(255, 255, 255, 0.05);
   --button-hover: rgba(255, 255, 255, 0.20);
   --logo-color: #e4d8c6;
+  --clicked-regular: rgba(206, 143, 6, 0.5);
+  --clicked-hovered: rgba(206, 143, 6, 0.7);
  }
  
  body * {
@@ -643,14 +645,285 @@ margin-bottom: -12px;
 }
 
 .nav-clicked {
-  color: rgba(180, 121, 12, 0.5);
+  color: var(--clicked-regular);
   border-radius: 3px;
-  border-left: 4px solid rgba(180, 121, 12, 0.5);
-  border-right: 4px solid rgba(180, 121, 12, 0.5);
+  border-left: 4px solid var(--clicked-regular);
+  border-right: 4px solid var(--clicked-regular);
 }
 
 .nav-clicked:hover {
-  color: rgba(180, 121, 12, 0.7) !important;
-  border-left: 5px solid rgba(180, 121, 12, 0.7) !important;
-  border-right: 5px solid rgba(180, 121, 12, 0.7) !important;
+  color: var(--clicked-hovered) !important;
+  border-left: 5px solid var(--clicked-hovered) !important;
+  border-right: 5px solid var(--clicked-hovered) !important;
 }
+
+/* Styling for quotes page */
+
+#quotesNav {
+  display: grid;
+  grid-template-areas: 
+  "input info";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+#quotesNav > * {
+  /* border: 4px solid red; */
+  display: grid;
+  grid-template-rows: auto 500px;
+}
+
+.quotesGrid.q1 {
+  grid-area: input;
+  width: 100%;
+  height: 50%;
+  grid-template-areas: 
+  "inputs";
+
+}
+
+.quotesGrid.q1 > * {
+  /* border: blue solid 3px; */
+  display: grid;
+}
+
+.inputGrid {
+  grid-area: inputs;
+}
+
+.inputGrid > * {
+  display: grid;
+  grid-gap: 5px
+}
+
+.innerInput1 {
+  margin-top: 25px;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
+}
+
+.innerInput1 p {
+  justify-self: end;
+}
+
+.innerInput1 > input {
+  justify-self: start;
+  width: 200px;
+}
+
+.innerInput2 {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  grid-template-areas: 
+  "w w w w"
+  "i t t h"
+  "i t t h"
+  "i t t h";
+  grid-template-columns: 50px 1fr 1fr 60px;
+  grid-template-rows: 60px;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 10px;
+}
+
+.tableGrid1 {
+  grid-area: w;
+  text-align: center;
+  align-self: end;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.tableGrid1 > input, .tableGrid2 > input, .innerTable2 > input, .innerTable5 > input {
+  width: 55px;
+  height: 30px;
+  margin-top: 5px;
+}
+.tableGrid2 {
+  grid-area: h;
+  text-align: center;
+  justify-self: start;
+}
+
+.tableGrid3 {
+  grid-area: t;
+  display:grid;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: 5px solid var(--button-hover);
+  background-color: var(--button-background);
+  grid-template-areas: 
+  "r r r r"
+  "wi wi wi wi"
+  "en it it he"
+  "bu bu bu bu"
+  ;
+  grid-template-columns: 1fr auto auto 1fr;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 10px;
+  min-width: 445px;
+}
+
+.innerTable1 {
+  grid-area: r;
+  justify-self: start;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.innerTable1 p {
+  font-size: 24px;
+}
+
+.inputsHeading {
+  grid-area: head;
+  justify-self: start;
+}
+
+.inputsHeading h2 {
+  margin: 0;
+}
+
+.innerTable2 {
+  grid-area: wi;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.innerTable3 {
+  grid-area: en;
+  color: var(--text-and-outline-color);
+  font-size: 18px;
+  justify-self: end;
+  margin-right: -20px;
+}
+
+.innerTable4 {
+  grid-area: it;
+  width: 100%;
+  height: 100%;
+  display:grid;
+  border: 5px solid var(--button-hover);
+  background-color: var(--button-background);
+  border-radius: 3px;
+  width: 310px;
+}
+
+.innerTable4 > * {
+  display:grid;
+  grid-template-columns: 50px 200px;
+  align-items: center;
+  grid-gap: 15px;
+  margin: 20px auto;
+}
+
+.innerTable4 input {
+  width: 200px;
+
+}
+
+.innermost1, .innermost3, .innermost5 {
+  justify-items: end;
+  text-align: end;
+}
+
+.innerTable5 {
+  grid-area: he;
+  text-align: center;
+  margin-right: 5px;
+  justify-self: start;
+}
+
+.innerTable6 {
+  grid-area: bu;
+  margin-bottom: 10px;
+}
+
+
+
+.tableGrid4 {
+  grid-area: i;
+  justify-self: end;
+}
+.tableGrid4 > h2 {
+  margin-right: -20px;
+  font-size: 30px;
+}
+
+.tableGrid4 > h2, .innerTable3 > h3 {
+  transform: rotate(270deg);
+}
+
+.defaultGrid {
+  grid-area: def;
+  grid-template-rows: 1fr 60px;
+}
+
+.quotesGrid.q2 {
+  grid-area: info;
+}
+
+.quotesGrid.q2 > * {
+  /* border: green solid 3px; */
+  display: grid;
+}
+
+[type="checkbox"] {
+  width: 40px;
+  height: 40px;
+}
+
+#jobSubmit {
+  margin: 5px;
+}
+
+.invoiceGrid, .infoGrid {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+#invoice {
+  border: 5px solid var(--button-hover);
+  border-radius: 1px;
+  width:500px;
+  height: auto;
+  border-radius: 15px;
+  margin-top: 70px;
+  padding: 10px;
+  background-color: var(--button-background);
+}
+
+#invoice > *:not(:first-child):not(:last-child) {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+}
+
+.end {
+justify-self: end;
+font-size: 28px;
+}
+
+.sign::before {
+  content: '$ ';
+  color: var(--clicked-regular);
+}
+
+.sign {
+  color: var(--clicked-hovered);
+  justify-self: start;
+  padding-left: 15px;
+}
+
+

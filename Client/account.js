@@ -7,22 +7,46 @@ const accountNav = document.querySelector('.nav-item.account');
 const jobsNav = document.querySelector('.nav-item.jobs')
 let userId = window.localStorage.getItem('user');
 let activePage = window.localStorage.getItem('active');
-
+let jobSaved = window.localStorage.getItem('jobSaved');
+var lastSaved;
 window.onload = function() {
   if(!userId) {
     window.location.assign('http://127.0.0.1:4500/')
   }
+ 
+    checkForJobs()
+
+  
   if (activePage === "Laser") {
     navLaserPage()
   } else if (activePage === "Account") {
     navAccountPage()
   }else if (activePage === "Settings") {
     navSettingsPage()
-  } else if (activePage === "Jobs") {
-    
+  } else if (activePage === "addJobs") {
+      navJobsPage();
   }
+ 
 }
 
+function checkForJobs() {
+  axios
+    .get(`/api/jobs/saved/${userId}`)
+    .then(res => {
+   console.log(res.data.message)
+      if(res.data.message === 'rotary') {
+        lastSaved = 'rotary';
+        window.localStorage.setItem('jobSaved', 'rotary')
+      } else if (res.data.message === 'standard') {
+        lastSaved = 'standard'
+        window.localStorage.setItem('jobSaved', 'standard')
+      } else if(res.data.message === 'no') {
+        lastSaved = 'no'
+        window.localStorage.setItem('jobSaved', 'no')
+      }
+    })
+    .catch(err => console.log(err))
+}
 
 
 function navLaserPage () {
@@ -223,6 +247,7 @@ function addLaser (e) {
   const rTwoTwo = document.querySelector('.rotaryinput.twoTwo')
   const rThreeThree = document.querySelector('.rotaryinput.threeThree')
 
+  
 
 const body = {
   laser: {
@@ -329,7 +354,7 @@ function getLaser (u) {
         
       })
       .catch(() => {
-        document.querySelector('.updating').remove()
+        // document.querySelector('.updating').remove()
         alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
       })
   
@@ -803,7 +828,7 @@ function updateUserInfo(e) {
       confirmPass.value = ""
     })
     .catch((err) => {
-      console.log(err)
+      
       document.querySelector('.updating').remove()
       alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
     } )
@@ -848,3 +873,534 @@ const confirmPass = document.querySelector('#confirmPass');
   window.localStorage.clear();
   window.location.assign('http://127.0.0.1:4500/');
  }
+
+//  Creating new jobs and running calculatons to determine pricing
+
+
+function navJobsPage () {
+  // checkForJobs()
+  while (main.firstChild) {
+    main.removeChild(main.firstChild);
+  }
+  checkForJobs()
+
+laserNav.classList.remove('nav-clicked');
+settingsNav.classList.remove('nav-clicked');
+accountNav.classList.remove('nav-clicked');
+jobsNav.classList.add('nav-clicked');
+window.localStorage.setItem('active', 'addJobs')
+
+
+  main.innerHTML = `
+
+  <form id="calcJobForm" >
+  <section id="quotesNav">
+  
+  <div class="quotesGrid q1">
+
+    <div class="inputGrid">
+
+      <div class="innerInput1">
+        <p>Client Name</p>
+        <input type="text" placeholder="client" id="client" />
+        <p>Job Name</p>
+        <input type="text" placeholder="job" id="job" />
+      </div>
+
+      <div class="innerInput2">
+
+        <div class="tableGrid1">
+          <p>W</p>
+          <input id="item-width" placeholder="w" type="number" step="0.001" required />
+        </div>
+
+        <div class="tableGrid2">
+          <p>H</p>
+          <input id="item-height" placeholder="h" type="number" step="0.001" required />
+        </div>
+
+        <div class="tableGrid3">
+
+          <div class="innerTable1">
+            <input type="checkbox" id="rotary-check" />
+            <p>Rotary?</p>
+          </div>
+
+          <div class="innerTable2">
+            <p>W</p>
+            <input id="engraving-width" placeholder="w" type="number" step="0.001" required />
+          </div>
+
+          <div class="innerTable3">
+            <h3>Engraving</h3>
+          </div>
+
+          <div class="innerTable4">
+            <div>
+              <div class="innermost1">
+                <p>Qty</p>
+              </div>
+
+              <div class="innermost2">
+                <input id="Qty" placeholder="80" type="number" required/>
+              </div>
+
+              <div class="innermost3">
+                <p>Speed</p>
+              </div>
+
+              <div class="innermost4">
+                <input id="speed" placeholder="50" type="number" required/>
+              </div>
+
+              <div class="innermost5">
+                <p>Density</p>
+              </div>
+
+              <div class="innermost6">
+                <input id="density" placeholder="400" type="number" required/>
+              </div>
+            </div>
+          </div>
+
+          <div class="innerTable5">
+            <p>H</p>
+            <input id="engraving-height" placeholder="h" type="number" step="0.001" required/>
+          </div>
+
+          <div class="innerTable6">
+            <button class="button" id="jobSubmit" type="submit" for="calcJobForm">Submit</button>
+            <button class="button" id="jobClear" type="reset">Clear</button> 
+          </div>
+        </div>
+
+        <div class="tableGrid4">
+          <h2>Item</h2>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</form>
+  
+<form id="saveJobForm">
+    <div class="invoiceGrid">
+      <section id="invoice">
+
+        <h2>Invoice</h2>
+
+        <div class="invoiceitem1">
+          <h2 class="end">Unit Cost</h2>
+          <h2 class="unit-cost sign"></h2>
+        </div>
+        <div class="invoiceitem2">
+          <h2 class="end">Set-up</h2>
+          <h2 class="setup-cost sign"></h2>
+        </div>
+        <div class="invoiceitem3">
+          <h2 class="end">Subtotal</h2>
+          <h2 class="subtotal-cost sign"></h2>
+        </div>
+        <div class="invoiceitem4">
+          <h2 class="end">Tax</h2>
+          <h2 class="tax-cost sign"></h2>
+        </div>
+        <div class="invoiceitem5">
+          <h2 class="end">Total</h2>
+          <h2 class="total-cost sign"></h2>
+        </div>
+        <button class="button" id="saveJob" type="button" for="saveJobForm">Save</button>
+      </section>
+    </div>
+    </form>
+</section>
+`
+
+const clientInput = document.querySelector('#client');
+const jobInput = document.querySelector('#job');
+const speedInput = document.querySelector('#speed');
+const densityInput = document.querySelector('#density');
+
+
+const engravingWidth = document.querySelector('#engraving-width');
+const engravingHeight = document.querySelector('#engraving-height');
+const qtyInput = document.querySelector('#Qty');
+const unitCost = document.querySelector('.unit-cost');
+const setupCost = document.querySelector('.setup-cost');
+const subtotalCost = document.querySelector('.subtotal-cost');
+const taxCost = document.querySelector('.tax-cost');
+const totalCost = document.querySelector('.total-cost')
+
+const rotaryCheck = document.querySelector('#rotary-check');
+const jobClear = document.querySelector('#jobClear');
+
+rotaryCheck.addEventListener('click', hideWidthHeight)
+jobClear.addEventListener('click', clearJob)
+
+const calcJobForm = document.querySelector('#calcJobForm');
+
+
+
+const saveJobBtn = document.querySelector('#saveJob');
+saveJobBtn.addEventListener('click', saveJob)
+
+
+
+
+axios
+.get(`/api/user/laser/defaults/?userId=${userId}&jobSaved=${window.localStorage.getItem('jobSaved')}`)
+    .then(res => {
+
+      let { tax, rush, density, speed, piece, setup_cost, setupcheck, tem_between, tem_left, tem_top, q1, q2, q3, q4, q5, q6, q7, h1, h2, h3, h4, h5, h6, h7 } = res.data[0];
+      let { table_width, table_height, fdensity, fspeed, rdensity, rspeed } = res.data[1]
+      let { fpass, fmove, finches, rpass, rmove, rinches} = res.data[2];
+
+      densityInput.value = density;
+      speedInput.value = speed;
+
+
+if(window.localStorage.getItem('jobSaved') === 'rotary') {
+
+  let { client_name, density: savedDensity, engraving_height, engraving_qty, engraving_width, is_rotary, num_lasers, job_name, speed: savedSpeed, subtotal, tax: savedTax, total, unit_cost, setup } = res.data[3]
+  rotaryCheck.checked = true;
+
+  hideWidthHeight();
+  const numLasers = document.querySelector('#num-lasers');
+
+
+
+clientInput.value = client_name;
+jobInput.value = job_name;
+engravingWidth.value = engraving_width;
+engravingHeight.value = engraving_height;
+qtyInput.value = engraving_qty;
+densityInput.value = savedDensity;
+speedInput.value = savedSpeed;
+
+numLasers.value = num_lasers;
+
+unitCost.textContent = unit_cost;
+setupCost.textContent = setup.toFixed(2);
+subtotalCost.textContent = subtotal;
+taxCost.textContent = savedTax;
+totalCost.textContent = total;
+
+
+
+
+} else if (window.localStorage.getItem('jobSaved') === 'standard') {
+
+  let { client_name, density: savedDensity, engraving_height, engraving_qty, engraving_width, is_rotary, item_height, item_width, job_name, speed: savedSpeed, subtotal, tax: savedTax, total, unit_cost, setup } = res.data[3]
+
+rotaryCheck.checked = false;
+hideWidthHeight();
+const itemWidth = document.querySelector('#item-width');
+const itemHeight = document.querySelector('#item-height');
+
+clientInput.value = client_name;
+jobInput.value = job_name;
+engravingWidth.value = engraving_width;
+engravingHeight.value = engraving_height;
+qtyInput.value = engraving_qty;
+densityInput.value = savedDensity;
+speedInput.value = savedSpeed;
+itemWidth.value = item_width;
+itemHeight.value = item_height;
+
+unitCost.textContent = unit_cost;
+setupCost.textContent = setup.toFixed(2);
+subtotalCost.textContent = subtotal;
+taxCost.textContent = savedTax;
+totalCost.textContent = total;
+
+
+}
+    
+
+
+ 
+
+      const calcObject = {
+        tax,
+        rush,
+        piece,
+        setup_cost,
+        setupcheck,
+        tem_between,
+        tem_left,
+        tem_top,
+        qty: [q1, q2, q3, q4, q5, q6, q7],
+        hour: [h1, h2, h3, h4, h5, h6, h7],
+        table_width,
+        table_height,
+        fpass,
+        fmove,
+        finches,
+        rpass,
+        rmove,
+        rinches,
+        fdensity,
+        fspeed,
+        rdensity,
+        rspeed
+      }
+      
+      calcJobForm.addEventListener('submit', calculateJob(calcObject));
+    })
+  .catch((err) => {
+    
+    alert(`There was an error on our end retreiving your data. Please refresh the page and try again. Feel free to contact us if this error doesn't resolve iteself.`)
+  })
+    
+
+}
+
+jobsNav.addEventListener('click', navJobsPage);
+
+
+let calculateJob = (object) => (e) => {
+  e.preventDefault();
+  
+  let { hour, piece, qty, rush, setup_cost, setupcheck, tax, tem_between, tem_left, tem_top, table_width, table_height, fpass, fmove, finches,rpass, rmove, rinches, fdensity, fspeed, rdensity, rspeed } = object
+
+const itemWidth = document.querySelector('#item-width');
+const itemHeight = document.querySelector('#item-height');
+const rotaryCheck = document.querySelector('#rotary-check');
+const engravingWidth = document.querySelector('#engraving-width');
+const engravingHeight = document.querySelector('#engraving-height');
+const qtyInput = document.querySelector('#Qty');
+const speedInput = document.querySelector('#speed');
+const densityInput = document.querySelector('#density');
+const unitCost = document.querySelector('.unit-cost');
+const setupCost = document.querySelector('.setup-cost');
+const subtotalCost = document.querySelector('.subtotal-cost');
+const taxCost = document.querySelector('.tax-cost');
+const totalCost = document.querySelector('.total-cost');
+const saveJobBtn = document.querySelector('#saveJob');
+const numLasers = document.querySelector('#num-lasers');
+
+let density, speed, inches, pass, move;
+let speedFactor, inchesPerSec, difference;
+let widthValue, heightValue, rowNumItems, colNumItems, totalItemsPerTable;
+
+let hourRatetoUse;
+qtyValue = +qtyInput.value
+for(let i = qty.length - 1; i >= 0; i--) {
+  if (qtyValue >= +qty[i]) {
+    hourRatetoUse = +hour[i]
+    break;
+  }
+}
+
+if(rotaryCheck.checked) {
+density = rdensity
+speed = rspeed
+inches = rinches
+pass = rpass
+move = rmove
+
+widthValue = +engravingHeight.value
+
+heightValue = +engravingWidth.value
+rowNumItems = numLasers.value || 1;
+trueEngravingWidth = widthValue * rowNumItems;
+
+colNumItems = 1;
+totalItemsPerTable = 1;
+
+} else {
+  widthValue = +engravingWidth.value;
+  heightValue = +engravingHeight.value;
+
+  rowNumItems = Math.floor((table_width - tem_left) / (+itemWidth.value + +tem_between))
+  colNumItems = Math.floor((table_height - tem_top) / (+itemHeight.value + +tem_between))
+  totalItemsPerTable = rowNumItems * colNumItems;
+
+  if(+qtyInput.value <= rowNumItems) {
+    rowNumItems = +qtyInput.value;
+  }
+
+  trueEngravingWidth = ((+itemWidth.value * rowNumItems) + (tem_between * (rowNumItems - 1))) - (+itemWidth.value - widthValue);
+
+  density = fdensity
+  speed = fspeed
+  inches = finches
+  pass = fpass
+  move = fmove
+}
+
+numberPasses = (density * heightValue) + ((+densityInput.value - density) * heightValue)
+
+
+
+if(+speedInput.value > speed) {
+  difference = +speedInput.value - speed;
+  speedFactor = (difference / speed);
+   inchesPerSec = inches + (inches * speedFactor);
+   } else if (+speedInput.value < speed) {
+  speedFactor = +speedInput.value / speed;
+  inchesPerSec = inches * speedFactor;
+
+} else if (+speedInput.value === speed) {
+  inchesPerSec = inches;
+}
+
+
+
+let totalRowTime = ((pass + (trueEngravingWidth / inchesPerSec)) * numberPasses) + move;
+
+let timePerPiece = totalRowTime / rowNumItems;
+
+let chargePerSec = hourRatetoUse / 3600;
+let unitCostCalc =  (timePerPiece + piece) * chargePerSec;
+
+
+if(setupcheck) {
+  setup_cost = setup_cost / +qtyInput.value;
+  unitCostCalc += setup_cost;
+  setup_cost = 0;
+  setupCost.textContent = '0.00'
+}
+
+let subTotal = (unitCostCalc * +qtyInput.value) + setup_cost
+let taxCalc = subTotal * (tax / 100)
+let totalCalc = subTotal + taxCalc
+
+totalCalc = totalCalc.toFixed(2);
+taxCalc = taxCalc.toFixed(2)
+subTotal = subTotal.toFixed(2)
+setup_cost = setup_cost.toFixed(2);
+unitCostCalc = unitCostCalc.toFixed(2);
+
+unitCost.textContent = unitCostCalc;
+setupCost.textContent = setup_cost;
+subtotalCost.textContent = subTotal
+taxCost.textContent = taxCalc;
+totalCost.textContent = totalCalc;
+
+}
+
+
+function hideWidthHeight () {
+  const rotaryCheck = document.querySelector('#rotary-check');
+  const widthParent = document.querySelector('.tableGrid1');
+  const heightParent = document.querySelector('.tableGrid2');
+
+  if(rotaryCheck.checked) {
+    while(widthParent.firstChild) {
+      widthParent.removeChild(widthParent.firstChild)
+    }
+    while(heightParent.firstChild) {
+      heightParent.removeChild(heightParent.firstChild)
+    }
+
+    widthParent.innerHTML = `
+    <p># Lasers</p>
+          <input id="num-lasers" placeholder="2" type="number" />
+    `
+  } else {
+
+    widthParent.innerHTML = `
+    <p>W</p>
+          <input id="item-width" placeholder="w" type="number" step="0.001" />`;
+    heightParent.innerHTML = `
+    <p>H</p>
+    <input id="item-height" placeholder="h" type="number" step="0.001" />`;
+
+  }
+}
+
+
+function saveJob (e) {
+  e.preventDefault();
+  const updatingParent = document.querySelector('.invoiceGrid');
+  updating(updatingParent)
+
+let itemWidth, itemHeight, numLasers;
+if(document.querySelector('#item-width')) {
+  itemWidth = document.querySelector('#item-width').value;
+}
+if(document.querySelector('#item-height')) {
+  itemHeight = document.querySelector('#item-height').value
+}
+const rotaryCheck = document.querySelector('#rotary-check');
+const engravingWidth = document.querySelector('#engraving-width');
+const engravingHeight = document.querySelector('#engraving-height');
+const qtyInput = document.querySelector('#Qty');
+const speedInput = document.querySelector('#speed');
+const densityInput = document.querySelector('#density');
+
+const unitCost = document.querySelector('.unit-cost');
+const setupCost = document.querySelector('.setup-cost');
+const subtotalCost = document.querySelector('.subtotal-cost');
+const taxCost = document.querySelector('.tax-cost');
+
+const totalCost = document.querySelector('.total-cost');
+
+if(document.querySelector('#num-lasers')) {
+   numLasers = document.querySelector('#num-lasers').value;
+}
+
+const clientInput = document.querySelector('#client');
+const jobInput = document.querySelector('#job');
+ 
+ const jobBody = {
+   main: {
+     width: engravingWidth.value,
+     height: engravingHeight.value,
+     qty: qtyInput.value,
+     speed: speedInput.value,
+     density: densityInput.value,
+     rotary: rotaryCheck.checked,
+     client: clientInput.value,
+     job: jobInput.value,
+     userId
+   },
+   flat: {
+    itemWidth,
+    itemHeight
+   },
+   rotary: {
+    numLasers
+   },
+   invoice: {
+     unitCost: unitCost.textContent,
+     setUpCost: setupCost.textContent,
+     subtotalCost: subtotalCost.textContent,
+     taxCost: taxCost.textContent,
+     totalCost: totalCost.textContent,
+   }
+ }
+
+  axios
+  .post('/api/job', jobBody)
+  .then(res => {
+
+    successMessage(updatingParent);
+
+    if(rotaryCheck.checked) {
+      window.localStorage.setItem('jobSaved', 'rotary')
+    } else if (!rotaryCheck.checked) {
+      window.localStorage.setItem('jobSaved', 'standard')
+    }
+  })
+  .catch(err => {
+    document.querySelector('.updating').remove()
+    alert(`Error saving job. Remember to fill out all fields and hit submit before saving.`)
+  })
+}
+
+
+function clearJob () {
+axios
+  .delete(`/api/job/${userId}`)
+  .then(res => {
+    window.localStorage.setItem('jobSaved', 'no');
+    console.log(res);
+  })
+  .catch(err => console.log(err))
+
+}
+

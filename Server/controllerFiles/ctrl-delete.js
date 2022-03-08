@@ -28,10 +28,38 @@ module.exports = {
     .catch(err => res.status(400).send(err))
   },
   deleteJob: (req, res) => {
+    let { userId } = req.params;
+
+userId = sequelize.escape(userId);
+
     sequelize
     .query(`
+
+    SELECT jobs_data_id
+    FROM jobs_data
+    WHERE user_id = ${userId};
+
     `)
-    .then()
+    .then(dbRes => {
+      const {jobs_data_id} = dbRes[0][0];
+      console.log(dbRes[0], jobs_data_id)
+      sequelize
+        .query(`
+        DELETE FROM jobs_data_flat
+        WHERE jobs_data_id = ${jobs_data_id};
+
+        DELETE FROM jobs_data_rotary
+        WHERE jobs_data_id = ${jobs_data_id};
+
+        DELETE FROM invoice
+        WHERE jobs_datA_id = ${jobs_data_id};
+
+        DELETE FROM jobs_data
+        WHERE user_id = ${userId};
+        `)
+        .then(dbRes => res.sendStatus(200))
+        .catch(err => res.status(400).send(err))
+    })
     .catch(err => res.status(400).send(err))
   }
 }
