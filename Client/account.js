@@ -883,7 +883,7 @@ const confirmPass = document.querySelector('#confirmPass');
  
  function logOut() {
   window.localStorage.clear();
-  window.location.assign('http://127.0.0.1:4500/');
+  window.location.assign('https://lightspeedpricing.herokuapp.com/');
  }
 
 //  Creating new jobs and running calculatons to determine pricing
