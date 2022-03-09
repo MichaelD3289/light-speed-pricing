@@ -1411,6 +1411,21 @@ axios
   .then(res => {
     window.localStorage.setItem('jobSaved', 'no');
 
+    const widthParent = document.querySelector('.tableGrid1');
+  const heightParent = document.querySelector('.tableGrid2');
+
+  
+    while(widthParent.firstChild) {
+      widthParent.removeChild(widthParent.firstChild)
+    }
+
+  widthParent.innerHTML = `
+    <p>W</p>
+          <input id="item-width" placeholder="w" type="number" step="0.001" />`;
+    heightParent.innerHTML = `
+    <p>H</p>
+    <input id="item-height" placeholder="h" type="number" step="0.001" />`;
+
   })
   .catch(err => res.sendStatus(400))
 
