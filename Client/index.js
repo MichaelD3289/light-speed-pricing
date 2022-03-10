@@ -1,6 +1,10 @@
+// const accountNav = 'https://lightspeedpricing.herokuapp.com/account.html'
+const accountNav = 'http://127.0.0.1:4500/account.html'
+
+
 window.onload = function() {
   if(window.localStorage.getItem('user')) {
-    window.location.assign('https://lightspeedpricing.herokuapp.com//account.html')
+    window.location.assign(accountNav)
 
   }
 }

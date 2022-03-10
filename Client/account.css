@@ -128,7 +128,6 @@ main h2 {
 
 .actions {
    width: 400px;
-  /* height: 400px; */
   padding: 25px;
   margin: auto;
   border-radius: 15px;
@@ -349,6 +348,7 @@ color: var(--text-and-outline-color);
 .instructions {
   max-width: 40%;
   height: 80%;
+  min-width: 275px;
 }
 
 .instructions ol {
@@ -992,6 +992,12 @@ font-size: 28px;
   
   #invoice {
     width: 525px;
+    
+  }
+
+  #invoice > *:not(:first-child):not(:last-child) {
+    grid-template-columns: 1fr 1.5fr;
+    width: 80%;
   }
 
   /* Settings Page */
@@ -1099,6 +1105,84 @@ font-size: 28px;
 }
 /*Laser Page  */
 
+.laserMain {
+  height: auto;
+}
+
+.table {
+  flex-wrap: wrap;
+  height: auto;
+  justify-content: space-evenly;
+  gap: 25px;
+}
+.instructions {
+  order: 1;
+  margin-top: 20px;
+  max-width: 90%;
+  height: auto;
+}
+
+.instructions ol {
+  height: auto;
+}
+
+ .laserMain {
+  height: auto;
+  grid-template-areas: 
+  ". width"
+  "height table"
+  ;
+  grid-template-rows: 80px 1fr;
+  grid-template-columns: 80px 1fr;
+}
+
+.submit {
+  justify-self: center;
+  grid-area: width;
+}
+
+.width {
+  justify-self: start;
+  align-self: center;
+}
+
+.width h2 {
+margin: 0;
+}
+
+.table {
+  height: auto;
+  padding-bottom: 25px;
+}
+
+/* Footer */
+
+footer {
+  height: auto;
+}
+
+.line {
+  margin: 20px auto;
+}
+
+.footer {
+  height: 50%;
+  justify-content: center;
+}
+
+.social-media > * {
+  margin: 2px;
+}
+
+.social-media {
+  flex-wrap: wrap;
+  min-width: 200px;
+}
+
+.text-holder {
+  align-items: center;
+}
+
 
 }
 
@@ -1170,18 +1254,63 @@ font-size: 28px;
     max-width: 450px;
     margin: auto;
   }
+
+  #invoice {
+    width: 80vw;
+    max-width: 500px;
+  }
+
+  #invoice > *:not(:first-child):not(:last-child){
+    grid-template-columns: 1fr 2fr;
+    width: 80vw;
+  }
   
   /* Settings Page */
   #accountMain input {
     width: 250px;
   }
+
+  /* Laser Page */
   
+  .laserMain {
+    height: auto;
+    grid-template-areas: 
+    ". width"
+    "height table"
+    ;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 60px 1fr;
+    margin: 30px auto;
+  }
+
+  .submit {
+    justify-self: end;
+  }
+
+  .height {
+    align-self: start;
+  }
+
+.laserMain input {
+width: 55px;
+height: 30px;
+}
+
+
+.flatInputs, .rotaryInputs {
+  margin-bottom: 20px;
+}
+
   }
 
 
 
 @media screen and (max-width: 500px) {
   
+  #invoice {
+    margin-left: -20px;
+  }
+
   /* Settings Page */
   #accountMain input {
     width: 175px;

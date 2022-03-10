@@ -1,4 +1,6 @@
 
+// const homeNav = 'https://lightspeedpricing.herokuapp.com/'
+const homeNav = 'http://127.0.0.1:4500/'
 
 const main = document.querySelector('.content');
 const laserNav = document.querySelector('.nav-item.laser');
@@ -11,7 +13,7 @@ let jobSaved = window.localStorage.getItem('jobSaved');
 var lastSaved;
 window.onload = function() {
   if(!userId) {
-    window.location.assign('https://lightspeedpricing.herokuapp.com/')
+    window.location.assign(homeNav)
   }
   
   checkForJobs()
@@ -883,7 +885,7 @@ const confirmPass = document.querySelector('#confirmPass');
  
  function logOut() {
   window.localStorage.clear();
-  window.location.assign('https://lightspeedpricing.herokuapp.com/');
+  window.location.assign(homeNav);
  }
 
 //  Creating new jobs and running calculatons to determine pricing
