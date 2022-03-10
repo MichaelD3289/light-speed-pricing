@@ -1304,6 +1304,13 @@ footer {
   .rotaryInputs {
     margin-bottom: 20px;
   }
+
+  /* Account Page */
+
+  #accountMain {
+    grid-template-columns: 1fr 2fr;
+  }
+
 }
 
 @media screen and (max-width: 500px) {
