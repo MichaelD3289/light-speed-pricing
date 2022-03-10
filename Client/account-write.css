@@ -1,0 +1,1335 @@
+:root {
+  --light-gradient-gray: #313131;
+  --dark-gradient-gray: #0e0e0e;
+  --text-and-outline-color: rgba(255, 255, 255, 0.5);
+  --button-background: rgba(255, 255, 255, 0.05);
+  --button-hover: rgba(255, 255, 255, 0.2);
+  --logo-color: #e4d8c6;
+  --clicked-regular: rgba(206, 143, 6, 0.5);
+  --clicked-hovered: rgba(206, 143, 6, 0.7);
+}
+
+body * {
+  box-sizing: border-box;
+  font-family: "Fredoka", sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  background: center / contain repeat url("./images/background-texture.png"),
+    linear-gradient(
+      90deg,
+      var(--dark-gradient-gray) 38.54%,
+      var(--light-gradient-gray) 100%
+    );
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  max-width: 30%;
+  cursor: pointer;
+}
+
+.logo:hover {
+  background-color: var(--button-hover);
+  border-radius: 0 60px 0 60px;
+}
+
+.button {
+  border: 2px solid var(--text-and-outline-color);
+  background-color: var(--button-background);
+  color: var(--text-and-outline-color);
+  border-radius: 10px;
+  display: block;
+  height: 35px;
+  width: 125px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--button-hover);
+}
+
+input {
+  border: 2px solid var(--text-and-outline-color);
+  background-color: var(--button-background);
+  color: var(--text-and-outline-color);
+  border-radius: 10px;
+  display: block;
+  height: 40px;
+  width: 275px;
+  text-align: center;
+  font-size: 18px;
+}
+
+input::placeholder {
+  text-align: center;
+  font-size: 18px;
+}
+
+input:hover {
+  background-color: var(--button-hover);
+}
+
+input:focus {
+  outline: none;
+  background-color: var(--button-hover);
+}
+
+/* Header */
+
+header {
+  height: 175px;
+  width: 100vw;
+  border-bottom: 5px solid var(--button-hover);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.main-nav {
+  width: 75%;
+}
+
+.main-nav li:hover {
+  color: var(--text-and-outline-color);
+  cursor: pointer;
+  border-radius: 3px;
+  border-left: 4px solid var(--text-and-outline-color);
+  border-right: 4px solid var(--text-and-outline-color);
+}
+
+.nav-list {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.nav-item {
+  color: var(--logo-color);
+  font-size: 30px;
+  width: 20%;
+  text-align: center;
+}
+
+/* Main Content */
+
+main h2,
+p,
+li {
+  color: var(--text-and-outline-color);
+}
+
+main h2 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.actions {
+  width: 400px;
+  padding: 25px;
+  margin: auto;
+  border-radius: 15px;
+  border: 4px solid var(--text-and-outline-color);
+  margin-top: 60px;
+}
+
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  justify-content: space-around;
+  font-size: 24px;
+}
+
+.action-item {
+  margin-top: 15px;
+  cursor: pointer;
+  flex-basis: 75px;
+}
+
+.action-item:hover {
+  color: var(--button-hover);
+}
+
+/* Footer */
+footer {
+  width: 100vw;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 250px;
+}
+.line {
+  height: 5px;
+  width: 60%;
+  margin: auto;
+  background: var(--button-hover);
+  border-radius: 15px;
+}
+
+.footer {
+  width: 100vw;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer p {
+  color: var(--text-and-outline-color);
+}
+
+.social {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.social:hover {
+  background-color: var(--button-hover);
+  border-radius: 50%;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.social-media {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-icon-holder {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  width: 70%;
+}
+
+.contact,
+.review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contact:hover .icon,
+.review:hover .icon {
+  background-color: var(--button-hover);
+  border-radius: 50%;
+}
+
+.text-holder {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 75px;
+}
+
+/* Styling for Adding Laser Page */
+
+.laserMain {
+  margin: 50px 10% 0px 10%;
+  width: 75vw;
+  height: 75vh;
+  display: grid;
+  grid-template-columns: auto 15fr;
+  grid-template-rows: 1fr 10fr 1fr;
+  grid-template-areas:
+    ". width"
+    "height table"
+    ". submit";
+}
+
+.height input,
+.width input {
+  width: 75px;
+}
+
+.height h2 {
+  align-self: end;
+}
+
+.height input {
+  align-self: start;
+}
+
+.width h2 {
+  justify-self: end;
+}
+
+.width input {
+  justify-self: start;
+}
+
+.height {
+  grid-area: height;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.width {
+  grid-area: width;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.table {
+  grid-area: table;
+  background-color: var(--button-background);
+  border: 5px solid rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit {
+  grid-area: submit;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.inch {
+  width: 70px;
+  height: 70px;
+  border: 2px solid var(--text-and-outline-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 5px 5px;
+}
+
+.inch h3 {
+  color: var(--text-and-outline-color);
+  text-align: center;
+}
+
+.inch input {
+  height: 25px;
+  width: 60px;
+}
+
+.flatRowOne,
+.flatRowThree,
+.rotaryRowOne,
+.rotaryRowThree {
+  display: flex;
+  justify-content: space-between;
+}
+.flatRowTwo,
+.rotaryRowTwo {
+  display: flex;
+}
+
+.flatRowFour input,
+.rotaryRowFour input {
+  width: 75px;
+  height: 25px;
+}
+
+.flatRowFour,
+.rotaryRowFour {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.instructions {
+  max-width: 40%;
+  height: 80%;
+  min-width: 275px;
+}
+
+.instructions ol {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* Styling for Settings page */
+
+.settingsMain {
+  display: grid;
+  grid-gap: 15px;
+  width: 100vw;
+  height: 60vh;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: "company qh job";
+}
+
+.settingsMain > * {
+  height: 80%;
+}
+
+.company {
+  margin-top: 15px;
+  grid-area: company;
+  display: grid;
+  grid-template-areas:
+    "title title"
+    "tax tinput"
+    "rush rinput"
+    "tem tem"
+    "bi bii"
+    "tr tri"
+    "lr lri";
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 60px 60px 60px 70px;
+  grid-auto-rows: 50px;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 10px;
+}
+
+.company-title {
+  grid-area: title;
+  align-self: center;
+}
+
+.tem-title {
+  justify-self: center;
+  grid-area: tem;
+  align-self: end;
+}
+
+.company > p {
+  justify-self: end;
+}
+
+.company > input {
+  width: 200px;
+  justify-self: start;
+}
+
+.qty-hourly {
+  margin: 10px auto;
+  grid-area: qh;
+  display: grid;
+  grid-template-columns: 10px 200px 210px;
+  grid-template-areas: "qty qty hour";
+  align-items: center;
+  justify-items: center;
+  grid-gap: 10px;
+}
+
+.qty-hourly input {
+  width: 200px;
+}
+
+.qty-hourly p {
+  justify-self: end;
+}
+
+.qty {
+  grid-area: qty;
+}
+
+.hour {
+  grid-area: hour;
+}
+
+.job-defaults {
+  margin: 0 auto;
+  grid-area: job;
+  display: grid;
+  grid-template-areas:
+    ". t t"
+    "p1 i1 i1"
+    "p2 i2 i2"
+    "p3 i3 i3"
+    "p4 i4 i5"
+    "pr pr pr";
+  grid-template-columns: 50px 250px 50px;
+  grid-template-rows: 100px;
+  grid-auto-rows: 60px;
+  align-items: center;
+  justify-items: center;
+}
+
+.job-default {
+  grid-area: t;
+}
+
+.dpi {
+  grid-area: p1;
+}
+
+#default-density {
+  grid-area: i1;
+}
+
+.speed {
+  grid-area: p2;
+}
+
+#default-speed {
+  grid-area: i2;
+}
+
+.handling {
+  grid-area: p3;
+}
+
+#handle-time {
+  grid-area: i3;
+}
+
+.setup {
+  grid-area: p4;
+}
+
+#setup {
+  grid-area: i4;
+  width: 200px;
+}
+
+#setup-check {
+  grid-area: i5;
+}
+
+.button {
+  margin: auto;
+}
+
+.price {
+  grid-area: pr;
+  align-self: start;
+}
+
+/* Styling for temporary success and updating messages */
+
+.success-message,
+.updating {
+  padding: 4px;
+  border: 1px solid var(--text-and-outline-color);
+  width: 300px;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Styling for account page */
+
+#accountMain {
+  display: grid;
+  margin: 40px auto;
+  grid-template-areas:
+    "acc acc acc acc"
+    "emp log info emp2"
+    "emt emi fni fnt"
+    "npt npi lni lnt"
+    "cpt cpi pni pnt"
+    "opt opt opt opt"
+    "subb subb subb subb"
+    "lob lob lob lob";
+  grid-template-columns: auto 300px 300px auto;
+  grid-auto-rows: 60px;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 15px;
+}
+
+#accountMain h2 {
+  font-size: 48px;
+}
+
+#accountMain h3 {
+  font-size: 40px;
+  color: var(--text-and-outline-color);
+}
+
+.accountitem.a1 {
+  grid-area: acc;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+.empty {
+  grid-area: emp;
+}
+
+.accountitem.a2 {
+  grid-area: log;
+}
+
+.accountitem.a3 {
+  grid-area: info;
+}
+
+.empty2 {
+  grid-area: emp2;
+}
+
+.accountitem.a16 {
+  grid-area: opt;
+  text-align: center;
+}
+
+.accountitem.a16 p {
+  margin-bottom: 8px;
+}
+
+.accountitem.a17 {
+  grid-area: subb;
+  align-self: start;
+}
+
+.accountitem.a18 {
+  grid-area: lob;
+  align-self: start;
+}
+
+.accountitem.a4,
+.accountitem.a6,
+.accountitem.a8,
+.accountitem.a10,
+.accountitem.a12,
+.accountitem.a14 {
+  justify-self: end;
+}
+
+.accountitem.a5,
+.accountitem.a7,
+.accountitem.a9,
+.accountitem.a11,
+.accountitem.a13,
+.accountitem.a15 {
+  justify-self: start;
+}
+
+.accountitem.a9,
+.accountitem.a10 {
+  align-self: start;
+}
+
+.accountitem.a8,
+.accountitem.a11 {
+  padding-bottom: 22px;
+}
+
+.after::after {
+  margin-top: 7px;
+  text-align: center;
+  content: "| 8 min | 1 special | 1 number | 1 lowercase | 1 uppercase |";
+  color: white;
+  display: inline;
+  font-size: 11px;
+  color: var(--text-and-outline-color);
+  margin-bottom: -12px;
+}
+
+#log-out {
+  background-color: rgba(114, 32, 114, 0.2);
+}
+
+#log-out:hover {
+  background-color: rgba(200, 57, 200, 0.3);
+}
+
+.no-match {
+  border: 2px solid rgb(177, 0, 0);
+}
+
+.match {
+  border: 2px solid rgb(0, 139, 0);
+}
+
+.nav-clicked {
+  color: var(--clicked-regular);
+  border-radius: 3px;
+  border-left: 4px solid var(--clicked-regular);
+  border-right: 4px solid var(--clicked-regular);
+}
+
+.nav-clicked:hover {
+  color: var(--clicked-hovered) !important;
+  border-left: 5px solid var(--clicked-hovered) !important;
+  border-right: 5px solid var(--clicked-hovered) !important;
+}
+
+/* Styling for jobs page */
+
+#quotesNav {
+  display: grid;
+  grid-template-areas: "input info";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+#quotesNav > * {
+  display: grid;
+  grid-template-rows: auto 500px;
+}
+
+.quotesGrid.q1 {
+  grid-area: input;
+  width: 100%;
+  height: 50%;
+  grid-template-areas: "inputs";
+}
+
+.quotesGrid.q1 > * {
+  display: grid;
+}
+
+.inputGrid {
+  grid-area: inputs;
+}
+
+.inputGrid > * {
+  display: grid;
+  grid-gap: 5px;
+}
+
+.innerInput1 {
+  margin-top: 25px;
+  grid-template-columns: auto auto auto auto;
+  align-items: center;
+}
+
+.innerInput1 p {
+  justify-self: end;
+}
+
+.innerInput1 > input {
+  justify-self: start;
+  width: 200px;
+}
+
+.innerInput2 {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  grid-template-areas:
+    "w w w w"
+    "i t t h"
+    "i t t h"
+    "i t t h";
+  grid-template-columns: 50px 1fr 1fr 60px;
+  grid-template-rows: 60px;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 10px;
+}
+
+.tableGrid1 {
+  grid-area: w;
+  text-align: center;
+  align-self: end;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.tableGrid1 > input,
+.tableGrid2 > input,
+.innerTable2 > input,
+.innerTable5 > input {
+  width: 55px;
+  height: 30px;
+  margin-top: 5px;
+}
+.tableGrid2 {
+  grid-area: h;
+  text-align: center;
+  justify-self: start;
+}
+
+.tableGrid3 {
+  grid-area: t;
+  display: grid;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: 5px solid var(--button-hover);
+  background-color: var(--button-background);
+  grid-template-areas:
+    "r r r r"
+    "wi wi wi wi"
+    "en it it he"
+    "bu bu bu bu";
+  grid-template-columns: 1fr auto auto 1fr;
+  justify-items: center;
+  align-items: center;
+  grid-gap: 10px;
+  min-width: 445px;
+}
+
+.innerTable1 {
+  grid-area: r;
+  justify-self: start;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.innerTable1 p {
+  font-size: 24px;
+}
+
+.inputsHeading {
+  grid-area: head;
+  justify-self: start;
+}
+
+.inputsHeading h2 {
+  margin: 0;
+}
+
+.innerTable2 {
+  grid-area: wi;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.innerTable3 {
+  grid-area: en;
+  color: var(--text-and-outline-color);
+  font-size: 18px;
+  justify-self: end;
+  margin-right: -20px;
+}
+
+.innerTable4 {
+  grid-area: it;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  border: 5px solid var(--button-hover);
+  background-color: var(--button-background);
+  border-radius: 3px;
+  width: 310px;
+}
+
+.innerTable4 > * {
+  display: grid;
+  grid-template-columns: 50px 200px;
+  align-items: center;
+  grid-gap: 15px;
+  margin: 20px auto;
+}
+
+.innerTable4 input {
+  width: 200px;
+}
+
+.innermost1,
+.innermost3,
+.innermost5 {
+  justify-items: end;
+  text-align: end;
+}
+
+.innerTable5 {
+  grid-area: he;
+  text-align: center;
+  margin-right: 5px;
+  justify-self: start;
+}
+
+.innerTable6 {
+  grid-area: bu;
+  margin-bottom: 10px;
+}
+
+.tableGrid4 {
+  grid-area: i;
+  justify-self: end;
+}
+.tableGrid4 > h2 {
+  margin-right: -20px;
+  font-size: 30px;
+}
+
+.tableGrid4 > h2,
+.innerTable3 > h3 {
+  transform: rotate(270deg);
+}
+
+.defaultGrid {
+  grid-area: def;
+  grid-template-rows: 1fr 60px;
+}
+
+.quotesGrid.q2 {
+  grid-area: info;
+}
+
+.quotesGrid.q2 > * {
+  display: grid;
+}
+
+[type="checkbox"] {
+  width: 40px;
+  height: 40px;
+}
+
+#jobSubmit {
+  margin: 5px;
+}
+
+.invoiceGrid,
+.infoGrid {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+#invoice {
+  border: 5px solid var(--button-hover);
+  border-radius: 1px;
+  width: 500px;
+  height: auto;
+  border-radius: 15px;
+  margin-top: 70px;
+  padding: 10px;
+  background-color: var(--button-background);
+}
+
+#invoice > *:not(:first-child):not(:last-child) {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+}
+
+.end {
+  justify-self: end;
+  font-size: 28px;
+}
+
+.sign::before {
+  content: "$ ";
+  color: var(--clicked-regular);
+}
+
+.sign {
+  color: var(--clicked-hovered);
+  justify-self: start;
+  padding-left: 15px;
+}
+
+@media screen and (max-width: 1200px) {
+  .main-nav li {
+    font-size: 26px !important;
+  }
+
+  /* Jobs Page */
+
+  #quotesNav {
+    grid-template-areas:
+      "input"
+      "info";
+    grid-template-columns: 1fr;
+    grid-template-rows: 600px 600px;
+  }
+
+  .innerInput2 {
+    grid-template-areas:
+      "w w h h"
+      "i t t ."
+      "i t t ."
+      "i t t .";
+    grid-template-columns: 20px auto auto auto;
+    width: 500px;
+  }
+  .innerInput1 {
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-gap: 15px;
+    margin-bottom: 10px;
+  }
+
+  .tableGrid2 {
+    grid-area: h;
+    text-align: center;
+    align-self: end;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    justify-self: center;
+  }
+
+  .tableGrid3 {
+    grid-template-areas:
+      "r r r r"
+      "wi wi he he"
+      "en it it ."
+      "bu bu bu bu";
+    min-width: 500px;
+    grid-template-columns: 40px auto auto 1fr;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .innerTable5 {
+    grid-area: he;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 5px;
+    justify-self: center;
+  }
+
+  #invoice {
+    width: 525px;
+  }
+
+  #invoice > *:not(:first-child):not(:last-child) {
+    grid-template-columns: 1fr 1.5fr;
+    width: 80%;
+  }
+
+  /* Settings Page */
+
+  main {
+    height: auto;
+  }
+  .settingsMain {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "company"
+      "qh"
+      "job";
+    height: auto;
+  }
+
+  .settingsMain input {
+    width: 175px;
+  }
+
+  .company {
+    grid-template-columns: 1fr 1.3fr;
+  }
+
+  /* Account Page */
+
+  #accountMain {
+    display: grid;
+    margin: 40px auto;
+    grid-template-areas:
+      "acc acc"
+      "emp log"
+      "emt emi"
+      "npt npi"
+      "cpt cpi"
+      "emp2 info"
+      "fnt fni"
+      "lnt lni"
+      "pnt pni"
+      ". opt"
+      ". subb"
+      "lob lob";
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .accountitem.a3,
+  .accountitem.a2 {
+    justify-self: start;
+    padding-left: 10px;
+  }
+
+  .accountitem.a5 {
+    grid-area: emi;
+  }
+
+  .accountitem.a6 {
+    grid-area: fni;
+    justify-self: start;
+  }
+
+  .accountitem.a7 {
+    grid-area: fnt;
+    justify-self: end;
+  }
+
+  .accountitem.a8 {
+    grid-area: npt;
+  }
+  .accountitem.a9 {
+    grid-area: npi;
+  }
+
+  .accountitem.a10 {
+    grid-area: lni;
+    justify-self: start;
+  }
+  .accountitem.a11 {
+    grid-area: lnt;
+    justify-self: end;
+  }
+  .accountitem.a12 {
+    grid-area: cpt;
+  }
+  .accountitem.a13 {
+    grid-area: cpi;
+  }
+  .accountitem.a14 {
+    grid-area: pni;
+    justify-self: start;
+  }
+  .accountitem.a15 {
+    grid-area: pnt;
+    justify-self: end;
+  }
+  .accountitem.a16 {
+    grid-area: opt;
+    justify-self: start;
+  }
+  .accountitem.a17 {
+    justify-self: start;
+    width: 250px;
+    margin-top: 25px;
+  }
+  /*Laser Page  */
+
+  .laserMain {
+    height: auto;
+  }
+
+  .table {
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: space-evenly;
+    gap: 25px;
+  }
+  .instructions {
+    order: 1;
+    margin-top: 20px;
+    max-width: 90%;
+    height: auto;
+  }
+
+  .instructions ol {
+    height: auto;
+  }
+
+  .laserMain {
+    height: auto;
+    grid-template-areas:
+      ". width"
+      "height table";
+    grid-template-rows: 80px 1fr;
+    grid-template-columns: 80px 1fr;
+  }
+
+  .submit {
+    justify-self: center;
+    grid-area: width;
+  }
+
+  .width {
+    justify-self: start;
+    align-self: center;
+  }
+
+  .width h2 {
+    margin: 0;
+  }
+
+  .table {
+    height: auto;
+    padding-bottom: 25px;
+  }
+
+  /* Footer */
+
+  footer {
+    height: auto;
+  }
+
+  .line {
+    margin: 20px auto;
+  }
+
+  .footer {
+    height: 50%;
+    justify-content: center;
+  }
+
+  .social-media > * {
+    margin: 2px;
+  }
+
+  .social-media {
+    flex-wrap: wrap;
+    min-width: 200px;
+  }
+
+  .text-holder {
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  /* header */
+  header {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    padding: 15px;
+  }
+  .logo {
+    max-width: 80%;
+    margin-bottom: 15px;
+  }
+  .nav-list {
+    flex-direction: column;
+  }
+  .nav-item {
+    width: 250px;
+    margin-bottom: 15px;
+  }
+  .main-nav li {
+    font-size: 24px !important;
+  }
+
+  /* footer */
+
+  .main-icon-holder {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+  }
+
+  footer {
+    height: auto;
+    padding: 15px;
+  }
+
+  .contact {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .review {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .nav-list {
+    align-items: center;
+    justify-content: center;
+  }
+  .main-nav {
+    margin: auto;
+  }
+
+  /* Jobs Page */
+
+  .tableGrid3 {
+    grid-template-areas:
+      "r r r r"
+      "wi wi he he"
+      "en it it ."
+      "bu bu bu bu";
+    min-width: 400px;
+    grid-template-columns: 40px auto auto 1fr;
+    max-width: 450px;
+    margin: auto;
+  }
+
+  #invoice {
+    width: 80vw;
+    max-width: 500px;
+  }
+
+  #invoice > *:not(:first-child):not(:last-child) {
+    grid-template-columns: 1fr 2fr;
+    width: 80vw;
+  }
+
+  /* Settings Page */
+  #accountMain input {
+    width: 250px;
+  }
+
+  /* Laser Page */
+
+  .laserMain {
+    height: auto;
+    grid-template-areas:
+      ". width"
+      "height table";
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 60px 1fr;
+    margin: 30px auto;
+  }
+
+  .submit {
+    justify-self: end;
+  }
+
+  .height {
+    align-self: start;
+  }
+
+  .laserMain input {
+    width: 55px;
+    height: 30px;
+  }
+
+  .flatInputs,
+  .rotaryInputs {
+    margin-bottom: 20px;
+  }
+
+  /* Account Page */
+
+  #accountMain {
+    grid-template-columns: 1fr 2fr;
+  }
+
+}
+
+@media screen and (max-width: 500px) {
+  #invoice {
+    margin-left: -20px;
+  }
+
+  /* Settings Page */
+  #accountMain input {
+    width: 175px;
+  }
+  .accountitem.a17 {
+    width: 175px;
+  }
+  .main-nav li {
+    font-size: 22px !important;
+  }
+
+  .laserMain {
+  margin-left: 10px;
+  }
+}
