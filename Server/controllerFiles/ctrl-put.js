@@ -76,7 +76,6 @@ module.exports = {
             res.status(200).send({"message": "email already exists"})
           })
 
-        
      } else {
        res.status(200).send({"message":"incorrect password"})
      }

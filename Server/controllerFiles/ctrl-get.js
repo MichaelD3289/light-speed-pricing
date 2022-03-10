@@ -326,8 +326,6 @@ WHERE lsfd.user_id = ${userId};
       SELECT laser_id 
       FROM laser_machines
       WHERE added_by = ${userId};
-
-    
       `)
       .then(dbRes => {
         let laserIdFound

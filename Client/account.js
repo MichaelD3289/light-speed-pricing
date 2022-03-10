@@ -1,70 +1,64 @@
+const homeNav = 'https://lightspeedpricing.herokuapp.com/'
+// const homeNav = "http://127.0.0.1:4500/";
 
-// const homeNav = 'https://lightspeedpricing.herokuapp.com/'
-const homeNav = 'http://127.0.0.1:4500/'
-
-const main = document.querySelector('.content');
-const laserNav = document.querySelector('.nav-item.laser');
-const settingsNav = document.querySelector('.nav-item.settings');
-const accountNav = document.querySelector('.nav-item.account');
-const jobsNav = document.querySelector('.nav-item.jobs')
-let userId = window.localStorage.getItem('user');
-let activePage = window.localStorage.getItem('active');
-let jobSaved = window.localStorage.getItem('jobSaved');
+const main = document.querySelector(".content");
+const laserNav = document.querySelector(".nav-item.laser");
+const settingsNav = document.querySelector(".nav-item.settings");
+const accountNav = document.querySelector(".nav-item.account");
+const jobsNav = document.querySelector(".nav-item.jobs");
+let userId = window.localStorage.getItem("user");
+let activePage = window.localStorage.getItem("active");
+let jobSaved = window.localStorage.getItem("jobSaved");
 var lastSaved;
-window.onload = function() {
-  if(!userId) {
-    window.location.assign(homeNav)
+window.onload = function () {
+  if (!userId) {
+    window.location.assign(homeNav);
   }
-  
-  checkForJobs()
-  
+
+  checkForJobs();
+
   if (activePage === "Laser") {
-    navLaserPage()
+    navLaserPage();
   } else if (activePage === "Account") {
-    navAccountPage()
-  }else if (activePage === "Settings") {
-    navSettingsPage()
+    navAccountPage();
+  } else if (activePage === "Settings") {
+    navSettingsPage();
   } else if (activePage === "addJobs") {
-    verifyActionItems()
-      // navJobsPage();
+    verifyActionItems();
+    // navJobsPage();
   } else if (!activePage) {
-    verifyActionItems()
+    verifyActionItems();
   }
- 
-}
+};
 
 function checkForJobs() {
   axios
     .get(`/api/jobs/saved/${userId}`)
-    .then(res => {
-
-      if(res.data.message === 'rotary') {
-        lastSaved = 'rotary';
-        window.localStorage.setItem('jobSaved', 'rotary')
-      } else if (res.data.message === 'standard') {
-        lastSaved = 'standard'
-        window.localStorage.setItem('jobSaved', 'standard')
-      } else if(res.data.message === 'no') {
-        lastSaved = 'no'
-        window.localStorage.setItem('jobSaved', 'no')
+    .then((res) => {
+      if (res.data.message === "rotary") {
+        lastSaved = "rotary";
+        window.localStorage.setItem("jobSaved", "rotary");
+      } else if (res.data.message === "standard") {
+        lastSaved = "standard";
+        window.localStorage.setItem("jobSaved", "standard");
+      } else if (res.data.message === "no") {
+        lastSaved = "no";
+        window.localStorage.setItem("jobSaved", "no");
       }
     })
-    .catch(err => res.status(400).send(err))
+    .catch((err) => res.status(400).send(err));
 }
 
-
-function navLaserPage () {
+function navLaserPage() {
   while (main.firstChild) {
     main.removeChild(main.firstChild);
   }
 
-
-laserNav.classList.add('nav-clicked');
-settingsNav.classList.remove('nav-clicked');
-accountNav.classList.remove('nav-clicked');
-jobsNav.classList.remove('nav-clicked');
-window.localStorage.setItem('active', 'Laser')
-
+  laserNav.classList.add("nav-clicked");
+  settingsNav.classList.remove("nav-clicked");
+  accountNav.classList.remove("nav-clicked");
+  jobsNav.classList.remove("nav-clicked");
+  window.localStorage.setItem("active", "Laser");
 
   main.innerHTML = `
   <form id="laserForm">
@@ -195,9 +189,7 @@ window.localStorage.setItem('active', 'Laser')
         </div>
       </div>
 
-
     </div>
-
 
   </div>
 
@@ -208,186 +200,187 @@ window.localStorage.setItem('active', 'Laser')
   </div>
 </section>
 </form>
- 
-  `
-  const laserForm = document.querySelector('#laserForm');
-  laserForm.addEventListener('submit', addLaser)
+`;
+  const laserForm = document.querySelector("#laserForm");
+  laserForm.addEventListener("submit", addLaser);
 
   getLaser(userId);
 }
 
-laserNav.addEventListener('click', navLaserPage);
+laserNav.addEventListener("click", navLaserPage);
 
+const submitBtn = document.querySelector(".laserSubmit");
 
-
-
-const submitBtn = document.querySelector('.laserSubmit');
-
-function addLaser (e) {
+function addLaser(e) {
   e.preventDefault();
   updating(main);
 
-  const width = document.querySelector('#width');
-  const height = document.querySelector('#height');
-  
-  const flatSpeed = document.querySelector('.flatSpeed');
-  const flatDpi = document.querySelector('.flatDpi');
-  const rotarySpeed = document.querySelector('.rotarySpeed');
-  const rotaryDpi = document.querySelector('.rotaryDpi');
-  
-  const fOne = document.querySelector('.flatinput.one')
-  const fTwoOne = document.querySelector('.flatinput.twoOne')
-  const fThreeOne = document.querySelector('.flatinput.threeOne')
-  const fOneTwo = document.querySelector('.flatinput.oneTwo')
-  const fOneThree = document.querySelector('.flatinput.oneThree')
-  const fTwoTwo = document.querySelector('.flatinput.twoTwo')
-  const fThreeThree = document.querySelector('.flatinput.threeThree')
+  const width = document.querySelector("#width");
+  const height = document.querySelector("#height");
 
-  const rOne = document.querySelector('.rotaryinput.one')
-  const rTwoOne = document.querySelector('.rotaryinput.twoOne')
-  const rThreeOne = document.querySelector('.rotaryinput.threeOne')
-  const rOneTwo = document.querySelector('.rotaryinput.oneTwo')
-  const rOneThree = document.querySelector('.rotaryinput.oneThree')
-  const rTwoTwo = document.querySelector('.rotaryinput.twoTwo')
-  const rThreeThree = document.querySelector('.rotaryinput.threeThree')
+  const flatSpeed = document.querySelector(".flatSpeed");
+  const flatDpi = document.querySelector(".flatDpi");
+  const rotarySpeed = document.querySelector(".rotarySpeed");
+  const rotaryDpi = document.querySelector(".rotaryDpi");
 
-  
+  const fOne = document.querySelector(".flatinput.one");
+  const fTwoOne = document.querySelector(".flatinput.twoOne");
+  const fThreeOne = document.querySelector(".flatinput.threeOne");
+  const fOneTwo = document.querySelector(".flatinput.oneTwo");
+  const fOneThree = document.querySelector(".flatinput.oneThree");
+  const fTwoTwo = document.querySelector(".flatinput.twoTwo");
+  const fThreeThree = document.querySelector(".flatinput.threeThree");
 
-const body = {
-  laser: {
-    tableW: width.value,
-    tableH: height.value,
-    user: userId
-  },
-  flat: {
-    fdensity: flatDpi.value,
-    fspeed: flatSpeed.value,
-    fone: fOne.value,
-    ftwoOne: fTwoOne.value,
-    fthreeOne: fThreeOne.value,
-    foneTwo: fOneTwo.value,
-    foneThree: fOneThree.value,
-    ftwoTwo: fTwoTwo.value,
-    fthreeThree: fThreeThree.value
-  },
-  rotary: {
-    rdensity: rotaryDpi.value,
-    rspeed: rotarySpeed.value,
-    rone: rOne.value,
-    rtwoOne: rTwoOne.value,
-    rthreeOne: rThreeOne.value,
-    roneTwo: rOneTwo.value,
-    roneThree: rOneThree.value,
-    rtwoTwo: rTwoTwo.value,
-    rthreeThree: rThreeThree.value
-  }
-}
+  const rOne = document.querySelector(".rotaryinput.one");
+  const rTwoOne = document.querySelector(".rotaryinput.twoOne");
+  const rThreeOne = document.querySelector(".rotaryinput.threeOne");
+  const rOneTwo = document.querySelector(".rotaryinput.oneTwo");
+  const rOneThree = document.querySelector(".rotaryinput.oneThree");
+  const rTwoTwo = document.querySelector(".rotaryinput.twoTwo");
+  const rThreeThree = document.querySelector(".rotaryinput.threeThree");
+
+  const body = {
+    laser: {
+      tableW: width.value,
+      tableH: height.value,
+      user: userId,
+    },
+    flat: {
+      fdensity: flatDpi.value,
+      fspeed: flatSpeed.value,
+      fone: fOne.value,
+      ftwoOne: fTwoOne.value,
+      fthreeOne: fThreeOne.value,
+      foneTwo: fOneTwo.value,
+      foneThree: fOneThree.value,
+      ftwoTwo: fTwoTwo.value,
+      fthreeThree: fThreeThree.value,
+    },
+    rotary: {
+      rdensity: rotaryDpi.value,
+      rspeed: rotarySpeed.value,
+      rone: rOne.value,
+      rtwoOne: rTwoOne.value,
+      rthreeOne: rThreeOne.value,
+      roneTwo: rOneTwo.value,
+      roneThree: rOneThree.value,
+      rtwoTwo: rTwoTwo.value,
+      rthreeThree: rThreeThree.value,
+    },
+  };
 
   axios
-    .post('/api/laser', body)
-    .then(res => {
+    .post("/api/laser", body)
+    .then((res) => {
       successMessage(main);
     })
     .catch(() => {
-      document.querySelector('.updating').remove()
-      alert(`There was a error submitting your data. Please refresh the page and try again or contact us for support`)
-  })
-
+      document.querySelector(".updating").remove();
+      alert(
+        `There was a error submitting your data. Please refresh the page and try again or contact us for support`
+      );
+    });
 }
 
 // Getting laser info to present to user
 
-function getLaser (u) {
-   
-    axios
-      .get(`/api/laser/${u}`)
-      .then(res =>  {
+function getLaser(u) {
+  axios
+    .get(`/api/laser/${u}`)
+    .then((res) => {
+      if (res.data[0]) {
+        let {
+          flat_density,
+          flat_speed,
+          fone,
+          fonethree,
+          fonetwo,
+          fthreeone,
+          fthreethree,
+          ftwoone,
+          ftwotwo,
+          rotary_density,
+          rotary_speed,
+          rone,
+          ronethree,
+          ronetwo,
+          rthreeone,
+          rthreethree,
+          rtwoone,
+          rtwotwo,
+          table_height,
+          table_width,
+        } = res.data[0];
 
-        if(res.data[0]) {
-          let { flat_density, flat_speed, fone, fonethree, fonetwo, fthreeone, fthreethree, ftwoone, ftwotwo, rotary_density, rotary_speed, rone, ronethree, ronetwo, rthreeone, rthreethree, rtwoone, rtwotwo, table_height, table_width } = res.data[0]
+        const width = document.querySelector("#width");
+        const height = document.querySelector("#height");
 
+        const flatSpeed = document.querySelector(".flatSpeed");
+        const flatDpi = document.querySelector(".flatDpi");
+        const rotarySpeed = document.querySelector(".rotarySpeed");
+        const rotaryDpi = document.querySelector(".rotaryDpi");
 
-     const width = document.querySelector('#width');
-    const height = document.querySelector('#height');
-    
-    const flatSpeed = document.querySelector('.flatSpeed');
-    const flatDpi = document.querySelector('.flatDpi');
-    const rotarySpeed = document.querySelector('.rotarySpeed');
-    const rotaryDpi = document.querySelector('.rotaryDpi');
-    
-    const fOne = document.querySelector('.flatinput.one')
-    const fTwoOne = document.querySelector('.flatinput.twoOne')
-    const fThreeOne = document.querySelector('.flatinput.threeOne')
-    const fOneTwo = document.querySelector('.flatinput.oneTwo')
-    const fOneThree = document.querySelector('.flatinput.oneThree')
-    const fTwoTwo = document.querySelector('.flatinput.twoTwo')
-    const fThreeThree = document.querySelector('.flatinput.threeThree')
-  
-    const rOne = document.querySelector('.rotaryinput.one')
-    const rTwoOne = document.querySelector('.rotaryinput.twoOne')
-    const rThreeOne = document.querySelector('.rotaryinput.threeOne')
-    const rOneTwo = document.querySelector('.rotaryinput.oneTwo')
-    const rOneThree = document.querySelector('.rotaryinput.oneThree')
-    const rTwoTwo = document.querySelector('.rotaryinput.twoTwo')
-    const rThreeThree = document.querySelector('.rotaryinput.threeThree')
-    
-  
-           width.value = +table_width
-           height.value = +table_height
-  
-           flatSpeed.value = +flat_speed
-           flatDpi.value = +flat_density
-           rotarySpeed.value = +rotary_speed
-           rotaryDpi.value = +rotary_density
-          
-           fOne.value = +fone
-           fTwoOne.value = +ftwoone
-           fThreeOne.value = +fthreeone
-           fOneTwo.value = +fonetwo
-           fOneThree.value = +fonethree
-           fTwoTwo.value = +ftwotwo
-           fThreeThree.value = +fthreethree
-        
-           rOne.value = +rone
-           rTwoOne.value = +rtwoone
-           rThreeOne.value = +rthreeone
-           rOneTwo.value = +ronetwo
-           rOneThree.value = +ronethree
-           rTwoTwo.value = +rtwotwo
-           rThreeThree.value = +rthreethree
+        const fOne = document.querySelector(".flatinput.one");
+        const fTwoOne = document.querySelector(".flatinput.twoOne");
+        const fThreeOne = document.querySelector(".flatinput.threeOne");
+        const fOneTwo = document.querySelector(".flatinput.oneTwo");
+        const fOneThree = document.querySelector(".flatinput.oneThree");
+        const fTwoTwo = document.querySelector(".flatinput.twoTwo");
+        const fThreeThree = document.querySelector(".flatinput.threeThree");
 
+        const rOne = document.querySelector(".rotaryinput.one");
+        const rTwoOne = document.querySelector(".rotaryinput.twoOne");
+        const rThreeOne = document.querySelector(".rotaryinput.threeOne");
+        const rOneTwo = document.querySelector(".rotaryinput.oneTwo");
+        const rOneThree = document.querySelector(".rotaryinput.oneThree");
+        const rTwoTwo = document.querySelector(".rotaryinput.twoTwo");
+        const rThreeThree = document.querySelector(".rotaryinput.threeThree");
 
+        width.value = +table_width;
+        height.value = +table_height;
 
-        }
+        flatSpeed.value = +flat_speed;
+        flatDpi.value = +flat_density;
+        rotarySpeed.value = +rotary_speed;
+        rotaryDpi.value = +rotary_density;
 
-     
+        fOne.value = +fone;
+        fTwoOne.value = +ftwoone;
+        fThreeOne.value = +fthreeone;
+        fOneTwo.value = +fonetwo;
+        fOneThree.value = +fonethree;
+        fTwoTwo.value = +ftwotwo;
+        fThreeThree.value = +fthreethree;
 
+        rOne.value = +rone;
+        rTwoOne.value = +rtwoone;
+        rThreeOne.value = +rthreeone;
+        rOneTwo.value = +ronetwo;
+        rOneThree.value = +ronethree;
+        rTwoTwo.value = +rtwotwo;
+        rThreeThree.value = +rthreethree;
+      }
+    })
+    .catch((err) => {
+      document.querySelector(".updating").remove();
+      // alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+    });
+}
 
+//
 
-        
-      })
-      .catch((err) => {
-  
-        document.querySelector('.updating').remove()
-        // alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
-      })
-  
+function navSettingsPage() {
+  while (main.firstChild) {
+    main.removeChild(main.firstChild);
   }
 
-  // 
+  laserNav.classList.remove("nav-clicked");
+  settingsNav.classList.add("nav-clicked");
+  accountNav.classList.remove("nav-clicked");
+  jobsNav.classList.remove("nav-clicked");
+  window.localStorage.setItem("active", "Settings");
 
-  function navSettingsPage () {
-    while (main.firstChild) {
-      main.removeChild(main.firstChild);
-    }
-
-    laserNav.classList.remove('nav-clicked');
-    settingsNav.classList.add('nav-clicked');
-    accountNav.classList.remove('nav-clicked');
-    jobsNav.classList.remove('nav-clicked');
-    window.localStorage.setItem('active', 'Settings')
-
-    main.innerHTML = `
+  main.innerHTML = `
     <form id="settingForm">
     <section class="settingsMain">
 
@@ -452,54 +445,53 @@ function getLaser (u) {
     <button id="settingButton" class="button">Submit</button>
   </form>
     `;
-    const settingForm = document.querySelector('#settingForm');
-    settingForm.addEventListener('submit', addDefaultData)
+  const settingForm = document.querySelector("#settingForm");
+  settingForm.addEventListener("submit", addDefaultData);
 
-    getDefaults(userId);
+  getDefaults(userId);
+}
 
-  }
-
- settingsNav.addEventListener('click', navSettingsPage);
+settingsNav.addEventListener("click", navSettingsPage);
 
 // adding default data
 
- function addDefaultData(e) {
-   e.preventDefault();
-   updating(main)
+function addDefaultData(e) {
+  e.preventDefault();
+  updating(main);
 
-   const taxInput = document.querySelector('#taxInput');
-   const rushInput = document.querySelector('#rushInput');
+  const taxInput = document.querySelector("#taxInput");
+  const rushInput = document.querySelector("#rushInput");
 
-  const betweenItems = document.querySelector('#bet-items')
-  const topRuler = document.querySelector('#top-ruler')
-  const leftRuler = document.querySelector('#left-ruler')
- 
-  const qtyOne = document.querySelector('#qtybreak1')
-  const qtyTwo = document.querySelector('#qtybreak2')
-  const qtyThree = document.querySelector('#qtybreak3')
-  const qtyFour = document.querySelector('#qtybreak4')
-  const qtyFive = document.querySelector('#qtybreak5')
-  const qtySix = document.querySelector('#qtybreak6')
-  const qtySeven = document.querySelector('#qtybreak7')
+  const betweenItems = document.querySelector("#bet-items");
+  const topRuler = document.querySelector("#top-ruler");
+  const leftRuler = document.querySelector("#left-ruler");
 
-  const hourOne = document.querySelector('#hourrate1');
-  const hourTwo = document.querySelector('#hourrate2');
-  const hourThree = document.querySelector('#hourrate3');
-  const hourFour = document.querySelector('#hourrate4');
-  const hourFive = document.querySelector('#hourrate5');
-  const hourSix = document.querySelector('#hourrate6');
-  const hourSeven = document.querySelector('#hourrate7');
+  const qtyOne = document.querySelector("#qtybreak1");
+  const qtyTwo = document.querySelector("#qtybreak2");
+  const qtyThree = document.querySelector("#qtybreak3");
+  const qtyFour = document.querySelector("#qtybreak4");
+  const qtyFive = document.querySelector("#qtybreak5");
+  const qtySix = document.querySelector("#qtybreak6");
+  const qtySeven = document.querySelector("#qtybreak7");
 
-  const defaultDpi = document.querySelector('#default-density')
-  const defaultSpeed = document.querySelector('#default-speed')
-  const handleTime = document.querySelector('#handle-time')
-  const setup = document.querySelector('#setup')
-  let setupCheck = document.querySelector('#setup-check');
+  const hourOne = document.querySelector("#hourrate1");
+  const hourTwo = document.querySelector("#hourrate2");
+  const hourThree = document.querySelector("#hourrate3");
+  const hourFour = document.querySelector("#hourrate4");
+  const hourFive = document.querySelector("#hourrate5");
+  const hourSix = document.querySelector("#hourrate6");
+  const hourSeven = document.querySelector("#hourrate7");
+
+  const defaultDpi = document.querySelector("#default-density");
+  const defaultSpeed = document.querySelector("#default-speed");
+  const handleTime = document.querySelector("#handle-time");
+  const setup = document.querySelector("#setup");
+  let setupCheck = document.querySelector("#setup-check");
 
   if (setupCheck.checked) {
-    setupCheck = true
+    setupCheck = true;
   } else {
-    setupCheck = false
+    setupCheck = false;
   }
 
   let settingsBody = {
@@ -515,7 +507,7 @@ function getLaser (u) {
       qfour: qtyFour.value,
       qfive: qtyFive.value,
       qsix: qtySix.value,
-      qseven: qtySeven.value
+      qseven: qtySeven.value,
     },
     hourly: {
       hone: hourOne.value,
@@ -524,7 +516,7 @@ function getLaser (u) {
       hfour: hourFour.value,
       hfive: hourFive.value,
       hsix: hourSix.value,
-      hseven: hourSeven.value
+      hseven: hourSeven.value,
     },
     job: {
       density: defaultDpi.value,
@@ -534,59 +526,82 @@ function getLaser (u) {
       setupInc: setupCheck,
       temBetween: betweenItems.value,
       temLeft: leftRuler.value,
-      temTop: topRuler.value
-    }
-  }
+      temTop: topRuler.value,
+    },
+  };
 
   axios
-    .post('/api/user/defaults', settingsBody)
+    .post("/api/user/defaults", settingsBody)
     .then(() => {
       successMessage(main);
     })
     .catch(() => {
-      document.querySelector('.updating').remove()
-      alert(`There was an error submitting your data. Please try again or contact our support team if the problem persists.`)
-  })
+      document.querySelector(".updating").remove();
+      alert(
+        `There was an error submitting your data. Please try again or contact our support team if the problem persists.`
+      );
+    });
+}
 
- }
+function getDefaults(u) {
+  const taxInput = document.querySelector("#taxInput");
+  const rushInput = document.querySelector("#rushInput");
 
- function getDefaults(u) {
+  const betweenItems = document.querySelector("#bet-items");
+  const topRuler = document.querySelector("#top-ruler");
+  const leftRuler = document.querySelector("#left-ruler");
 
-  const taxInput = document.querySelector('#taxInput');
-  const rushInput = document.querySelector('#rushInput');
+  const qtyOne = document.querySelector("#qtybreak1");
+  const qtyTwo = document.querySelector("#qtybreak2");
+  const qtyThree = document.querySelector("#qtybreak3");
+  const qtyFour = document.querySelector("#qtybreak4");
+  const qtyFive = document.querySelector("#qtybreak5");
+  const qtySix = document.querySelector("#qtybreak6");
+  const qtySeven = document.querySelector("#qtybreak7");
 
- const betweenItems = document.querySelector('#bet-items')
- const topRuler = document.querySelector('#top-ruler')
- const leftRuler = document.querySelector('#left-ruler')
+  const hourOne = document.querySelector("#hourrate1");
+  const hourTwo = document.querySelector("#hourrate2");
+  const hourThree = document.querySelector("#hourrate3");
+  const hourFour = document.querySelector("#hourrate4");
+  const hourFive = document.querySelector("#hourrate5");
+  const hourSix = document.querySelector("#hourrate6");
+  const hourSeven = document.querySelector("#hourrate7");
 
- const qtyOne = document.querySelector('#qtybreak1')
- const qtyTwo = document.querySelector('#qtybreak2')
- const qtyThree = document.querySelector('#qtybreak3')
- const qtyFour = document.querySelector('#qtybreak4')
- const qtyFive = document.querySelector('#qtybreak5')
- const qtySix = document.querySelector('#qtybreak6')
- const qtySeven = document.querySelector('#qtybreak7')
-
- const hourOne = document.querySelector('#hourrate1');
- const hourTwo = document.querySelector('#hourrate2');
- const hourThree = document.querySelector('#hourrate3');
- const hourFour = document.querySelector('#hourrate4');
- const hourFive = document.querySelector('#hourrate5');
- const hourSix = document.querySelector('#hourrate6');
- const hourSeven = document.querySelector('#hourrate7');
-
- const defaultDpi = document.querySelector('#default-density')
- const defaultSpeed = document.querySelector('#default-speed')
- const handleTime = document.querySelector('#handle-time')
- const setup = document.querySelector('#setup')
- let setupCheck = document.querySelector('#setup-check');
-
+  const defaultDpi = document.querySelector("#default-density");
+  const defaultSpeed = document.querySelector("#default-speed");
+  const handleTime = document.querySelector("#handle-time");
+  const setup = document.querySelector("#setup");
+  let setupCheck = document.querySelector("#setup-check");
 
   axios
     .get(`/api/user/defaults/${u}`)
-    .then(res => {
-      
-      let { tax, rush, density, speed, piece, setup_cost, setupcheck, tem_between, tem_left, tem_top, q1, q2, q3, q4, q5, q6, q7, h1, h2, h3, h4, h5, h6, h7 } = res.data[0]
+    .then((res) => {
+      let {
+        tax,
+        rush,
+        density,
+        speed,
+        piece,
+        setup_cost,
+        setupcheck,
+        tem_between,
+        tem_left,
+        tem_top,
+        q1,
+        q2,
+        q3,
+        q4,
+        q5,
+        q6,
+        q7,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        h7,
+      } = res.data[0];
 
       taxInput.value = +tax;
       rushInput.value = +rush;
@@ -615,63 +630,65 @@ function getLaser (u) {
       defaultSpeed.value = +speed;
       handleTime.value = +piece;
       setup.value = +setup_cost;
-     
-      if(setupcheck === true) { setupCheck.checked = true }
-      else { setupCheck.checked = false }
 
-    }
-    )
-    .catch(() => {
-      document.querySelector('.updating').remove()
-      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
+      if (setupcheck === true) {
+        setupCheck.checked = true;
+      } else {
+        setupCheck.checked = false;
+      }
     })
-
- }
+    .catch(() => {
+      document.querySelector(".updating").remove();
+      alert(
+        `There was a error getting your data. Please refresh the page and try again or contact us for support`
+      );
+    });
+}
 
 function successMessage(parent) {
-  while(document.querySelector('.updating')) {
-  document.querySelector('.updating').remove()
+  while (document.querySelector(".updating")) {
+    document.querySelector(".updating").remove();
   }
 
-  if(!document.querySelector('.success-message')){
-  let newDiv = document.createElement('div')
-  newDiv.classList.add('success-message')
-  let newHeading = document.createElement('p')
-  newHeading.textContent = "User Information Updated Successfully"
-  newDiv.appendChild(newHeading)
+  if (!document.querySelector(".success-message")) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("success-message");
+    let newHeading = document.createElement("p");
+    newHeading.textContent = "User Information Updated Successfully";
+    newDiv.appendChild(newHeading);
 
-  parent.appendChild(newDiv)
+    parent.appendChild(newDiv);
 
-  setTimeout(() => {
-    newDiv.remove();
-  }, 1750)}
-
+    setTimeout(() => {
+      newDiv.remove();
+    }, 1750);
+  }
 }
 
 function updating(parent) {
-  if(!document.querySelector('.updating')){
-  let newDiv = document.createElement('div')
-  newDiv.classList.add('updating')
-  let newHeading = document.createElement('p')
-  newHeading.textContent = "Updating, Please Wait"
-  newDiv.appendChild(newHeading)
+  if (!document.querySelector(".updating")) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("updating");
+    let newHeading = document.createElement("p");
+    newHeading.textContent = "Updating, Please Wait";
+    newDiv.appendChild(newHeading);
 
-  parent.appendChild(newDiv)
+    parent.appendChild(newDiv);
   }
 }
 
 // User Account Page ----------------------------
 
-function navAccountPage () {
+function navAccountPage() {
   while (main.firstChild) {
     main.removeChild(main.firstChild);
   }
 
-    laserNav.classList.remove('nav-clicked');
-    settingsNav.classList.remove('nav-clicked');
-    accountNav.classList.add('nav-clicked');
-    jobsNav.classList.remove('nav-clicked');
-    window.localStorage.setItem('active', 'Account')
+  laserNav.classList.remove("nav-clicked");
+  settingsNav.classList.remove("nav-clicked");
+  accountNav.classList.add("nav-clicked");
+  jobsNav.classList.remove("nav-clicked");
+  window.localStorage.setItem("active", "Account");
 
   main.innerHTML = `
   <form id="accountForm">
@@ -737,77 +754,77 @@ function navAccountPage () {
      </section>
   
   <button class="button" id="log-out">Log-Out</button>
-  `
+  `;
 
-const logoutBtn = document.querySelector('#log-out')
-logoutBtn.addEventListener('click', logOut);
+  const logoutBtn = document.querySelector("#log-out");
+  logoutBtn.addEventListener("click", logOut);
 
-const passwordSignUp = document.querySelector('#newPass');
-const confirmPass = document.querySelector('#confirmPass');
+  const passwordSignUp = document.querySelector("#newPass");
+  const confirmPass = document.querySelector("#confirmPass");
 
-passwordSignUp.addEventListener('keyup', matchPasswords);
-passwordSignUp.addEventListener('keydown', matchPasswords);
-passwordSignUp.addEventListener('keyup', validatePassword);
-passwordSignUp.addEventListener('keydown', validatePassword);
+  passwordSignUp.addEventListener("keyup", matchPasswords);
+  passwordSignUp.addEventListener("keydown", matchPasswords);
+  passwordSignUp.addEventListener("keyup", validatePassword);
+  passwordSignUp.addEventListener("keydown", validatePassword);
 
-confirmPass.addEventListener('keyup', validatePassword);
-confirmPass.addEventListener('keydown', validatePassword);
-confirmPass.addEventListener('keyup', matchPasswords);
-confirmPass.addEventListener('keydown', matchPasswords);
+  confirmPass.addEventListener("keyup", validatePassword);
+  confirmPass.addEventListener("keydown", validatePassword);
+  confirmPass.addEventListener("keyup", matchPasswords);
+  confirmPass.addEventListener("keydown", matchPasswords);
 
-const accountForm = document.querySelector('#accountForm');
-accountForm.addEventListener('submit', updateUserInfo);
-getUserInfo(userId);
+  const accountForm = document.querySelector("#accountForm");
+  accountForm.addEventListener("submit", updateUserInfo);
+  getUserInfo(userId);
 }
 
-accountNav.addEventListener('click', navAccountPage);
+accountNav.addEventListener("click", navAccountPage);
 
 function getUserInfo(u) {
-
-  const email = document.querySelector('.email')
-  const fname = document.querySelector('.fname')
-  const lname = document.querySelector('.lname');
-  const phone = document.querySelector('.phone');
+  const email = document.querySelector(".email");
+  const fname = document.querySelector(".fname");
+  const lname = document.querySelector(".lname");
+  const phone = document.querySelector(".phone");
 
   axios
     .get(`/api/user/${u}`)
-    .then(res => {
-      let {email_address, first_name, last_name, phone_number} = res.data[0]
+    .then((res) => {
+      let { email_address, first_name, last_name, phone_number } = res.data[0];
 
-      email.value = email_address
-      fname.value = first_name
-      lname.value = last_name
-      phone.value = +phone_number
+      email.value = email_address;
+      fname.value = first_name;
+      lname.value = last_name;
+      phone.value = +phone_number;
     })
     .catch((err) => {
-      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
-    })
-
-
+      alert(
+        `There was a error getting your data. Please refresh the page and try again or contact us for support`
+      );
+    });
 }
 
 function updateUserInfo(e) {
   e.preventDefault();
-  const formMessage = document.querySelector('.a18');
-  updating(formMessage)
+  const formMessage = document.querySelector(".a18");
+  updating(formMessage);
 
-  const email = document.querySelector('.email')
-  const newPass = document.querySelector('#newPass');
-  const confirmPass = document.querySelector('#confirmPass');
-  const oldPass = document.querySelector('#oldPass');
-  const fname = document.querySelector('.fname')
-  const lname = document.querySelector('.lname');
-  let phone = document.querySelector('.phone');
- 
-  phone = phone.value.replaceAll('-', "");
+  const email = document.querySelector(".email");
+  const newPass = document.querySelector("#newPass");
+  const confirmPass = document.querySelector("#confirmPass");
+  const oldPass = document.querySelector("#oldPass");
+  const fname = document.querySelector(".fname");
+  const lname = document.querySelector(".lname");
+  let phone = document.querySelector(".phone");
 
-  if(newPass.value.length > 0 || confirmPass.value.length > 0) {
-    if(!passwordsMatch || !passwordValidated) {
-    document.querySelector('.updating').remove()
-    alert('Passwords Need to Match and/or Hit Min Requirements.');
-    
-    return;
-  }}
+  phone = phone.value.replaceAll("-", "");
+
+  if (newPass.value.length > 0 || confirmPass.value.length > 0) {
+    if (!passwordsMatch || !passwordValidated) {
+      document.querySelector(".updating").remove();
+      alert("Passwords Need to Match and/or Hit Min Requirements.");
+
+      return;
+    }
+  }
 
   let userBody = {
     email: email.value,
@@ -817,93 +834,92 @@ function updateUserInfo(e) {
     fname: fname.value,
     lname: lname.value,
     phone: phone.value,
-    userId: userId
-  }
+    userId: userId,
+  };
 
   axios
     .put(`/api/user/${userId}`, userBody)
-    .then(res => {
-      const { message } = res.data
-      
-      if(message === "incorrect password") {
-        document.querySelector('.updating').remove();
-        alert('Password doesn\'t match our records. Please put in your correct password and try again')
-        
+    .then((res) => {
+      const { message } = res.data;
+
+      if (message === "incorrect password") {
+        document.querySelector(".updating").remove();
+        alert(
+          "Password doesn't match our records. Please put in your correct password and try again"
+        );
       } else if (message === "email already exists") {
-        document.querySelector('.updating').remove();
-        alert(`An account with that email address already exists.`)
-        
+        document.querySelector(".updating").remove();
+        alert(`An account with that email address already exists.`);
       } else {
         successMessage(formMessage);
       }
-      
-      newPass.value = ""
-      oldPass.value = ""
-      confirmPass.value = ""
+
+      newPass.value = "";
+      oldPass.value = "";
+      confirmPass.value = "";
     })
     .catch((err) => {
-      
-      document.querySelector('.updating').remove()
-      alert(`There was a error getting your data. Please refresh the page and try again or contact us for support`)
-    } )
+      document.querySelector(".updating").remove();
+      alert(
+        `There was a error getting your data. Please refresh the page and try again or contact us for support`
+      );
+    });
 }
 
 // Checking that passwords match each other with immediate feedback to client
 
-function matchPasswords () {
-const passwordSignUp = document.querySelector('#newPass');
-const confirmPass = document.querySelector('#confirmPass');
-  if(passwordSignUp.value !== confirmPass.value) {
-   confirmPass.classList.remove('match');
-    confirmPass.classList.add('no-match');
+function matchPasswords() {
+  const passwordSignUp = document.querySelector("#newPass");
+  const confirmPass = document.querySelector("#confirmPass");
+  if (passwordSignUp.value !== confirmPass.value) {
+    confirmPass.classList.remove("match");
+    confirmPass.classList.add("no-match");
     passwordsMatch = false;
   } else {
-    confirmPass.classList.remove('no-match');
-    confirmPass.classList.add('match');
+    confirmPass.classList.remove("no-match");
+    confirmPass.classList.add("match");
     passwordsMatch = true;
   }
-  
- }
-  
- // Validating password with immediate feedback to client
- 
- function validatePassword() {
-  const passwordSignUp = document.querySelector('#newPass');
-  const confirmPass = document.querySelector('#confirmPass');
-   let input = passwordSignUp.value
-   const re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/
-   if(!re.test(input)){
-     passwordSignUp.classList.remove('match');
-     passwordSignUp.classList.add('no-match');
-     passwordValidated = false
-   }else {
-     passwordSignUp.classList.remove('no-match');
-    passwordSignUp.classList.add('match');
-    passwordValidated = true
-   }
- }
- 
- function logOut() {
+}
+
+// Validating password with immediate feedback to client
+
+function validatePassword() {
+  const passwordSignUp = document.querySelector("#newPass");
+  const confirmPass = document.querySelector("#confirmPass");
+  let input = passwordSignUp.value;
+  const re =
+    /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()+=-\?;,./{}|\":<>\[\]\\\' ~_]).{8,}/;
+  if (!re.test(input)) {
+    passwordSignUp.classList.remove("match");
+    passwordSignUp.classList.add("no-match");
+    passwordValidated = false;
+  } else {
+    passwordSignUp.classList.remove("no-match");
+    passwordSignUp.classList.add("match");
+    passwordValidated = true;
+  }
+}
+
+function logOut() {
   window.localStorage.clear();
   window.location.assign(homeNav);
- }
+}
 
 //  Creating new jobs and running calculatons to determine pricing
 
-
-function navJobsPage () {
+function navJobsPage() {
   // checkForJobs()
   while (main.firstChild) {
     main.removeChild(main.firstChild);
   }
-  checkForJobs()
+  checkForJobs();
 
-laserNav.classList.remove('nav-clicked');
-settingsNav.classList.remove('nav-clicked');
-accountNav.classList.remove('nav-clicked');
-jobsNav.classList.add('nav-clicked');
-window.localStorage.setItem('active', 'addJobs')
-
+  laserNav.classList.remove("nav-clicked");
+  settingsNav.classList.remove("nav-clicked");
+  accountNav.classList.remove("nav-clicked");
+  jobsNav.classList.add("nav-clicked");
+  window.localStorage.setItem("active", "addJobs");
 
   main.innerHTML = `
 
@@ -1030,111 +1046,150 @@ window.localStorage.setItem('active', 'addJobs')
     </div>
     </form>
 </section>
-`
+`;
 
-const clientInput = document.querySelector('#client');
-const jobInput = document.querySelector('#job');
-const speedInput = document.querySelector('#speed');
-const densityInput = document.querySelector('#density');
+  const clientInput = document.querySelector("#client");
+  const jobInput = document.querySelector("#job");
+  const speedInput = document.querySelector("#speed");
+  const densityInput = document.querySelector("#density");
 
+  const engravingWidth = document.querySelector("#engraving-width");
+  const engravingHeight = document.querySelector("#engraving-height");
+  const qtyInput = document.querySelector("#Qty");
+  const unitCost = document.querySelector(".unit-cost");
+  const setupCost = document.querySelector(".setup-cost");
+  const subtotalCost = document.querySelector(".subtotal-cost");
+  const taxCost = document.querySelector(".tax-cost");
+  const totalCost = document.querySelector(".total-cost");
 
-const engravingWidth = document.querySelector('#engraving-width');
-const engravingHeight = document.querySelector('#engraving-height');
-const qtyInput = document.querySelector('#Qty');
-const unitCost = document.querySelector('.unit-cost');
-const setupCost = document.querySelector('.setup-cost');
-const subtotalCost = document.querySelector('.subtotal-cost');
-const taxCost = document.querySelector('.tax-cost');
-const totalCost = document.querySelector('.total-cost')
+  const rotaryCheck = document.querySelector("#rotary-check");
+  const jobClear = document.querySelector("#jobClear");
 
-const rotaryCheck = document.querySelector('#rotary-check');
-const jobClear = document.querySelector('#jobClear');
+  rotaryCheck.addEventListener("click", hideWidthHeight);
+  jobClear.addEventListener("click", clearJob);
 
-rotaryCheck.addEventListener('click', hideWidthHeight)
-jobClear.addEventListener('click', clearJob)
+  const calcJobForm = document.querySelector("#calcJobForm");
 
-const calcJobForm = document.querySelector('#calcJobForm');
+  const saveJobBtn = document.querySelector("#saveJob");
+  saveJobBtn.addEventListener("click", saveJob);
 
-
-
-const saveJobBtn = document.querySelector('#saveJob');
-saveJobBtn.addEventListener('click', saveJob)
-
-
-
-
-axios
-.get(`/api/user/laser/defaults/?userId=${userId}&jobSaved=${window.localStorage.getItem('jobSaved')}`)
-    .then(res => {
-
-      let { tax, rush, density, speed, piece, setup_cost, setupcheck, tem_between, tem_left, tem_top, q1, q2, q3, q4, q5, q6, q7, h1, h2, h3, h4, h5, h6, h7 } = res.data[0];
-      let { table_width, table_height, fdensity, fspeed, rdensity, rspeed } = res.data[1]
-      let { fpass, fmove, finches, rpass, rmove, rinches} = res.data[2];
+  axios
+    .get(
+      `/api/user/laser/defaults/?userId=${userId}&jobSaved=${window.localStorage.getItem(
+        "jobSaved"
+      )}`
+    )
+    .then((res) => {
+      let {
+        tax,
+        rush,
+        density,
+        speed,
+        piece,
+        setup_cost,
+        setupcheck,
+        tem_between,
+        tem_left,
+        tem_top,
+        q1,
+        q2,
+        q3,
+        q4,
+        q5,
+        q6,
+        q7,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        h7,
+      } = res.data[0];
+      let { table_width, table_height, fdensity, fspeed, rdensity, rspeed } =
+        res.data[1];
+      let { fpass, fmove, finches, rpass, rmove, rinches } = res.data[2];
 
       densityInput.value = density;
       speedInput.value = speed;
 
+      if (window.localStorage.getItem("jobSaved") === "rotary") {
+        let {
+          client_name,
+          density: savedDensity,
+          engraving_height,
+          engraving_qty,
+          engraving_width,
+          is_rotary,
+          num_lasers,
+          job_name,
+          speed: savedSpeed,
+          subtotal,
+          tax: savedTax,
+          total,
+          unit_cost,
+          setup,
+        } = res.data[3];
+        rotaryCheck.checked = true;
 
-if(window.localStorage.getItem('jobSaved') === 'rotary') {
+        hideWidthHeight();
+        const numLasers = document.querySelector("#num-lasers");
 
-  let { client_name, density: savedDensity, engraving_height, engraving_qty, engraving_width, is_rotary, num_lasers, job_name, speed: savedSpeed, subtotal, tax: savedTax, total, unit_cost, setup } = res.data[3]
-  rotaryCheck.checked = true;
+        clientInput.value = client_name;
+        jobInput.value = job_name;
+        engravingWidth.value = engraving_width;
+        engravingHeight.value = engraving_height;
+        qtyInput.value = engraving_qty;
+        densityInput.value = savedDensity;
+        speedInput.value = savedSpeed;
 
-  hideWidthHeight();
-  const numLasers = document.querySelector('#num-lasers');
+        numLasers.value = num_lasers;
 
+        unitCost.textContent = unit_cost;
+        setupCost.textContent = setup.toFixed(2);
+        subtotalCost.textContent = subtotal;
+        taxCost.textContent = savedTax;
+        totalCost.textContent = total;
+      } else if (window.localStorage.getItem("jobSaved") === "standard") {
+        let {
+          client_name,
+          density: savedDensity,
+          engraving_height,
+          engraving_qty,
+          engraving_width,
+          is_rotary,
+          item_height,
+          item_width,
+          job_name,
+          speed: savedSpeed,
+          subtotal,
+          tax: savedTax,
+          total,
+          unit_cost,
+          setup,
+        } = res.data[3];
 
+        rotaryCheck.checked = false;
+        hideWidthHeight();
+        const itemWidth = document.querySelector("#item-width");
+        const itemHeight = document.querySelector("#item-height");
 
-clientInput.value = client_name;
-jobInput.value = job_name;
-engravingWidth.value = engraving_width;
-engravingHeight.value = engraving_height;
-qtyInput.value = engraving_qty;
-densityInput.value = savedDensity;
-speedInput.value = savedSpeed;
+        clientInput.value = client_name;
+        jobInput.value = job_name;
+        engravingWidth.value = engraving_width;
+        engravingHeight.value = engraving_height;
+        qtyInput.value = engraving_qty;
+        densityInput.value = savedDensity;
+        speedInput.value = savedSpeed;
+        itemWidth.value = item_width;
+        itemHeight.value = item_height;
 
-numLasers.value = num_lasers;
-
-unitCost.textContent = unit_cost;
-setupCost.textContent = setup.toFixed(2);
-subtotalCost.textContent = subtotal;
-taxCost.textContent = savedTax;
-totalCost.textContent = total;
-
-
-
-
-} else if (window.localStorage.getItem('jobSaved') === 'standard') {
-
-  let { client_name, density: savedDensity, engraving_height, engraving_qty, engraving_width, is_rotary, item_height, item_width, job_name, speed: savedSpeed, subtotal, tax: savedTax, total, unit_cost, setup } = res.data[3]
-
-rotaryCheck.checked = false;
-hideWidthHeight();
-const itemWidth = document.querySelector('#item-width');
-const itemHeight = document.querySelector('#item-height');
-
-clientInput.value = client_name;
-jobInput.value = job_name;
-engravingWidth.value = engraving_width;
-engravingHeight.value = engraving_height;
-qtyInput.value = engraving_qty;
-densityInput.value = savedDensity;
-speedInput.value = savedSpeed;
-itemWidth.value = item_width;
-itemHeight.value = item_height;
-
-unitCost.textContent = unit_cost;
-setupCost.textContent = setup.toFixed(2);
-subtotalCost.textContent = subtotal;
-taxCost.textContent = savedTax;
-totalCost.textContent = total;
-
-
-}
-    
-
-
- 
+        unitCost.textContent = unit_cost;
+        setupCost.textContent = setup.toFixed(2);
+        subtotalCost.textContent = subtotal;
+        taxCost.textContent = savedTax;
+        totalCost.textContent = total;
+      }
 
       const calcObject = {
         tax,
@@ -1158,292 +1213,307 @@ totalCost.textContent = total;
         fdensity,
         fspeed,
         rdensity,
-        rspeed
-      }
-      
-      calcJobForm.addEventListener('submit', calculateJob(calcObject));
-    })
-  .catch((err) => {
-    
-    alert(`There was an error on our end retreiving your data. Please refresh the page and try again. Feel free to contact us if this error doesn't resolve iteself.`)
-  })
-    
+        rspeed,
+      };
 
+      calcJobForm.addEventListener("submit", calculateJob(calcObject));
+    })
+    .catch((err) => {
+      alert(
+        `There was an error on our end retreiving your data. Please refresh the page and try again. Feel free to contact us if this error doesn't resolve iteself.`
+      );
+    });
 }
 
-jobsNav.addEventListener('click', verifyActionItems);
-
+jobsNav.addEventListener("click", verifyActionItems);
 
 let calculateJob = (object) => (e) => {
   e.preventDefault();
-  
-  let { hour, piece, qty, rush, setup_cost, setupcheck, tax, tem_between, tem_left, tem_top, table_width, table_height, fpass, fmove, finches,rpass, rmove, rinches, fdensity, fspeed, rdensity, rspeed } = object
 
-const itemWidth = document.querySelector('#item-width');
-const itemHeight = document.querySelector('#item-height');
-const rotaryCheck = document.querySelector('#rotary-check');
-const engravingWidth = document.querySelector('#engraving-width');
-const engravingHeight = document.querySelector('#engraving-height');
-const qtyInput = document.querySelector('#Qty');
-const speedInput = document.querySelector('#speed');
-const densityInput = document.querySelector('#density');
-const unitCost = document.querySelector('.unit-cost');
-const setupCost = document.querySelector('.setup-cost');
-const subtotalCost = document.querySelector('.subtotal-cost');
-const taxCost = document.querySelector('.tax-cost');
-const totalCost = document.querySelector('.total-cost');
-const saveJobBtn = document.querySelector('#saveJob');
-const numLasers = document.querySelector('#num-lasers');
+  let {
+    hour,
+    piece,
+    qty,
+    rush,
+    setup_cost,
+    setupcheck,
+    tax,
+    tem_between,
+    tem_left,
+    tem_top,
+    table_width,
+    table_height,
+    fpass,
+    fmove,
+    finches,
+    rpass,
+    rmove,
+    rinches,
+    fdensity,
+    fspeed,
+    rdensity,
+    rspeed,
+  } = object;
 
-let density, speed, inches, pass, move;
-let speedFactor, inchesPerSec, difference;
-let widthValue, heightValue, rowNumItems, colNumItems, totalItemsPerTable;
+  const itemWidth = document.querySelector("#item-width");
+  const itemHeight = document.querySelector("#item-height");
+  const rotaryCheck = document.querySelector("#rotary-check");
+  const engravingWidth = document.querySelector("#engraving-width");
+  const engravingHeight = document.querySelector("#engraving-height");
+  const qtyInput = document.querySelector("#Qty");
+  const speedInput = document.querySelector("#speed");
+  const densityInput = document.querySelector("#density");
+  const unitCost = document.querySelector(".unit-cost");
+  const setupCost = document.querySelector(".setup-cost");
+  const subtotalCost = document.querySelector(".subtotal-cost");
+  const taxCost = document.querySelector(".tax-cost");
+  const totalCost = document.querySelector(".total-cost");
+  const saveJobBtn = document.querySelector("#saveJob");
+  const numLasers = document.querySelector("#num-lasers");
 
-let hourRatetoUse;
-qtyValue = +qtyInput.value
-for(let i = qty.length - 1; i >= 0; i--) {
-  if (qtyValue >= +qty[i]) {
-    hourRatetoUse = +hour[i]
-    break;
-  }
-}
+  let density, speed, inches, pass, move;
+  let speedFactor, inchesPerSec, difference;
+  let widthValue, heightValue, rowNumItems, colNumItems, totalItemsPerTable;
 
-if(rotaryCheck.checked) {
-density = rdensity
-speed = rspeed
-inches = rinches
-pass = rpass
-move = rmove
-
-widthValue = +engravingHeight.value
-
-heightValue = +engravingWidth.value
-rowNumItems = numLasers.value || 1;
-trueEngravingWidth = widthValue * rowNumItems;
-
-colNumItems = 1;
-totalItemsPerTable = 1;
-
-} else {
-  widthValue = +engravingWidth.value;
-  heightValue = +engravingHeight.value;
-
-  rowNumItems = Math.floor((table_width - tem_left) / (+itemWidth.value + +tem_between))
-  colNumItems = Math.floor((table_height - tem_top) / (+itemHeight.value + +tem_between))
-  totalItemsPerTable = rowNumItems * colNumItems;
-
-  if(+qtyInput.value <= rowNumItems) {
-    rowNumItems = +qtyInput.value;
-  }
-
-  trueEngravingWidth = ((+itemWidth.value * rowNumItems) + (tem_between * (rowNumItems - 1))) - (+itemWidth.value - widthValue);
-
-  density = fdensity
-  speed = fspeed
-  inches = finches
-  pass = fpass
-  move = fmove
-}
-
-numberPasses = (density * heightValue) + ((+densityInput.value - density) * heightValue)
-
-
-
-if(+speedInput.value > speed) {
-  difference = +speedInput.value - speed;
-  speedFactor = (difference / speed);
-   inchesPerSec = inches + (inches * speedFactor);
-   } else if (+speedInput.value < speed) {
-  speedFactor = +speedInput.value / speed;
-  inchesPerSec = inches * speedFactor;
-
-} else if (+speedInput.value === speed) {
-  inchesPerSec = inches;
-}
-
-
-
-let totalRowTime = ((pass + (trueEngravingWidth / inchesPerSec)) * numberPasses) + move;
-
-let timePerPiece = totalRowTime / rowNumItems;
-
-let chargePerSec = hourRatetoUse / 3600;
-let unitCostCalc =  (timePerPiece + piece) * chargePerSec;
-
-
-if(setupcheck) {
-  setup_cost = setup_cost / +qtyInput.value;
-  unitCostCalc += setup_cost;
-  setup_cost = 0;
-  setupCost.textContent = '0.00'
-}
-
-let subTotal = (unitCostCalc * +qtyInput.value) + setup_cost
-let taxCalc = subTotal * (tax / 100)
-let totalCalc = subTotal + taxCalc
-
-totalCalc = totalCalc.toFixed(2);
-taxCalc = taxCalc.toFixed(2)
-subTotal = subTotal.toFixed(2)
-setup_cost = setup_cost.toFixed(2);
-unitCostCalc = unitCostCalc.toFixed(2);
-
-unitCost.textContent = unitCostCalc;
-setupCost.textContent = setup_cost;
-subtotalCost.textContent = subTotal
-taxCost.textContent = taxCalc;
-totalCost.textContent = totalCalc;
-
-}
-
-
-function hideWidthHeight () {
-  const rotaryCheck = document.querySelector('#rotary-check');
-  const widthParent = document.querySelector('.tableGrid1');
-  const heightParent = document.querySelector('.tableGrid2');
-
-  if(rotaryCheck.checked) {
-    while(widthParent.firstChild) {
-      widthParent.removeChild(widthParent.firstChild)
+  let hourRatetoUse;
+  qtyValue = +qtyInput.value;
+  for (let i = qty.length - 1; i >= 0; i--) {
+    if (qtyValue >= +qty[i]) {
+      hourRatetoUse = +hour[i];
+      break;
     }
-    while(heightParent.firstChild) {
-      heightParent.removeChild(heightParent.firstChild)
+  }
+
+  if (rotaryCheck.checked) {
+    density = rdensity;
+    speed = rspeed;
+    inches = rinches;
+    pass = rpass;
+    move = rmove;
+
+    widthValue = +engravingHeight.value;
+
+    heightValue = +engravingWidth.value;
+    rowNumItems = numLasers.value || 1;
+    trueEngravingWidth = widthValue * rowNumItems;
+
+    colNumItems = 1;
+    totalItemsPerTable = 1;
+  } else {
+    widthValue = +engravingWidth.value;
+    heightValue = +engravingHeight.value;
+
+    rowNumItems = Math.floor(
+      (table_width - tem_left) / (+itemWidth.value + +tem_between)
+    );
+    colNumItems = Math.floor(
+      (table_height - tem_top) / (+itemHeight.value + +tem_between)
+    );
+    totalItemsPerTable = rowNumItems * colNumItems;
+
+    if (+qtyInput.value <= rowNumItems) {
+      rowNumItems = +qtyInput.value;
+    }
+
+    trueEngravingWidth =
+      +itemWidth.value * rowNumItems +
+      tem_between * (rowNumItems - 1) -
+      (+itemWidth.value - widthValue);
+
+    density = fdensity;
+    speed = fspeed;
+    inches = finches;
+    pass = fpass;
+    move = fmove;
+  }
+
+  numberPasses =
+    density * heightValue + (+densityInput.value - density) * heightValue;
+
+  if (+speedInput.value > speed) {
+    difference = +speedInput.value - speed;
+    speedFactor = difference / speed;
+    inchesPerSec = inches + inches * speedFactor;
+  } else if (+speedInput.value < speed) {
+    speedFactor = +speedInput.value / speed;
+    inchesPerSec = inches * speedFactor;
+  } else if (+speedInput.value === speed) {
+    inchesPerSec = inches;
+  }
+
+  let totalRowTime =
+    (pass + trueEngravingWidth / inchesPerSec) * numberPasses + move;
+
+  let timePerPiece = totalRowTime / rowNumItems;
+
+  let chargePerSec = hourRatetoUse / 3600;
+  let unitCostCalc = (timePerPiece + piece) * chargePerSec;
+
+  if (setupcheck) {
+    setup_cost = setup_cost / +qtyInput.value;
+    unitCostCalc += setup_cost;
+    setup_cost = 0;
+    setupCost.textContent = "0.00";
+  }
+
+  let subTotal = unitCostCalc * +qtyInput.value + setup_cost;
+  let taxCalc = subTotal * (tax / 100);
+  let totalCalc = subTotal + taxCalc;
+
+  totalCalc = totalCalc.toFixed(2);
+  taxCalc = taxCalc.toFixed(2);
+  subTotal = subTotal.toFixed(2);
+  setup_cost = setup_cost.toFixed(2);
+  unitCostCalc = unitCostCalc.toFixed(2);
+
+  unitCost.textContent = unitCostCalc;
+  setupCost.textContent = setup_cost;
+  subtotalCost.textContent = subTotal;
+  taxCost.textContent = taxCalc;
+  totalCost.textContent = totalCalc;
+};
+
+function hideWidthHeight() {
+  const rotaryCheck = document.querySelector("#rotary-check");
+  const widthParent = document.querySelector(".tableGrid1");
+  const heightParent = document.querySelector(".tableGrid2");
+
+  if (rotaryCheck.checked) {
+    while (widthParent.firstChild) {
+      widthParent.removeChild(widthParent.firstChild);
+    }
+    while (heightParent.firstChild) {
+      heightParent.removeChild(heightParent.firstChild);
     }
 
     widthParent.innerHTML = `
     <p># Lasers</p>
           <input id="num-lasers" placeholder="2" type="number" />
-    `
+    `;
   } else {
-
     widthParent.innerHTML = `
     <p>W</p>
           <input id="item-width" placeholder="w" type="number" step="0.001" />`;
     heightParent.innerHTML = `
     <p>H</p>
     <input id="item-height" placeholder="h" type="number" step="0.001" />`;
-
   }
 }
 
-
-function saveJob (e) {
+function saveJob(e) {
   e.preventDefault();
-  const updatingParent = document.querySelector('.invoiceGrid');
-  updating(updatingParent)
+  const updatingParent = document.querySelector(".invoiceGrid");
+  updating(updatingParent);
 
-let itemWidth, itemHeight, numLasers;
-if(document.querySelector('#item-width')) {
-  itemWidth = document.querySelector('#item-width').value;
-}
-if(document.querySelector('#item-height')) {
-  itemHeight = document.querySelector('#item-height').value
-}
-const rotaryCheck = document.querySelector('#rotary-check');
-const engravingWidth = document.querySelector('#engraving-width');
-const engravingHeight = document.querySelector('#engraving-height');
-const qtyInput = document.querySelector('#Qty');
-const speedInput = document.querySelector('#speed');
-const densityInput = document.querySelector('#density');
+  let itemWidth, itemHeight, numLasers;
+  if (document.querySelector("#item-width")) {
+    itemWidth = document.querySelector("#item-width").value;
+  }
+  if (document.querySelector("#item-height")) {
+    itemHeight = document.querySelector("#item-height").value;
+  }
+  const rotaryCheck = document.querySelector("#rotary-check");
+  const engravingWidth = document.querySelector("#engraving-width");
+  const engravingHeight = document.querySelector("#engraving-height");
+  const qtyInput = document.querySelector("#Qty");
+  const speedInput = document.querySelector("#speed");
+  const densityInput = document.querySelector("#density");
 
-const unitCost = document.querySelector('.unit-cost');
-const setupCost = document.querySelector('.setup-cost');
-const subtotalCost = document.querySelector('.subtotal-cost');
-const taxCost = document.querySelector('.tax-cost');
+  const unitCost = document.querySelector(".unit-cost");
+  const setupCost = document.querySelector(".setup-cost");
+  const subtotalCost = document.querySelector(".subtotal-cost");
+  const taxCost = document.querySelector(".tax-cost");
 
-const totalCost = document.querySelector('.total-cost');
+  const totalCost = document.querySelector(".total-cost");
 
-if(document.querySelector('#num-lasers')) {
-   numLasers = document.querySelector('#num-lasers').value;
-}
+  if (document.querySelector("#num-lasers")) {
+    numLasers = document.querySelector("#num-lasers").value;
+  }
 
-const clientInput = document.querySelector('#client');
-const jobInput = document.querySelector('#job');
- 
- const jobBody = {
-   main: {
-     width: engravingWidth.value,
-     height: engravingHeight.value,
-     qty: qtyInput.value,
-     speed: speedInput.value,
-     density: densityInput.value,
-     rotary: rotaryCheck.checked,
-     client: clientInput.value,
-     job: jobInput.value,
-     userId
-   },
-   flat: {
-    itemWidth,
-    itemHeight
-   },
-   rotary: {
-    numLasers
-   },
-   invoice: {
-     unitCost: unitCost.textContent,
-     setUpCost: setupCost.textContent,
-     subtotalCost: subtotalCost.textContent,
-     taxCost: taxCost.textContent,
-     totalCost: totalCost.textContent,
-   }
- }
+  const clientInput = document.querySelector("#client");
+  const jobInput = document.querySelector("#job");
+
+  const jobBody = {
+    main: {
+      width: engravingWidth.value,
+      height: engravingHeight.value,
+      qty: qtyInput.value,
+      speed: speedInput.value,
+      density: densityInput.value,
+      rotary: rotaryCheck.checked,
+      client: clientInput.value,
+      job: jobInput.value,
+      userId,
+    },
+    flat: {
+      itemWidth,
+      itemHeight,
+    },
+    rotary: {
+      numLasers,
+    },
+    invoice: {
+      unitCost: unitCost.textContent,
+      setUpCost: setupCost.textContent,
+      subtotalCost: subtotalCost.textContent,
+      taxCost: taxCost.textContent,
+      totalCost: totalCost.textContent,
+    },
+  };
 
   axios
-  .post('/api/job', jobBody)
-  .then(res => {
+    .post("/api/job", jobBody)
+    .then((res) => {
+      successMessage(updatingParent);
 
-    successMessage(updatingParent);
-
-    if(rotaryCheck.checked) {
-      window.localStorage.setItem('jobSaved', 'rotary')
-    } else if (!rotaryCheck.checked) {
-      window.localStorage.setItem('jobSaved', 'standard')
-    }
-  })
-  .catch(err => {
-    document.querySelector('.updating').remove()
-    alert(`Error saving job. Remember to fill out all fields and hit submit before saving.`)
-  })
+      if (rotaryCheck.checked) {
+        window.localStorage.setItem("jobSaved", "rotary");
+      } else if (!rotaryCheck.checked) {
+        window.localStorage.setItem("jobSaved", "standard");
+      }
+    })
+    .catch((err) => {
+      document.querySelector(".updating").remove();
+      alert(
+        `Error saving job. Remember to fill out all fields and hit submit before saving.`
+      );
+    });
 }
 
+function clearJob() {
+  axios
+    .delete(`/api/job/${userId}`)
+    .then((res) => {
+      window.localStorage.setItem("jobSaved", "no");
 
-function clearJob () {
-axios
-  .delete(`/api/job/${userId}`)
-  .then(res => {
-    window.localStorage.setItem('jobSaved', 'no');
+      const widthParent = document.querySelector(".tableGrid1");
+      const heightParent = document.querySelector(".tableGrid2");
 
-    const widthParent = document.querySelector('.tableGrid1');
-  const heightParent = document.querySelector('.tableGrid2');
+      while (widthParent.firstChild) {
+        widthParent.removeChild(widthParent.firstChild);
+      }
 
-  
-    while(widthParent.firstChild) {
-      widthParent.removeChild(widthParent.firstChild)
-    }
-
-  widthParent.innerHTML = `
+      widthParent.innerHTML = `
     <p>W</p>
           <input id="item-width" placeholder="w" type="number" step="0.001" />`;
-    heightParent.innerHTML = `
+      heightParent.innerHTML = `
     <p>H</p>
     <input id="item-height" placeholder="h" type="number" step="0.001" />`;
-
-  })
-  .catch(err => res.sendStatus(400))
-
+    })
+    .catch((err) => res.sendStatus(400));
 }
 
-function verifyActionItems () {
-  laserNav.classList.remove('nav-clicked');
-  settingsNav.classList.remove('nav-clicked');
-  accountNav.classList.remove('nav-clicked');
-  jobsNav.classList.remove('nav-clicked');
-  window.localStorage.removeItem('active')
+function verifyActionItems() {
+  laserNav.classList.remove("nav-clicked");
+  settingsNav.classList.remove("nav-clicked");
+  accountNav.classList.remove("nav-clicked");
+  jobsNav.classList.remove("nav-clicked");
+  window.localStorage.removeItem("active");
   axios
     .get(`/api/action-items/${userId}`)
-    .then(res => {
-      const {laserId, defaultId}   = res.data
- 
+    .then((res) => {
+      const { laserId, defaultId } = res.data;
+
       if (laserId === false && defaultId === false) {
         main.innerHTML = `
         <div class="actions">
@@ -1453,12 +1523,11 @@ function verifyActionItems () {
           <li class="action-item two">Add Laser and Speed Data</li>
         </ol>
       </div>
-        `
-        const defaultSettings = document.querySelector('.action-item.one');
-        defaultSettings.addEventListener('click', navSettingsPage);
-        const defaultLaser = document.querySelector('.action-item.two');
-        defaultLaser.addEventListener('click', navLaserPage);
-
+        `;
+        const defaultSettings = document.querySelector(".action-item.one");
+        defaultSettings.addEventListener("click", navSettingsPage);
+        const defaultLaser = document.querySelector(".action-item.two");
+        defaultLaser.addEventListener("click", navLaserPage);
       } else if (laserId === false && defaultId === true) {
         main.innerHTML = `
         <div class="actions">
@@ -1467,10 +1536,9 @@ function verifyActionItems () {
           <li class="action-item two">Add Laser and Speed Data</li>
         </ol>
       </div>
-        `
-        const defaultLaser = document.querySelector('.action-item.two');
-        defaultLaser.addEventListener('click', navLaserPage);
-
+        `;
+        const defaultLaser = document.querySelector(".action-item.two");
+        defaultLaser.addEventListener("click", navLaserPage);
       } else if (laserId === true && defaultId === false) {
         main.innerHTML = `
         <div class="actions">
@@ -1479,23 +1547,20 @@ function verifyActionItems () {
           <li class="action-item one">Add Default Settings</li>
         </ol>
       </div>
-        `
-        const defaultSettings = document.querySelector('.action-item.one');
-        defaultSettings.addEventListener('click', navSettingsPage);
-
+        `;
+        const defaultSettings = document.querySelector(".action-item.one");
+        defaultSettings.addEventListener("click", navSettingsPage);
       } else if (laserId === true && defaultId === true) {
         navJobsPage();
       }
-   
     })
-    .catch(err => res.status(400).send(err));
-
+    .catch((err) => res.status(400).send(err));
 }
 
-function logoClick () {
-  window.localStorage.removeItem('active');
-  verifyActionItems()
+function logoClick() {
+  window.localStorage.removeItem("active");
+  verifyActionItems();
 }
 
-const logo = document.querySelector('.logo');
-logo.addEventListener('click', logoClick);
+const logo = document.querySelector(".logo");
+logo.addEventListener("click", logoClick);

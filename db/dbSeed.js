@@ -243,10 +243,7 @@ module.exports = {
       
       INSERT INTO hourly_rates (rate_one, rate_two, rate_three, rate_four, rate_five, rate_six, rate_seven, user_id)
       VALUES (200, 175, 150, 125, 115, 105, 95,1);
-       
-      
-
-      `)
+    `)
       .then(() => res.sendStatus(200))
       .catch(err => res.status(400).send(err))
   }

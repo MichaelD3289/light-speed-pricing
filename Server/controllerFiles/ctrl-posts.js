@@ -294,8 +294,6 @@ module.exports = {
     taxCost = sequelize.escape(taxCost);
     totalCost = sequelize.escape(totalCost);
     
-    
-
       sequelize
       .query(`
       INSERT INTO jobs_data ( date_created, engraving_width, engraving_height, engraving_qty, speed, density, is_rotary, client_name, job_name, user_id)
@@ -319,7 +317,6 @@ module.exports = {
  
         let jobsDataId = dbRes[0][0].jobs_data_id
         
-
         if(rotary == false) {
           
           itemHeight = sequelize.escape(itemHeight);
@@ -387,7 +384,6 @@ module.exports = {
 
       })
       .catch(err => res.status(400).send(err))
-
  
   },
 
